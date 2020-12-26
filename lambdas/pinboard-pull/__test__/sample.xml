@@ -1,0 +1,876 @@
+<rdf:RDF xmlns="http://purl.org/rss/1.0/"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:cc="http://web.resource.org/cc/"
+	xmlns:syn="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:admin="http://webns.net/mvcb/">
+	<channel rdf:about="http://pinboard.in">
+		<title>Pinboard (AramZS)</title>
+		<link>https://pinboard.in/u:AramZS/</link>
+		<description>recent bookmarks from AramZS</description>
+		<items>
+			<rdf:Seq>
+				<rdf:li rdf:resource="https://lawandorder.fandom.com/wiki/List_of_Law_%26_Order_Ripped_from_the_Headline_episodes"/>
+				<rdf:li rdf:resource="https://twitter.com/JohnT15/status/1342877359783993347/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/banditelli/status/1342857656281624577/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/pwthornton/status/1342880247553929218/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/acfou/status/1342598591488155650"/>
+				<rdf:li rdf:resource="https://twitter.com/DanPriceSeattle/status/1342677472320630785"/>
+				<rdf:li rdf:resource="https://twitter.com/randw/status/1342859800401518593/photo/1"/>
+				<rdf:li rdf:resource="https://www.niemanlab.org/2020/11/whoa-im-crying-worrisome-buckle-up-the-swift-complicated-rise-of-eric-feigl-ding-and-his-covid-tweet-threads/"/>
+				<rdf:li rdf:resource="https://twitter.com/banditelli/status/1342854677512085504/photo/1"/>
+				<rdf:li rdf:resource="https://www.politico.com/news/magazine/2020/12/26/books-by-the-foot-washington-dc-covid-books-440347"/>
+				<rdf:li rdf:resource="https://twitter.com/JerryDunleavy/status/1342853449654874112/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/amaaliio/status/1342687252133146626"/>
+				<rdf:li rdf:resource="https://www.digitalinformationworld.com/2020/12/make-al-look-more-positive-says-google.html"/>
+				<rdf:li rdf:resource="https://www.youtube.com/watch?v=dfWIfwKJ7vA&feature=youtu.be"/>
+				<rdf:li rdf:resource="https://lore.kernel.org/linux-mips/20201225190503.12353218812e1655f56f0bf8@gmx.com/T/#m0862c3484e0da7195dc8989421d30f01b3b1c63a"/>
+				<rdf:li rdf:resource="https://twitter.com/samdman95/status/1342577293550501889"/>
+				<rdf:li rdf:resource="https://finance.yahoo.com/news/tech-giants-top-2020-cant-133019865.html"/>
+				<rdf:li rdf:resource="https://nypost.com/2020/12/24/christmas-under-lockdown-let-us-vow-never-again/amp/?__twitter_impression=true"/>
+				<rdf:li rdf:resource="https://www.thedailybeast.com/the-suits-are-doing-fine-but-the-musicians-are-hurting"/>
+				<rdf:li rdf:resource="https://twitter.com/BirdCentralPark/status/1342601208192757761/photo/1"/>
+				<rdf:li rdf:resource="https://open.spotify.com/album/3wL8t2j7GtFhJt1YYlde7M?si=1vyuE7ltRWSuRJBVIFLuuQ"/>
+				<rdf:li rdf:resource="https://twitter.com/mekosoff/status/1342671859729444865/photo/1"/>
+				<rdf:li rdf:resource="https://www.enforcementtracker.com/"/>
+				<rdf:li rdf:resource="https://www.texastribune.org/2020/12/23/texas-stimulus-package-congress-unemployment/"/>
+				<rdf:li rdf:resource="https://twitter.com/lauraolin/status/1342517261916123137/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/hypervisible/status/1342467774707326976?s=19"/>
+				<rdf:li rdf:resource="https://letterboxd.com/film/hail-satan/"/>
+				<rdf:li rdf:resource="https://letterboxd.com/film/jr-bob-dobbs-and-the-church-of-the-subgenius/"/>
+				<rdf:li rdf:resource="https://twitter.com/YannickLeJacq/status/1342625874848473094/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/buitengebieden_/status/1342408419211407360"/>
+				<rdf:li rdf:resource="https://theotherwave.substack.com/p/canadian-journalism-schools"/>
+				<rdf:li rdf:resource="https://twitter.com/neeeda/status/1341470145689100288/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/mandystarlight/status/1342072399152472065"/>
+				<rdf:li rdf:resource="https://twitter.com/nycdsa_ecosoc/status/1342511738013548544"/>
+				<rdf:li rdf:resource="https://defector.com/a-student-debt-researcher-fucks-me-up-with-americas-broken-promises/"/>
+				<rdf:li rdf:resource="https://twitter.com/swodinsky/status/1342511749573079043/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/jeremybowers/status/1342507409030467584/photo/1"/>
+				<rdf:li rdf:resource="https://www.forbes.com/sites/augustinefou/2020/06/03/which-form-of-crime-is-digital-ad-fraud/"/>
+				<rdf:li rdf:resource="https://twitter.com/CharlesPulliam/status/1342495443641634817/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/wycats/status/1342484366279098369"/>
+				<rdf:li rdf:resource="https://twitter.com/DanielleAlberti/status/1342490178741534721"/>
+				<rdf:li rdf:resource="https://defector.com/what-did-we-get-stuck-in-our-rectums-last-year/"/>
+				<rdf:li rdf:resource="https://twitter.com/chelseaadelaine/status/1342486789278339073/photo/1"/>
+				<rdf:li rdf:resource="https://www.thedailybeast.com/the-bizarre-rise-of-the-manhattan-prep-school-gangster-turned-enigmatic-west-bank-rabbi?ref=home"/>
+				<rdf:li rdf:resource="https://teambeans.medium.com/team-beans-4657008c3073"/>
+				<rdf:li rdf:resource="https://profile.wintercycle.org/DP0276"/>
+				<rdf:li rdf:resource="https://www.politico.com/story/2017/06/01/russia-spies-espionage-trump-239003"/>
+				<rdf:li rdf:resource="https://twitter.com/troutman/status/1342552914523512833"/>
+				<rdf:li rdf:resource="https://www.celestron.com/pages/the-tools-for-beginners"/>
+				<rdf:li rdf:resource="https://twitter.com/SkyandTelescope/status/1342548673062952961"/>
+				<rdf:li rdf:resource="https://www.washingtonpost.com/investigations/sidney-powells-secret-intelligence-contractor-witness-is-a-pro-trump-podcaster/2020/12/24/d5a1ab9e-4403-11eb-a277-49a6d1f9dff1_story.html"/>
+				<rdf:li rdf:resource="https://twitter.com/dannyderaney/status/1342156541663703041"/>
+				<rdf:li rdf:resource="https://www.wsj.com/articles/in-defense-of-scrooge-whose-thrift-blessed-the-world-11608762986"/>
+				<rdf:li rdf:resource="https://twitter.com/hypervisible/status/1342467774707326976"/>
+				<rdf:li rdf:resource="https://theintercept.com/2020/12/24/facebook-ad-targeting-small-business/"/>
+				<rdf:li rdf:resource="https://twitter.com/Myles_Younger/status/1342447156444024833/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/gemmamilne/status/1342421608477192192/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/noahchestnut/status/1342256934892670976/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/swodinsky/status/1342252616974278657/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/swodinsky/status/1342249071856259074/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/UpcomingOreos/status/1342266306645684225/photo/1"/>
+				<rdf:li rdf:resource="https://dev.to/m4cs/creating-a-cleaner-macos-workspace-2e35"/>
+				<rdf:li rdf:resource="https://twitter.com/jarroddicker/status/1342223481182810112/photo/1"/>
+				<rdf:li rdf:resource="https://twitter.com/TravelingAnna/status/1342259821802885120/photo/1"/>
+				<rdf:li rdf:resource="https://www.npr.org/2020/12/24/949906978/star-hosts-ties-cloud-n-y-times-effort-to-restore-trust-after-podcast-scandal"/>
+				<rdf:li rdf:resource="https://emshea.com/post/serverless-cicd"/>
+				<rdf:li rdf:resource="https://www.nytimes.com/2020/12/24/world/europe/brexit-trade-deal-uk-eu.html"/>
+				<rdf:li rdf:resource="https://twitter.com/DevDell/status/1341913929908441090"/>
+				<rdf:li rdf:resource="https://twitter.com/HypercoreProto/status/1342131191508570114"/>
+				<rdf:li rdf:resource="https://twitter.com/leighmunsil/status/1341880684244156418"/>
+			</rdf:Seq>
+		</items>
+	</channel>
+	<item rdf:about="https://lawandorder.fandom.com/wiki/List_of_Law_%26_Order_Ripped_from_the_Headline_episodes">
+		<title>List of Law & Order Ripped from the Headline episodes | Law and Order | Fandom</title>
+		<dc:date>2020-12-27T01:12:39+00:00</dc:date>
+		<link>https://lawandorder.fandom.com/wiki/List_of_Law_%26_Order_Ripped_from_the_Headline_episodes</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ @Chronotope You bet! ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:45e05766a926/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/JohnT15/status/1342877359783993347/photo/1">
+		<title>(400) https://twitter.com/JohnT15/status/1342877359783993347/photo/1</title>
+		<dc:date>2020-12-27T00:58:06+00:00</dc:date>
+		<link>https://twitter.com/JohnT15/status/1342877359783993347/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ @Chronotope It's more of a spirograph, but yes. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:ea19aba79d9c/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/banditelli/status/1342857656281624577/photo/1">
+		<title>(400) https://twitter.com/banditelli/status/1342857656281624577/photo/1</title>
+		<dc:date>2020-12-26T23:39:49+00:00</dc:date>
+		<link>https://twitter.com/banditelli/status/1342857656281624577/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ This quote is DIRE. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:a31c49190038/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/pwthornton/status/1342880247553929218/photo/1">
+		<title>(400) https://twitter.com/pwthornton/status/1342880247553929218/photo/1</title>
+		<dc:date>2020-12-26T22:09:35+00:00</dc:date>
+		<link>https://twitter.com/pwthornton/status/1342880247553929218/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ The quarantine has only accelerated this. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:8b9d10c343cd/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/acfou/status/1342598591488155650">
+		<title>(400) https://twitter.com/acfou/status/1342598591488155650</title>
+		<dc:date>2020-12-26T22:05:56+00:00</dc:date>
+		<link>https://twitter.com/acfou/status/1342598591488155650</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ My most controversial post of 2020 Not about ad fraud, but about spaghetti carbonara ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:e3992068f615/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/DanPriceSeattle/status/1342677472320630785">
+		<title>(400) https://twitter.com/DanPriceSeattle/status/1342677472320630785</title>
+		<dc:date>2020-12-26T20:49:39+00:00</dc:date>
+		<link>https://twitter.com/DanPriceSeattle/status/1342677472320630785</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ The payments company CEO who’s done a tremendous job producing fluffy PR for himself is out here calling unemployment benefits “trickle-down economics.” ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:f6f9cd45cf17/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/randw/status/1342859800401518593/photo/1">
+		<title>(400) https://twitter.com/randw/status/1342859800401518593/photo/1</title>
+		<dc:date>2020-12-26T20:48:20+00:00</dc:date>
+		<link>https://twitter.com/randw/status/1342859800401518593/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ BTC just passing Visa in "market" cap. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:0050fdbf68a1/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.niemanlab.org/2020/11/whoa-im-crying-worrisome-buckle-up-the-swift-complicated-rise-of-eric-feigl-ding-and-his-covid-tweet-threads/">
+		<title>Untitled (https://www.niemanlab.org/2020/11/whoa-im-crying-worrisome-buckle-up-the-swift-complicated-rise-of-eric-feigl-ding-and-his-covid-tweet-threads/)</title>
+		<dc:date>2020-12-26T20:42:42+00:00</dc:date>
+		<link>https://www.niemanlab.org/2020/11/whoa-im-crying-worrisome-buckle-up-the-swift-complicated-rise-of-eric-feigl-ding-and-his-covid-tweet-threads/</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ I retweeted a comment by a doctor about Covid today and this is essential context for the problematic way he approaches Twitter (and online harassment) ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:a8964e85743c/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/banditelli/status/1342854677512085504/photo/1">
+		<title>(400) https://twitter.com/banditelli/status/1342854677512085504/photo/1</title>
+		<dc:date>2020-12-26T20:27:58+00:00</dc:date>
+		<link>https://twitter.com/banditelli/status/1342854677512085504/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ What other options??? ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:50d8e38837e7/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.politico.com/news/magazine/2020/12/26/books-by-the-foot-washington-dc-covid-books-440347">
+		<title>Washington’s Secret to the Perfect Zoom Bookshelf? Buy It Wholesale. - POLITICO</title>
+		<dc:date>2020-12-26T20:23:06+00:00</dc:date>
+		<link>https://www.politico.com/news/magazine/2020/12/26/books-by-the-foot-washington-dc-covid-books-440347</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ This might be the worst thing I’ve ever learned about Washington D.C. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:d70e65c0b238/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/JerryDunleavy/status/1342853449654874112/photo/1">
+		<title>(400) https://twitter.com/JerryDunleavy/status/1342853449654874112/photo/1</title>
+		<dc:date>2020-12-26T20:23:06+00:00</dc:date>
+		<link>https://twitter.com/JerryDunleavy/status/1342853449654874112/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ This might be the worst thing I’ve ever learned about Washington D.C. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:cc58d8c0621d/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/amaaliio/status/1342687252133146626">
+		<title>(400) https://twitter.com/amaaliio/status/1342687252133146626</title>
+		<dc:date>2020-12-26T16:21:06+00:00</dc:date>
+		<link>https://twitter.com/amaaliio/status/1342687252133146626</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Everybody dragging this right now is going to come back to this in like 2 years quote tweeting it with a “what did she know?” ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:474a84495755/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.digitalinformationworld.com/2020/12/make-al-look-more-positive-says-google.html">
+		<title>Make Al Look More “Positive” says Google / Digital Information World</title>
+		<dc:date>2020-12-26T12:49:03+00:00</dc:date>
+		<link>https://www.digitalinformationworld.com/2020/12/make-al-look-more-positive-says-google.html</link>
+		<dc:creator>AramZS</dc:creator>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:58582aef2275/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.youtube.com/watch?v=dfWIfwKJ7vA&feature=youtu.be">
+		<title>Untitled (https://www.youtube.com/watch?v=dfWIfwKJ7vA&feature=youtu.be)</title>
+		<dc:date>2020-12-26T08:32:25+00:00</dc:date>
+		<link>https://www.youtube.com/watch?v=dfWIfwKJ7vA&feature=youtu.be</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Finishing off the last of the Chinese food and one final film, and it's a great one! ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:f2f14497fa86/</dc:identifier>
+	</item>
+	<item rdf:about="https://lore.kernel.org/linux-mips/20201225190503.12353218812e1655f56f0bf8@gmx.com/T/#m0862c3484e0da7195dc8989421d30f01b3b1c63a">
+		<title>[RFC 0/6] Nintendo 64 Linux port</title>
+		<dc:date>2020-12-26T08:19:59+00:00</dc:date>
+		<link>https://lore.kernel.org/linux-mips/20201225190503.12353218812e1655f56f0bf8@gmx.com/T/#m0862c3484e0da7195dc8989421d30f01b3b1c63a</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ As I mentioned a couple of months ago, there has been work done on a Linux build for the N64 relatively recently. Now we have a kernel release. If you have a flash cart, might be worth trying out. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:e0d7164705c9/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/samdman95/status/1342577293550501889">
+		<title>(400) https://twitter.com/samdman95/status/1342577293550501889</title>
+		<dc:date>2020-12-26T06:37:32+00:00</dc:date>
+		<link>https://twitter.com/samdman95/status/1342577293550501889</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ The Post and the Times wrote your framing experiment treatments for you. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:3bb2e35cb8a4/</dc:identifier>
+	</item>
+	<item rdf:about="https://finance.yahoo.com/news/tech-giants-top-2020-cant-133019865.html">
+		<title>How Can Tech Giants Top a Year Like 2020? They Can't.</title>
+		<dc:date>2020-12-26T04:54:43+00:00</dc:date>
+		<link>https://finance.yahoo.com/news/tech-giants-top-2020-cant-133019865.html</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ How Can Tech Giants Top a Year Like 2020? They Can't. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:afae5be1f29b/</dc:identifier>
+	</item>
+	<item rdf:about="https://nypost.com/2020/12/24/christmas-under-lockdown-let-us-vow-never-again/amp/?__twitter_impression=true">
+		<title>Christmas under lockdown: Let us vow, ‘never again’</title>
+		<dc:date>2020-12-26T04:09:18+00:00</dc:date>
+		<link>https://nypost.com/2020/12/24/christmas-under-lockdown-let-us-vow-never-again/amp/?__twitter_impression=true</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ More Americans died of Covid just this month than in the entire Vietnam War and the Post published a column saying "never again" not to that -- but to public health measures. Of course it doesn't spend so much as a sentence on the dead and their families. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:c9f2a93b06e7/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.thedailybeast.com/the-suits-are-doing-fine-but-the-musicians-are-hurting">
+		<title>The Suits Are Doing Fine, but the Musicians Are Hurting</title>
+		<dc:date>2020-12-26T03:50:15+00:00</dc:date>
+		<link>https://www.thedailybeast.com/the-suits-are-doing-fine-but-the-musicians-are-hurting</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ "Why don't you get a real job?" "First of all, fuck off." The great @fiddlekiller on a really rough year for working musicians ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:59fcac7cd545/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/BirdCentralPark/status/1342601208192757761/photo/1">
+		<title>(400) https://twitter.com/BirdCentralPark/status/1342601208192757761/photo/1</title>
+		<dc:date>2020-12-26T03:40:47+00:00</dc:date>
+		<link>https://twitter.com/BirdCentralPark/status/1342601208192757761/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ This Northern Cardinal lady was in the Central Park Ramble today. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:4d5bf4492a91/</dc:identifier>
+	</item>
+	<item rdf:about="https://open.spotify.com/album/3wL8t2j7GtFhJt1YYlde7M?si=1vyuE7ltRWSuRJBVIFLuuQ">
+		<title>Anna And The Apocalypse (Original Motion Picture Soundtrack) by Various Artists on Spotify</title>
+		<dc:date>2020-12-26T03:33:56+00:00</dc:date>
+		<link>https://open.spotify.com/album/3wL8t2j7GtFhJt1YYlde7M?si=1vyuE7ltRWSuRJBVIFLuuQ</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Soundtrack is on Spotify! ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:f46439f858b3/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/mekosoff/status/1342671859729444865/photo/1">
+		<title>(400) https://twitter.com/mekosoff/status/1342671859729444865/photo/1</title>
+		<dc:date>2020-12-26T03:21:31+00:00</dc:date>
+		<link>https://twitter.com/mekosoff/status/1342671859729444865/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ can’t believe i missed yet another anniversary of the game theory guy melting down at me, and me subsequently explaining the game theory guy to my poor mother at breakfast the next day ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:49d065339e83/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.enforcementtracker.com/">
+		<title>GDPR Enforcement Tracker - list of GDPR fines</title>
+		<dc:date>2020-12-26T03:17:13+00:00</dc:date>
+		<link>https://www.enforcementtracker.com/</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ In case anyone is curious, IP addresses may sometimes be considered to be Personally Identifiable Information (PII), according to the EU's GDPR or CCPA. Here is a list of companies that have been fined for GDPR violations: ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:1f77afda17e7/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.texastribune.org/2020/12/23/texas-stimulus-package-congress-unemployment/">
+		<title>Unemployed Texans anxiously wait for Congress to pass stimulus package | The Texas Tribune</title>
+		<dc:date>2020-12-26T02:25:28+00:00</dc:date>
+		<link>https://www.texastribune.org/2020/12/23/texas-stimulus-package-congress-unemployment/</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ RT @TexasTribune: Hungry and homeless Texans are waiting anxiously for Congress to act. Rockie McMahan is sleeping in her car with her dog. Laura Chabera has lost weight because she can't afford food. Veronica Johnson is still waiting on unemployment payments. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:5114dd9c3163/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/lauraolin/status/1342517261916123137/photo/1">
+		<title>(400) https://twitter.com/lauraolin/status/1342517261916123137/photo/1</title>
+		<dc:date>2020-12-26T01:07:12+00:00</dc:date>
+		<link>https://twitter.com/lauraolin/status/1342517261916123137/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ 2020: Are we the baddies? 2021: The baddies are good, actually ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:c9d1c479ded7/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/hypervisible/status/1342467774707326976?s=19">
+		<title>(400) https://twitter.com/hypervisible/status/1342467774707326976?s=19</title>
+		<dc:date>2020-12-26T01:06:43+00:00</dc:date>
+		<link>https://twitter.com/hypervisible/status/1342467774707326976?s=19</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ The promises of Facebook ad tech: also fake. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:91a7a03e9928/</dc:identifier>
+	</item>
+	<item rdf:about="https://letterboxd.com/film/hail-satan/">
+		<title>(500) https://letterboxd.com/film/hail-satan/</title>
+		<dc:date>2020-12-26T01:05:27+00:00</dc:date>
+		<link>https://letterboxd.com/film/hail-satan/</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ And if you're in the mood, maybe ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:94fe69f0c7ab/</dc:identifier>
+	</item>
+	<item rdf:about="https://letterboxd.com/film/jr-bob-dobbs-and-the-church-of-the-subgenius/">
+		<title>(500) https://letterboxd.com/film/jr-bob-dobbs-and-the-church-of-the-subgenius/</title>
+		<dc:date>2020-12-26T01:02:01+00:00</dc:date>
+		<link>https://letterboxd.com/film/jr-bob-dobbs-and-the-church-of-the-subgenius/</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ An excellent Christmas movie. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:efcd1ac956ec/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/YannickLeJacq/status/1342625874848473094/photo/1">
+		<title>(400) https://twitter.com/YannickLeJacq/status/1342625874848473094/photo/1</title>
+		<dc:date>2020-12-26T00:18:48+00:00</dc:date>
+		<link>https://twitter.com/YannickLeJacq/status/1342625874848473094/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ His Instagram gives some cryptic clues but also this is the exact same way he posts every other day of the year ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:b8a659be7a4a/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/buitengebieden_/status/1342408419211407360">
+		<title>(400) https://twitter.com/buitengebieden_/status/1342408419211407360</title>
+		<dc:date>2020-12-25T23:59:02+00:00</dc:date>
+		<link>https://twitter.com/buitengebieden_/status/1342408419211407360</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ They absolutely brutalize that passing cyclist. Nice. (cc @SonnyBunch) ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:c7ef93f43513/</dc:identifier>
+	</item>
+	<item rdf:about="https://theotherwave.substack.com/p/canadian-journalism-schools">
+		<title>Untitled (https://theotherwave.substack.com/p/canadian-journalism-schools)</title>
+		<dc:date>2020-12-25T23:39:17+00:00</dc:date>
+		<link>https://theotherwave.substack.com/p/canadian-journalism-schools</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ RT @neeeda: To modernize Canadian journalism, we must first modernize Canadian j-schools — that's my take in the latest & last edition of @theotherwave for 2020. I also reveal my newest teaching gig at a top-notch j-school in Toronto. Read for more: #cdnmedia ]]>
+		</description>
+		<dc:subject>cdnmedia</dc:subject>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:4c3ed44b46e6/</dc:identifier>
+		<taxo:topics>
+			<rdf:Bag>
+				<rdf:li rdf:resource="https://pinboard.in/u:AramZS/t:cdnmedia"/>
+			</rdf:Bag>
+		</taxo:topics>
+	</item>
+	<item rdf:about="https://twitter.com/neeeda/status/1341470145689100288/photo/1">
+		<title>(400) https://twitter.com/neeeda/status/1341470145689100288/photo/1</title>
+		<dc:date>2020-12-25T23:39:17+00:00</dc:date>
+		<link>https://twitter.com/neeeda/status/1341470145689100288/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ RT @neeeda: To modernize Canadian journalism, we must first modernize Canadian j-schools — that's my take in the latest & last edition of @theotherwave for 2020. I also reveal my newest teaching gig at a top-notch j-school in Toronto. Read for more: #cdnmedia ]]>
+		</description>
+		<dc:subject>cdnmedia</dc:subject>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:a3424fbee459/</dc:identifier>
+		<taxo:topics>
+			<rdf:Bag>
+				<rdf:li rdf:resource="https://pinboard.in/u:AramZS/t:cdnmedia"/>
+			</rdf:Bag>
+		</taxo:topics>
+	</item>
+	<item rdf:about="https://twitter.com/mandystarlight/status/1342072399152472065">
+		<title>(400) https://twitter.com/mandystarlight/status/1342072399152472065</title>
+		<dc:date>2020-12-25T22:06:09+00:00</dc:date>
+		<link>https://twitter.com/mandystarlight/status/1342072399152472065</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ This is amazing ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:1c29ff6a73dd/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/nycdsa_ecosoc/status/1342511738013548544">
+		<title>(400) https://twitter.com/nycdsa_ecosoc/status/1342511738013548544</title>
+		<dc:date>2020-12-25T22:03:08+00:00</dc:date>
+		<link>https://twitter.com/nycdsa_ecosoc/status/1342511738013548544</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ All I want for Christmas is a #GreenNewDeal and a non-explosive grid. ]]>
+		</description>
+		<dc:subject>GreenNewDeal</dc:subject>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:091aeea4e963/</dc:identifier>
+		<taxo:topics>
+			<rdf:Bag>
+				<rdf:li rdf:resource="https://pinboard.in/u:AramZS/t:GreenNewDeal"/>
+			</rdf:Bag>
+		</taxo:topics>
+	</item>
+	<item rdf:about="https://defector.com/a-student-debt-researcher-fucks-me-up-with-americas-broken-promises/">
+		<title>(500) https://defector.com/a-student-debt-researcher-fucks-me-up-with-americas-broken-promises/</title>
+		<dc:date>2020-12-25T22:02:01+00:00</dc:date>
+		<link>https://defector.com/a-student-debt-researcher-fucks-me-up-with-americas-broken-promises/</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ A student-debt researcher fucks me up with America's broken promises: ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:e2b4293056c9/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/swodinsky/status/1342511749573079043/photo/1">
+		<title>(400) https://twitter.com/swodinsky/status/1342511749573079043/photo/1</title>
+		<dc:date>2020-12-25T21:45:18+00:00</dc:date>
+		<link>https://twitter.com/swodinsky/status/1342511749573079043/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ christmas owls ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:7a72e28e9493/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/jeremybowers/status/1342507409030467584/photo/1">
+		<title>(400) https://twitter.com/jeremybowers/status/1342507409030467584/photo/1</title>
+		<dc:date>2020-12-25T21:28:03+00:00</dc:date>
+		<link>https://twitter.com/jeremybowers/status/1342507409030467584/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Well, I got what I wanted for Christmas ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:8676272d2cff/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.forbes.com/sites/augustinefou/2020/06/03/which-form-of-crime-is-digital-ad-fraud/">
+		<title>Which Form Of Crime Is Digital Ad Fraud?</title>
+		<dc:date>2020-12-25T21:25:51+00:00</dc:date>
+		<link>https://www.forbes.com/sites/augustinefou/2020/06/03/which-form-of-crime-is-digital-ad-fraud/</link>
+		<dc:creator>AramZS</dc:creator>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:b6770681e5f8/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/CharlesPulliam/status/1342495443641634817/photo/1">
+		<title>(400) https://twitter.com/CharlesPulliam/status/1342495443641634817/photo/1</title>
+		<dc:date>2020-12-25T20:40:30+00:00</dc:date>
+		<link>https://twitter.com/CharlesPulliam/status/1342495443641634817/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Me: I'll never be an airpods person Kris Kringle: bitch, u thought ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:fe41f18a2322/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/wycats/status/1342484366279098369">
+		<title>(400) https://twitter.com/wycats/status/1342484366279098369</title>
+		<dc:date>2020-12-25T20:30:06+00:00</dc:date>
+		<link>https://twitter.com/wycats/status/1342484366279098369</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ *snaps fingers in agreement* ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:31c4c873da0e/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/DanielleAlberti/status/1342490178741534721">
+		<title>(400) https://twitter.com/DanielleAlberti/status/1342490178741534721</title>
+		<dc:date>2020-12-25T20:26:51+00:00</dc:date>
+		<link>https://twitter.com/DanielleAlberti/status/1342490178741534721</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ We're doing: * Frisée aux lardons * Standing rib roast * Potato gratin * Glazed root vegetable tournee * Roasted brussels sprouts * @rachel_shorey's infamous vegan chocolate pots de creme ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:3faacf107f62/</dc:identifier>
+	</item>
+	<item rdf:about="https://defector.com/what-did-we-get-stuck-in-our-rectums-last-year/">
+		<title>(500) https://defector.com/what-did-we-get-stuck-in-our-rectums-last-year/</title>
+		<dc:date>2020-12-25T20:23:23+00:00</dc:date>
+		<link>https://defector.com/what-did-we-get-stuck-in-our-rectums-last-year/</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ What did we get stuck in our rectums last year? ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:42a18899558b/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/chelseaadelaine/status/1342486789278339073/photo/1">
+		<title>(400) https://twitter.com/chelseaadelaine/status/1342486789278339073/photo/1</title>
+		<dc:date>2020-12-25T20:06:07+00:00</dc:date>
+		<link>https://twitter.com/chelseaadelaine/status/1342486789278339073/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ so I guess this is Optimum declaring war on socially distant Christmas ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:ae0922aa4069/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.thedailybeast.com/the-bizarre-rise-of-the-manhattan-prep-school-gangster-turned-enigmatic-west-bank-rabbi?ref=home">
+		<title>The Bizarre Rise of the Manhattan Prep School Gangster Turned Enigmatic West Bank Rabbi</title>
+		<dc:date>2020-12-25T19:46:50+00:00</dc:date>
+		<link>https://www.thedailybeast.com/the-bizarre-rise-of-the-manhattan-prep-school-gangster-turned-enigmatic-west-bank-rabbi?ref=home</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ I worked on this personal and perhaps provocative @thedailybeast feature for nearly two years and hope you’ll get a chance to read it (no knowledge of Zionism, Israel/Palestine, or Judaism necessary): ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:de9a390f8ccd/</dc:identifier>
+	</item>
+	<item rdf:about="https://teambeans.medium.com/team-beans-4657008c3073">
+		<title>Untitled (https://teambeans.medium.com/team-beans-4657008c3073)</title>
+		<dc:date>2020-12-25T19:38:05+00:00</dc:date>
+		<link>https://teambeans.medium.com/team-beans-4657008c3073</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ RT @vivian: "Her many smiles sent a thrill through the world". My heart is breaking over the loss of Francesca Kaczynski daughter of @kfile and @RachelEnsignWSJ. Here is where to give in her memory. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:906c4332db5b/</dc:identifier>
+	</item>
+	<item rdf:about="https://profile.wintercycle.org/DP0276">
+		<title>PMC Winter Cycle - Danielle Pourbaix's PMC Winter Cycle</title>
+		<dc:date>2020-12-25T19:38:05+00:00</dc:date>
+		<link>https://profile.wintercycle.org/DP0276</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ RT @vivian: "Her many smiles sent a thrill through the world". My heart is breaking over the loss of Francesca Kaczynski daughter of @kfile and @RachelEnsignWSJ. Here is where to give in her memory. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:1f3d286d99c4/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.politico.com/story/2017/06/01/russia-spies-espionage-trump-239003">
+		<title>Russia escalates spy games after years of U.S. neglect - POLITICO</title>
+		<dc:date>2020-12-25T19:34:19+00:00</dc:date>
+		<link>https://www.politico.com/story/2017/06/01/russia-spies-espionage-trump-239003</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ While the right wing has immediately and predictably attributed the attack to "antifa" (and the federal government will probably follow in lockstep), I'd like to remind everyone that Russia has been mapping US telecom infrastructure for years: ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:6df9c8abb93a/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/troutman/status/1342552914523512833">
+		<title>(400) https://twitter.com/troutman/status/1342552914523512833</title>
+		<dc:date>2020-12-25T19:34:19+00:00</dc:date>
+		<link>https://twitter.com/troutman/status/1342552914523512833</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ While the right wing has immediately and predictably attributed the attack to "antifa" (and the federal government will probably follow in lockstep), I'd like to remind everyone that Russia has been mapping US telecom infrastructure for years: ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:fc2fdc840ee3/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.celestron.com/pages/the-tools-for-beginners">
+		<title>The Tools for Beginners | Celestron</title>
+		<dc:date>2020-12-25T19:27:30+00:00</dc:date>
+		<link>https://www.celestron.com/pages/the-tools-for-beginners</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Did you get a new 'scope for the holidays? @SkyAndTelescope has a getting started guide. @Celestron has lots of tools for beginners, too! ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:88c8b72896ca/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/SkyandTelescope/status/1342548673062952961">
+		<title>(400) https://twitter.com/SkyandTelescope/status/1342548673062952961</title>
+		<dc:date>2020-12-25T19:27:30+00:00</dc:date>
+		<link>https://twitter.com/SkyandTelescope/status/1342548673062952961</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Did you get a new 'scope for the holidays? @SkyAndTelescope has a getting started guide. @Celestron has lots of tools for beginners, too! ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:54db352a1698/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.washingtonpost.com/investigations/sidney-powells-secret-intelligence-contractor-witness-is-a-pro-trump-podcaster/2020/12/24/d5a1ab9e-4403-11eb-a277-49a6d1f9dff1_story.html">
+		<title>(500) https://www.washingtonpost.com/investigations/sidney-powells-secret-intelligence-contractor-witness-is-a-pro-trump-podcaster/2020/12/24/d5a1ab9e-4403-11eb-a277-49a6d1f9dff1_story.html</title>
+		<dc:date>2020-12-25T19:23:32+00:00</dc:date>
+		<link>https://www.washingtonpost.com/investigations/sidney-powells-secret-intelligence-contractor-witness-is-a-pro-trump-podcaster/2020/12/24/d5a1ab9e-4403-11eb-a277-49a6d1f9dff1_story.html</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ I would say you can’t make this stuff up… But apparently, you can, and they are. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:582900287b72/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/dannyderaney/status/1342156541663703041">
+		<title>(400) https://twitter.com/dannyderaney/status/1342156541663703041</title>
+		<dc:date>2020-12-25T18:38:43+00:00</dc:date>
+		<link>https://twitter.com/dannyderaney/status/1342156541663703041</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ RT @bookoisseur: Merry Christmas!! ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:a691beda99c2/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.wsj.com/articles/in-defense-of-scrooge-whose-thrift-blessed-the-world-11608762986">
+		<title>In Defense of Scrooge, Whose Thrift Blessed the World - WSJ</title>
+		<dc:date>2020-12-25T17:07:19+00:00</dc:date>
+		<link>https://www.wsj.com/articles/in-defense-of-scrooge-whose-thrift-blessed-the-world-11608762986</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ The Wall Street Journal, in an apparent need to become an even bigger parody of itself than it already is, published an editorial defending Ebenezer Scrooge’s practices as a businessman. Amazing. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:372cba94b7ba/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/hypervisible/status/1342467774707326976">
+		<title>(400) https://twitter.com/hypervisible/status/1342467774707326976</title>
+		<dc:date>2020-12-25T14:15:39+00:00</dc:date>
+		<link>https://twitter.com/hypervisible/status/1342467774707326976</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ I suspect that the reason Facebook likes small businesses is because they buy (more expensive) targeted ads but often lack the means to verify their effectiveness. I wouldn't be surprised if most sophisticated marketers bought broad on Facebook. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:8e5556ce0ed3/</dc:identifier>
+	</item>
+	<item rdf:about="https://theintercept.com/2020/12/24/facebook-ad-targeting-small-business/">
+		<title>Facebook Managers Trash Their Own Ad Targeting in Unsealed Remarks</title>
+		<dc:date>2020-12-25T13:50:33+00:00</dc:date>
+		<link>https://theintercept.com/2020/12/24/facebook-ad-targeting-small-business/</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ In private communications, “Facebook managers described important targeting data as ‘crap’ and admitted accuracy was ‘abysmal.’” FB says messages are taken out of context. 🙄 ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:272d71ef6042/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/Myles_Younger/status/1342447156444024833/photo/1">
+		<title>(400) https://twitter.com/Myles_Younger/status/1342447156444024833/photo/1</title>
+		<dc:date>2020-12-25T12:28:38+00:00</dc:date>
+		<link>https://twitter.com/Myles_Younger/status/1342447156444024833/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Merry Xmas! ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:ead3bc5b5e18/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/gemmamilne/status/1342421608477192192/photo/1">
+		<title>(400) https://twitter.com/gemmamilne/status/1342421608477192192/photo/1</title>
+		<dc:date>2020-12-25T10:47:07+00:00</dc:date>
+		<link>https://twitter.com/gemmamilne/status/1342421608477192192/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ It’s not wrong and I’m not sorry ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:ddaa94acc408/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/noahchestnut/status/1342256934892670976/photo/1">
+		<title>(400) https://twitter.com/noahchestnut/status/1342256934892670976/photo/1</title>
+		<dc:date>2020-12-25T07:52:45+00:00</dc:date>
+		<link>https://twitter.com/noahchestnut/status/1342256934892670976/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ @jarroddicker ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:7bdf5a46fb65/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/swodinsky/status/1342252616974278657/photo/1">
+		<title>(400) https://twitter.com/swodinsky/status/1342252616974278657/photo/1</title>
+		<dc:date>2020-12-25T07:35:36+00:00</dc:date>
+		<link>https://twitter.com/swodinsky/status/1342252616974278657/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ @bigblackjacobin sneak peek @ what i was planning for the pjs article b4 saying "fuck this" and drinking half a bottle of cabernet instead @ShiraOvide ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:5b94e0afaa4c/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/swodinsky/status/1342249071856259074/photo/1">
+		<title>(400) https://twitter.com/swodinsky/status/1342249071856259074/photo/1</title>
+		<dc:date>2020-12-25T07:21:31+00:00</dc:date>
+		<link>https://twitter.com/swodinsky/status/1342249071856259074/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ i can also add charts / geopolitical analysis if u ask nicely ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:a204f9b5cc47/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/UpcomingOreos/status/1342266306645684225/photo/1">
+		<title>(400) https://twitter.com/UpcomingOreos/status/1342266306645684225/photo/1</title>
+		<dc:date>2020-12-25T05:30:00+00:00</dc:date>
+		<link>https://twitter.com/UpcomingOreos/status/1342266306645684225/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ the future sucks shit . I hate the future ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:4354fc4418a0/</dc:identifier>
+	</item>
+	<item rdf:about="https://dev.to/m4cs/creating-a-cleaner-macos-workspace-2e35">
+		<title>Creating a Cleaner MacOS Workspace - DEV</title>
+		<dc:date>2020-12-25T04:38:00+00:00</dc:date>
+		<link>https://dev.to/m4cs/creating-a-cleaner-macos-workspace-2e35</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ The default macOS window management and desktop environment is great; however, after using window management solutions on Linux, I've found a better system for Mac. #DEVCommunity ]]>
+		</description>
+		<dc:subject>DEVCommunity</dc:subject>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:05c7f35e5115/</dc:identifier>
+		<taxo:topics>
+			<rdf:Bag>
+				<rdf:li rdf:resource="https://pinboard.in/u:AramZS/t:DEVCommunity"/>
+			</rdf:Bag>
+		</taxo:topics>
+	</item>
+	<item rdf:about="https://twitter.com/jarroddicker/status/1342223481182810112/photo/1">
+		<title>(400) https://twitter.com/jarroddicker/status/1342223481182810112/photo/1</title>
+		<dc:date>2020-12-25T02:39:49+00:00</dc:date>
+		<link>https://twitter.com/jarroddicker/status/1342223481182810112/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Tipsy. fuddled. boozy. groggy elevated. happy holidays y’all. ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:4ccdcccec6fe/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/TravelingAnna/status/1342259821802885120/photo/1">
+		<title>(400) https://twitter.com/TravelingAnna/status/1342259821802885120/photo/1</title>
+		<dc:date>2020-12-25T00:04:14+00:00</dc:date>
+		<link>https://twitter.com/TravelingAnna/status/1342259821802885120/photo/1</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Someone likes her holiday sweater ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:cf3388a48831/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.npr.org/2020/12/24/949906978/star-hosts-ties-cloud-n-y-times-effort-to-restore-trust-after-podcast-scandal">
+		<title>'The Daily' Host Clouds NYT Effort To Restore Trust After 'Caliphate' : NPR</title>
+		<dc:date>2020-12-25T00:00:48+00:00</dc:date>
+		<link>https://www.npr.org/2020/12/24/949906978/star-hosts-ties-cloud-n-y-times-effort-to-restore-trust-after-podcast-scandal</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Lisa Tobin, Andy Mills, Rukmini Callimachi, Larissa Anderson, Wendy Dorr, Asthaa Chaturvedi and Brad Fisher attend the 78th annual Peabody Awards Press Room on… ]]>
+		</description>
+		<dc:source>https://instapaper.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:d4cf19f16bc8/</dc:identifier>
+	</item>
+	<item rdf:about="https://emshea.com/post/serverless-cicd">
+		<title>A basic CI/CD pipeline for serverless apps</title>
+		<dc:date>2020-12-24T23:59:12+00:00</dc:date>
+		<link>https://emshea.com/post/serverless-cicd</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ For deploying my applications, I have a CI/CD pipeline that uses the AWS Serverless Application Model (SAM), GitHub, and CircleCI. In this post I'll show you… ]]>
+		</description>
+		<dc:source>https://instapaper.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:c830470c08ba/</dc:identifier>
+	</item>
+	<item rdf:about="https://www.nytimes.com/2020/12/24/world/europe/brexit-trade-deal-uk-eu.html">
+		<title>Brexit Trade Deal Reached Between U.K. and E.U. - The New York Times</title>
+		<dc:date>2020-12-24T21:10:58+00:00</dc:date>
+		<link>https://www.nytimes.com/2020/12/24/world/europe/brexit-trade-deal-uk-eu.html</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ BREAKING The trade agreement comes after months of negotiations but still leaves critical details to be worked out. Supporters and opponents of Brexit outside… ]]>
+		</description>
+		<dc:source>https://instapaper.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:8a634f344c73/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/DevDell/status/1341913929908441090">
+		<title>(400) https://twitter.com/DevDell/status/1341913929908441090</title>
+		<dc:date>2020-12-24T15:45:28+00:00</dc:date>
+		<link>https://twitter.com/DevDell/status/1341913929908441090</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Put this tweet in MoMA ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:d28b4ebefe8b/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/HypercoreProto/status/1342131191508570114">
+		<title>(400) https://twitter.com/HypercoreProto/status/1342131191508570114</title>
+		<dc:date>2020-12-24T15:41:53+00:00</dc:date>
+		<link>https://twitter.com/HypercoreProto/status/1342131191508570114</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ RT @pfrazee: A lot of folks were telling us it was hard to get started with Hypercore and figure out which module does what, so we spent a couple weeks reworking the site and writing a whole bunch of guides ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:d31ebcdf8792/</dc:identifier>
+	</item>
+	<item rdf:about="https://twitter.com/leighmunsil/status/1341880684244156418">
+		<title>(400) https://twitter.com/leighmunsil/status/1341880684244156418</title>
+		<dc:date>2020-12-24T13:50:01+00:00</dc:date>
+		<link>https://twitter.com/leighmunsil/status/1341880684244156418</link>
+		<dc:creator>AramZS</dc:creator>
+		<description>
+			<![CDATA[ Because of all those winning @seahawks games in December yo ]]>
+		</description>
+		<dc:source>https://twitter.com/</dc:source>
+		<dc:identifier>https://pinboard.in/u:AramZS/b:0d7aa0271f21/</dc:identifier>
+	</item>
+</rdf:RDF>

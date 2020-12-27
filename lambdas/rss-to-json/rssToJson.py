@@ -2,6 +2,8 @@ import requests  # pulling data
 from bs4 import BeautifulSoup  # xml parsing
 import json  # exporting to files
 
+# os.environ.get('USER')
+
 # save function
 
 

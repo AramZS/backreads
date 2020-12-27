@@ -9,3 +9,6 @@ cdk.out
 
 # Parcel default cache directory
 .parcel-cache
+
+# Don't include cdk context with account info
+cdk.context.json

@@ -12,7 +12,11 @@ import targets = require('@aws-cdk/aws-route53-targets/lib');
 import * as route53Patterns from '@aws-cdk/aws-route53-patterns';
 import * as cloudfront from '@aws-cdk/aws-cloudfront'
 import { DnsValidatedCertificate, ValidationMethod, CertificateValidation } from "@aws-cdk/aws-certificatemanager";
+import * as ses from '@aws-cdk/aws-ses'
+import * as sesActions from '@aws-cdk/aws-ses-actions'
+import * as cr from '@aws-cdk/custom-resources';
 import { SPADeploy } from './cdk-spa-deploy'
+import { PhysicalResourceId } from '@aws-cdk/custom-resources';
 
 export class AwsStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -29,7 +33,47 @@ export class AwsStack extends cdk.Stack {
 
     // The code that defines your stack goes here
     const pinboardBucket = new s3.Bucket(this, 'PinboardLinks')
+    const textsBucket = new s3.Bucket(this, 'Texts')
     const storyBucket = new s3.Bucket(this, 'StoryLinks')
+
+    // Since this code is open source I don't want to open the ability to be DDOSed by revealing the incoming processor email.
+    const secretEmail = ssm.StringParameter.fromStringParameterAttributes(this, 'newsletterEmail', {
+      parameterName: '/backreads/newsletteremail'
+    });    
+    // Needed to set up the domain in SES Identity Management dashboard
+    // For a possible CDK way to do it - https://developer.aliyun.com/mirror/npm/package/@aws-cdk/custom-resources 
+    const emailReceivingRuleset = new ses.ReceiptRuleSet(this, 'RuleSet', {
+      rules: [
+        {
+          recipients: [`${secretEmail.stringValue}@${domain}`],
+          actions: [
+            new sesActions.AddHeader({
+              name: 'X-Special-Header',
+              value: 'aws'
+            }),
+            new sesActions.S3({
+              bucket: textsBucket,
+              objectKeyPrefix: 'emails/'
+            })
+          ],
+          enabled: true
+        }
+      ],
+    });
+    /**
+    const activateSESRuleSet = new cr.AwsCustomResource(this, 'ActivateSESRuleSet', {
+      onUpdate: {
+        service: 'SES',
+        action: 'SetActiveReceiptRuleSet',
+        parameters: {
+          RuleSetName: emailReceivingRuleset.receiptRuleSetName
+        },
+        physicalResourceId: cr.PhysicalResourceId.of(emailReceivingRuleset.receiptRuleSetName)
+      },
+      policy: cr.AwsCustomResourcePolicy.fromSdkCalls({resources: cr.AwsCustomResourcePolicy.ANY_RESOURCE})
+    });    
+     */
+
     const backreadsSiteBucket = new s3.Bucket(this, 'BackreadsSite', {
       bucketName: domain,
       publicReadAccess: true,

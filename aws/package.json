@@ -31,10 +31,13 @@
     "@aws-cdk/aws-route53-targets": "^1.80.0",
     "@aws-cdk/aws-s3": "^1.80.0",
     "@aws-cdk/aws-s3-deployment": "^1.80.0",
+    "@aws-cdk/aws-ses": "^1.80.0",
+    "@aws-cdk/aws-ses-actions": "^1.80.0",
     "@aws-cdk/aws-ssm": "^1.80.0",
     "@aws-cdk/aws-stepfunctions": "^1.80.0",
     "@aws-cdk/aws-stepfunctions-tasks": "^1.80.0",
     "@aws-cdk/core": "^1.80.0",
+    "@aws-cdk/custom-resources": "^1.80.0",
     "cdk-spa-deploy": "^1.79.0",
     "source-map-support": "^0.5.16"
   }

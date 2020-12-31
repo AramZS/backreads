@@ -36,7 +36,9 @@ export class AwsStack extends cdk.Stack {
 
     // The code that defines your stack goes here
     const pinboardBucket = new s3.Bucket(this, 'PinboardLinks')
-    const textsBucket = new s3.Bucket(this, 'Texts')
+    const textsBucket = new s3.Bucket(this, 'Texts', {
+      bucketName: 'texts'
+    })
     const storyBucket = new s3.Bucket(this, 'StoryLinks')
 
     // Since this code is open source I don't want to open the ability to be DDOSed by revealing the incoming processor email.
@@ -65,7 +67,7 @@ export class AwsStack extends cdk.Stack {
       ],
     });
 
-    const emailToHtml = new lambda.Function(this, 'HelloHandler', {
+    const emailToHtml = new lambda.Function(this, 'emailToHtml', {
       runtime: lambda.Runtime.NODEJS_10_X,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/html-from-email'),  // code loaded from "lambda" directory
       handler: 'html-from-email.handler'                // file is "hello", function is "handler"
@@ -192,13 +194,14 @@ export class AwsStack extends cdk.Stack {
       recordNames: [`www.${domain}`],
       targetDomain: domain
     })
-
+    
+    /**
     // defines an AWS Lambda resource
     const hello = new lambda.Function(this, 'HelloHandler', {
       runtime: lambda.Runtime.NODEJS_10_X,    // execution environment
       code: lambda.Code.fromAsset('../lambdas'),  // code loaded from "lambda" directory
       handler: 'hello.handler'                // file is "hello", function is "handler"
-    });
+    }); */
 
     const secretPinboardFeed = ssm.StringParameter.fromStringParameterAttributes(this, 'MySecureValue', {
       parameterName: '/backreads/pinboardkey'

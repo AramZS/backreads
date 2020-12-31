@@ -1,0 +1,1207 @@
+Return-Path: <azs.gmu+caf_=givemeyournewsletter=backreads.com@gmail.com>
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id 0bsmb6oh9uu1l8b1g89va7ug37sb53c0fnsmml81
+ for givemeyournewsletter@backreads.com;
+ Tue, 29 Dec 2020 23:13:15 +0000 (UTC)
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.167.171 as permitted sender) client-ip=209.85.167.171; envelope-from=azs.gmu+caf_=givemeyournewsletter=backreads.com@gmail.com; helo=mail-oi1-f171.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.167.171 as permitted sender) client-ip=209.85.167.171; envelope-from=azs.gmu+caf_=givemeyournewsletter=backreads.com@gmail.com; helo=mail-oi1-f171.google.com;
+ dkim=pass header.i=@email.avclub.com;
+ dkim=pass header.i=@amazonses.com;
+ dmarc=none header.from=email.avclub.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFIZENtTk04NjZNZk0vVUNLVzJnTlA3Y1hkVG9UaTZlT2Y1TFNhamNNNUs4YWh5RlpmUnV4YW5LSFNEMmhqOU5FZzhzZWg1eEV2L0dncDFjQ1Jpd09RZFR2N1M0bEorR3ZzakFpUVRydE9SeVpUT1JlTWZWeWtvSkxFRllKSU5Ka2U0ZlltODN5QThZc2s1MmZxVGk4enhEeXRYakRwZENvU0xqNXJBRHpXUmQ2dWNKcVNvaGZmajlPMWRyemlFcTN0L2J1akFOUGovZVh2VmR5R2N2UlFKSitocDh6VitVRm1pTm9lNjFaZ2JFNXoveEtkQWFSSVpTVE5xWkpud3JtaXFmSkpCNFYwQ1hPTnFUTWRRRE1IR0lyUEpLZDJMQXU0SVIzRTRWZzg5TUxNelJwVnNPUFBKN1J4bWsxZGs5L2dFMXJvdnB6bkhmL3FZOEV5QUdHWDEwSTMzSkIybEtTbUQxbmJWNFdDZXJRPT0=
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=ZHezB8KVsvIYrMMdDXuYgWeAOf+lYpqfhnQW7g8EK/PukE3oa44RaxnN/AbUeVw2ZxGcj6uqGT8GiMxKfJLoubm8u6A/NbzHX8Y24vYB9f3Wxkoa1I7Mft7Bnv8FpRSL7T1RmdKRrIwZ2CdKZcYuNqQYA3yWjtYX5KhRxy4R2ME=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1609283595; v=1; bh=iO0Cz+9NFNYbqmdi6ByIWUT0mtfnU6VavdGi+hqKvys=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-oi1-f171.google.com with SMTP id x13so16670164oic.5
+        for <givemeyournewsletter@backreads.com>; Tue, 29 Dec 2020 15:13:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:delivered-to:dkim-signature:dkim-signature:from
+         :to:message-id:subject:mime-version:list-unsubscribe-post
+         :list-unsubscribe:date:feedback-id;
+        bh=XmuKJ26cnf8GdD1jmX6fgXGC3PrCmvJZvGKnIv9Y+4o=;
+        b=F6wUQweR3aacBuvV20J5rmTz/D55tsmpeNmuG9rrA5l32b4eeMWdfUQNh99DLbz9Nj
+         wYQXRNOKSAIRrKNftcABvqRt0XLFaeXfke+wZg/gBi5u7lY8V4LFs5HNqjOG6eBY83L6
+         zJyx4qK30PTcQ9mfPTJujhSxnsbeKh3xRXQujsI9sbjIhCW8+mEy58O1lJuK7PzU/UWt
+         qVXmgm7XmJjzp/vUnjomGyqm2MTRA/1XndxAfZ7RVJVq69ahZjGq4TTS7ra+2xs//lnv
+         wuR323dRZBvOXem9+zIJIrww1LyuYfZELVTvzGdLISO27i57D6nVj0v2H5jf98H30T8F
+         sO6g==
+X-Gm-Message-State: AOAM5311auc1n3J4J3viW/bZClgRG10U0r0hXLbReZTgUT5WNU/zD3jY
+	eOPJJnMD2ysl0j7NTHwXuGL5aMgv9viUlNRcOPOSjjfbyr89Y/kwEA==
+X-Received: by 2002:aca:b657:: with SMTP id g84mr3822119oif.86.1609283595159;
+        Tue, 29 Dec 2020 15:13:15 -0800 (PST)
+X-Forwarded-To: givemeyournewsletter@backreads.com
+X-Forwarded-For: azs.gmu@gmail.com givemeyournewsletter@backreads.com
+Delivered-To: azs.gmu@gmail.com
+Received: by 2002:a9d:6c58:0:0:0:0:0 with SMTP id g24csp10832944otq;
+        Tue, 29 Dec 2020 15:13:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzWrH5owZ+6glaP/jo13LMVHRrZ3SnVYb4v53TudzJNyPEA44sGOW5YzpoL4w+Psd73JQQp
+X-Received: by 2002:a54:4711:: with SMTP id k17mr3640673oik.149.1609283593070;
+        Tue, 29 Dec 2020 15:13:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1609283593; cv=none;
+        d=google.com; s=arc-20160816;
+        b=GV/+yLPpponQW/TDITsfWQLWcHLNqNiwVflErzg1Sv/+WSUOKxUfJUftT6+pHq8S0E
+         mVtsibQFbZS02/wSq3vkK+zdTztXo30CdwPVwZv3ogD3DWd0cqcvO8W+XcPQnQ/0glEO
+         NSCa1AlygBljEH+gYGO53b/F6NnNsPtXDzPMjb4pc+15JRdKk1r2+KArFR5gfpdoPX7f
+         EYAkMBGawEJ7VCQ+mgIKpym2/JO8P+l+ZSIpQOwh8aYtW9cOZR5/c7qaryVxOwI8Irl+
+         BA/0Hg6lPQMOTj9XuM9OtgpR59UncLw8f+xOHJ+nOFuXOM6OunYar/bEC7Pk/0jRjqaB
+         KL/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:date:list-unsubscribe:list-unsubscribe-post
+         :mime-version:subject:message-id:to:from:dkim-signature
+         :dkim-signature;
+        bh=XmuKJ26cnf8GdD1jmX6fgXGC3PrCmvJZvGKnIv9Y+4o=;
+        b=iKVB0t12Y+ueba5MEdDzKU81mwx7KIs39+K58zmLAJ6Hq/PheixoqqVFRqNUgzksSV
+         KO3By6lMSd9wuF5VgqCCwR0icrTovnQTdxuC6VMsAaAyDde2FPuyqlEMKuMGnUTdjl9A
+         Ui90XPcj9pW8poNji3Xp8bfayIAOp05G5wdBySl9y603nDp9JUTEmMPZfpJtsozeRwUJ
+         e1/a51h5E9R2GaPlSUSgmIj20iEtdDZUYfBMPIPfdIrXZwYv6CM/lIh7A4c8OQq3dra0
+         FMag3NC23f9sXY38HAoApDCGbDuBY0RjXJI58h26F/XizAI66Uz/PLvQOV6AeHunMS4r
+         fZEg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@email.avclub.com header.s=ziqoatwpiwri2hjr6jyepkdjkivvusfe header.b=ZolJnETQ;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=EapLOcoU;
+       spf=softfail (google.com: domain of transitioning 01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000@mail.email.avclub.com does not designate 192.185.47.163 as permitted sender) smtp.mailfrom=01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000@mail.email.avclub.com
+Return-Path: <01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000@mail.email.avclub.com>
+Received: from gateway22.websitewelcome.com (gateway22.websitewelcome.com. [192.185.47.163])
+        by mx.google.com with ESMTPS id v143si19951409oif.152.2020.12.29.15.13.12
+        for <azs.gmu@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 29 Dec 2020 15:13:13 -0800 (PST)
+Received-SPF: softfail (google.com: domain of transitioning 01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000@mail.email.avclub.com does not designate 192.185.47.163 as permitted sender) client-ip=192.185.47.163;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@email.avclub.com header.s=ziqoatwpiwri2hjr6jyepkdjkivvusfe header.b=ZolJnETQ;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=EapLOcoU;
+       spf=softfail (google.com: domain of transitioning 01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000@mail.email.avclub.com does not designate 192.185.47.163 as permitted sender) smtp.mailfrom=01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000@mail.email.avclub.com
+Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
+	by gateway22.websitewelcome.com (Postfix) with ESMTP id D18983B62
+	for <azs.gmu@gmail.com>; Tue, 29 Dec 2020 17:13:12 -0600 (CST)
+Received: from box2279.bluehost.com ([50.87.192.171])
+	by cmsmtp with SMTP
+	id uOAykOY2euDoAuOAykizmO; Tue, 29 Dec 2020 17:13:12 -0600
+X-Authority-Reason: s=1
+Received: from e229-157.smtp-out.amazonses.com ([23.251.229.157]:53569)
+	by box2279.bluehost.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+	(Exim 4.93)
+	(envelope-from <01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000@mail.email.avclub.com>)
+	id 1kuOAy-003CTG-0t
+	for givemeyournewsletter@aramzs.me; Tue, 29 Dec 2020 16:13:12 -0700
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=ziqoatwpiwri2hjr6jyepkdjkivvusfe; d=email.avclub.com;
+	t=1609283580;
+	h=From:To:Message-ID:Subject:MIME-Version:Content-Type:List-Unsubscribe-Post:List-Unsubscribe:Date;
+	bh=iO0Cz+9NFNYbqmdi6ByIWUT0mtfnU6VavdGi+hqKvys=;
+	b=ZolJnETQ3+kyOa7v8YJECmrVga1VHHrm9Of3U9VSLUs8TyZ1+SnXEO96WiRSbY4Y
+	4BQOHskzMEoEGAjheS+MRaeG61oF0tIX/T1ei1N5uWd6mNMyoc4ubIZ85Hu7XO7OBTC
+	foXwe67XuniUoJ4xy/T+RXRnZ4MRWElUssn2pdKQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1609283580;
+	h=From:To:Message-ID:Subject:MIME-Version:Content-Type:List-Unsubscribe-Post:List-Unsubscribe:Date:Feedback-ID;
+	bh=iO0Cz+9NFNYbqmdi6ByIWUT0mtfnU6VavdGi+hqKvys=;
+	b=EapLOcoU+dQEGaBww2HRQWHvJpVmf3KjlWWTc/+G+8H+wWDCbLEA82ZgsMBgfJld
+	owwb+CWcyevWVrv1sMPtGyeloZWo+GeQeCdTP1vHoCTLvSEbPMna/kCn89Lp0ndH+9p
+	nbWNS7VVpDiRZL9zl90vzHiSkA2AXbtpyCt3XhlU=
+From: "The A.V. Club Newsletter" <newsletters@email.avclub.com>
+To: givemeyournewsletter@aramzs.me
+Message-ID: <01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000@email.amazonses.com>
+Subject: A Teacher departs
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_10455247_100531314.1609283579523"
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+List-Unsubscribe: <mailto:unsubscribe+fa58543a3a800c65e532a98b348537f21cdfece6-101787@email.avclub.com>, <https://www.avclub.com/newsletter/unsubscribe?subscriptionToken=fa58543a3a800c65e532a98b348537f21cdfece6-101787&utm_source=AV_Club_Daily_RSS&utm_medium=email&utm_campaign=2020-12-29>
+Date: Tue, 29 Dec 2020 23:13:00 +0000
+X-SES-Outgoing: 2020.12.29-23.251.229.157
+Feedback-ID: 1.us-east-1.CTT0BE9giLbwLsJiM5FiKSFAj/YD8cbE+FhiW2M2Llo=:AmazonSES
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - box2279.bluehost.com
+X-AntiAbuse: Original Domain - aramzs.me
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - mail.email.avclub.com
+X-BWhitelist: no
+X-Source-IP: 23.251.229.157
+X-Source-L: No
+X-Exim-ID: 1kuOAy-003CTG-0t
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: e229-157.smtp-out.amazonses.com [23.251.229.157]:53569
+X-Source-Auth: chronoto
+X-Email-Count: 3
+X-Source-Cap: Y2hyb25vdG87Y2hyb25vdG87Ym94MjI3OS5ibHVlaG9zdC5jb20=
+X-Local-Domain: no
+X-Forwarder: box2279.bluehost.com
+X-Special-Header: aws
+
+------=_Part_10455247_100531314.1609283579523
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+December 29, 2020
+
+What's On Tonight [https://www.avclub.com/c/whats-on-tonight?utm_source=3DA=
+V_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+<i>A Teacher</i> departs [https://tv.avclub.com/a-teacher-departs-184593573=
+3?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-=
+29]
+Here=E2=80=99s what=E2=80=99s happening in the world of television for Tues=
+day, December 29. All times are Eastern.
+
+Newswire [https://www.avclub.com/c/newswire?utm_source=3DAV_Club_Daily_RSS&=
+utm_medium=3Demail&utm_campaign=3D2020-12-29]
+Steven Soderbergh is working on a "philosophical" sequel to <i>Contagion</i=
+> [https://news.avclub.com/steven-soderbergh-is-working-on-a-philosophical-=
+seque-1845962194?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_camp=
+aign=3D2020-12-29]
+When the COVID-19 pandemic hit, several members of the scientific community=
+ were not exactly surprised. Many had known for quite some time that it was=
+n=E2=80=99t a matter of if, but when=E2=80=94among them Ian Lipkin, a renow=
+ned =E2=80=9Cvirus hunter=E2=80=9D and epidemiologist who consulted on Stev=
+en Soderbergh=E2=80=99s Contagion. The 2=E2=80=A6
+
+Random Roles [https://www.avclub.com/c/interview/random-roles?utm_source=3D=
+AV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+Andrea Riseborough on studio sexism in <i>Oblivion</i> and being at home in=
+ <i>Birdman</i> [https://film.avclub.com/andrea-riseborough-on-studio-sexis=
+m-in-oblivion-and-bei-1845897639?utm_source=3DAV_Club_Daily_RSS&utm_medium=
+=3Demail&utm_campaign=3D2020-12-29]
+The actor: It=E2=80=99s been almost exactly 15 years since Andrea Riseborou=
+gh first appeared onscreen in a pair of British made-for-TV movies; but the=
+ actor wasted very little time before attaining international acclaim as a =
+performer of rare depth and chameleonic shading. Her BAFTA nomination for B=
+est Actr=E2=80=A6
+
+Season 2 [https://www.avclub.com/c/tv-review/his-dark-materials/season-2?ut=
+m_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+An improved second season of <i>His Dark Materials </i>stumbles a bit at th=
+e finish line [https://tv.avclub.com/an-improved-second-season-of-his-dark-=
+materials-stumble-1845958557?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Dem=
+ail&utm_campaign=3D2020-12-29]
+In the opening scenes of =E2=80=9C=C3=86sah=C3=A6ttr,=E2=80=9D we reunite w=
+ith Ruta Skadi, who wakes up on a random cliffside and overhears a conversa=
+tion among some cliff ghasts. Apparently able to understand their language,=
+ which is subtitled for the audience, Ruta listens as they talk about the s=
+takes of the pending war, =E2=80=A6
+
+2021 [https://www.avclub.com/c/video/interview/2021?utm_source=3DAV_Club_Da=
+ily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+<i>Bridgerton</i>'s Jonathan Bailey on the challenges of being an eldest so=
+n [https://tv.avclub.com/bridgertons-jonathan-bailey-on-the-challenges-of-b=
+eing-1845930025?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campa=
+ign=3D2020-12-29]
+On Netflix=E2=80=99s new series Bridgerton, there=E2=80=99s one hand guidin=
+g the romantic life of Daphne Bridgerton=E2=80=94and it=E2=80=99s not neces=
+sarily her own. Rather, it=E2=80=99s her stern and seemingly unyielding old=
+er brother, Anthony, who seems determined to find her an appropriate match.=
+ Of course, to him, almost all available=E2=80=A6
+
+Clips [https://www.avclub.com/c/clips?utm_source=3DAV_Club_Daily_RSS&utm_me=
+dium=3Demail&utm_campaign=3D2020-12-29]
+A shomer gets supernatural in the teaser for IFC's <i>The Vigil</i> [https:=
+//news.avclub.com/a-shomer-gets-supernatural-in-the-teaser-for-ifcs-the-v-1=
+845851015?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D=
+2020-12-29]
+One man. One night. One dead body. So begins The Vigil, the debut feature f=
+rom writer- director Keith Thomas. Set in Brooklyn=E2=80=99s Hasidic Boroug=
+h Park neighborhood, the horror movie taps into Jewish lore and demonology =
+in its tale of an overnight =E2=80=9Cshomer=E2=80=9D haunted by...well, som=
+ething.
+
+Clips [https://www.avclub.com/c/clips?utm_source=3DAV_Club_Daily_RSS&utm_me=
+dium=3Demail&utm_campaign=3D2020-12-29]
+Netflix's corset-clad, pearl-clutching <i>Bridgerton</i> gets a steamy new =
+trailer [https://news.avclub.com/netflixs-corset-clad-pearl-clutching-bridg=
+erton-gets-a-1845877360?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&u=
+tm_campaign=3D2020-12-29]
+If you, like Julie Andrews=E2=80=99 Lady Whistledown, are a messy bitch who=
+ lives for the drama, perhaps you=E2=80=99ll enjoy spending 2020&#39;s soci=
+ally distanced Christmas in Bridgerton. Bridgerton, the first of Shonda Rhi=
+mes=E2=80=99 many soon-to-debut Netflix productions, brings its scandal-rid=
+den period romance to th=E2=80=A6
+
+Movie Review [https://www.avclub.com/c/review/movie-review?utm_source=3DAV_=
+Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+The moving Irish family drama<i> Herself </i>puts hardship and hope on equa=
+l footing [https://film.avclub.com/the-moving-irish-family-drama-herself-pu=
+ts-hardship-and-1845916559?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demai=
+l&utm_campaign=3D2020-12-29]
+Note: The writer of this review watched Herself on a digital screener=C2=A0=
+from home. Before making the decision to see it=E2=80=94or any other film=
+=E2=80=94in a movie theater, please consider the health risks involved. Her=
+e=E2=80=99s=C2=A0an interview on the matter with scientific experts.
+
+Clips [https://www.avclub.com/c/clips?utm_source=3DAV_Club_Daily_RSS&utm_me=
+dium=3Demail&utm_campaign=3D2020-12-29]
+Phoebe Robinson, Tiffany Haddish, and more very funny women read 2020 for f=
+ilth in the trailer for <i>Yearly Departed</i> [https://news.avclub.com/pho=
+ebe-robinson-tiffany-haddish-and-more-very-funny-w-1845879014?utm_source=3D=
+AV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+2020 is the year that just keeps on giving shit we wish we could send back.=
+ To help us make it through the end of this hell-year, both Amazon and Netf=
+lix are offering comedy specials to roast 2020 into oblivion. For Netflix, =
+Black Mirror=E2=80=99s Charlie Brooker has assembled an ensemble of stars f=
+or mocku=E2=80=A6
+
+AVCLUB VIDEO
+
+Whoopi Goldberg and the cast of <i>The Stand</i> on bringing new textures t=
+o Stephen King&#39;s beloved epic [https://tv.avclub.com/whoopi-goldberg-an=
+d-the-cast-of-the-stand-on-bringing-n-1845852010?utm_source=3DAV_Club_Daily=
+_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+
+An iconic gag: <i>Drag Race</i> season 13&#39;s queens on everything from <=
+i>Chromatica</i> to COVID [https://tv.avclub.com/an-iconic-gag-drag-race-se=
+ason-13s-queens-on-everythin-1845930451?utm_source=3DAV_Club_Daily_RSS&utm_=
+medium=3Demail&utm_campaign=3D2020-12-29]
+
+Jamie Foxx on what it means to voice the first black protagonist of a Pixar=
+ movie [https://film.avclub.com/jamie-foxx-on-what-it-means-to-voice-the-fi=
+rst-black-pr-1845897219?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&u=
+tm_campaign=3D2020-12-29]
+
+YOU MAY ALSO LIKE
+
+Gizmodo [https://gizmodo.com?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Dem=
+ail&utm_campaign=3D2020-12-29]
+Gal Gadot=E2=80=99s Wonder Woman Is a Trash Friend [https://io9.gizmodo.com=
+/gal-gadot-s-wonder-woman-is-a-trash-friend-1845956154?utm_source=3DAV_Club=
+_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+Wonder Woman is supposed to be the best of women. This isn=E2=80=99t me sta=
+rry-eyed about a fictional character and forcing her to be a defender and i=
+con. William Moulton Marston created her to be the best of women. The chara=
+cter, besides being heavily rooted in Marston=E2=80=99s love of bondage, wa=
+s also rooted in=E2=80=A6
+
+Gizmodo [https://gizmodo.com?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Dem=
+ail&utm_campaign=3D2020-12-29]
+Coinbase Leaves Ripple to Twist in the Wind [https://gizmodo.com/coinbase-l=
+eaves-ripple-to-twist-in-the-wind-1845961363?utm_source=3DAV_Club_Daily_RSS=
+&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+Ripple=E2=80=99s rough few days just got way worse. After the fintech compa=
+ny was the subject of an SEC lawsuit over its flagship XRP token last week,=
+ Coinbase announced in a Tuesday blog post that trades of Ripple would be s=
+uspended on its platform.
+
+Lifehacker [https://lifehacker.com?utm_source=3DAV_Club_Daily_RSS&utm_mediu=
+m=3Demail&utm_campaign=3D2020-12-29]
+7 Unexpected Things to Make in Your New Instant Pot [https://skillet.lifeha=
+cker.com/7-unexpected-things-to-make-in-your-new-instant-pot-1845958274?utm=
+_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+If you didn=E2=80=99t get an Instant Pot as a gift this holiday season, it=
+=E2=80=99s probably because you already have one (or you because you don=E2=
+=80=99t cook that much and didn=E2=80=99t ask for one). The tabletop pressu=
+re cooker has been quite popular for several years now, which means the int=
+ernet is full of related recipes,=E2=80=A6
+
+Gizmodo [https://gizmodo.com?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Dem=
+ail&utm_campaign=3D2020-12-29]
+You Think Covid-19 Is Bad? [https://gizmodo.com/you-think-covid-19-is-bad-1=
+845961878?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D=
+2020-12-29]
+Experts with the World Health Organization issued a somber warning on Monda=
+y: The next pandemic to strike humanity could be even more devastating than=
+ covid-19 has been, especially if we don=E2=80=99t learn our lessons this t=
+ime around.
+
+You made it to the end. Thanks for reading our newsletter! Visit The A.V. C=
+lub [https://www.avclub.com]
+
+Terms of Use [https://g-omedia.com/terms-of-service?utm_source=3DAV_Club_Da=
+ily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+Privacy Policy [https://g-omedia.com/privacy-policy?utm_source=3DAV_Club_Da=
+ily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+Unsubscribe [https://www.avclub.com/newsletter/unsubscribe?subscriptionToke=
+n=3Dfa58543a3a800c65e532a98b348537f21cdfece6-101787&utm_source=3DAV_Club_Da=
+ily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29]
+
+1540 Broadway - 27th Floor
+New York, NY 10036
+=C2=A9 2020 G/O Media
+
+------=_Part_10455247_100531314.1609283579523
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html><html lang=3D"en"><head>
+=09=09<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf=
+-8" />
+=09=09<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scal=
+e=3D1.0" />
+=09=09<!--[if gte mso 15]>
+=09=09=09<xml>
+=09=09=09<o:OfficeDocumentSettings>
+=09=09=09<o:AllowPNG />
+=09=09=09<o:PixelsPerInch>96</o:PixelsPerInch>
+=09=09=09</o:OfficeDocumentSettings>
+=09=09=09</xml>
+=09=09<![endif]-->
+=09=09<title>The A.V. Club December 29, 2020</title>
+=09=09<style type=3D"text/css">
+=09=09=09/***********
+=09=09=09Originally based on The MailChimp Reset from Fabio Carneiro, MailC=
+himp User Experience Design
+=09=09=09More info and templates on Github: https://github.com/mailchimp/Em=
+ail-Blueprints
+=09=09=09http://www.mailchimp.com & http://www.fabio-carneiro.com
+=09=09=09INLINE: Yes.
+=09=09=09***********/
+=09=09=09/* Client-specific Styles */
+=09=09=09#outlook a {
+=09=09=09=09padding: 0;
+=09=09=09}
+=09=09=09/* Force Outlook to provide a "view in browser" menu link. */
+=09=09=09body {
+=09=09=09=09width: 100% !important;
+=09=09=09=09-webkit-text-size-adjust: 100%;
+=09=09=09=09-ms-text-size-adjust: 100%;
+=09=09=09=09margin: 0;
+=09=09=09=09padding: 0;
+=09=09=09=09margin-bottom: 100px;
+=09=09=09}
+=09=09=09/* Prevent Webkit and Windows Mobile platforms from changing defau=
+lt font sizes, while not breaking desktop design. */
+=09=09=09.ExternalClass {
+=09=09=09=09width: 100%;
+=09=09=09}
+=09=09=09/* Force Hotmail to display emails at full width */
+=09=09=09.ExternalClass,
+=09=09=09.ExternalClass p,
+=09=09=09.ExternalClass span,
+=09=09=09.ExternalClass font,
+=09=09=09.ExternalClass td,
+=09=09=09.ExternalClass div {
+=09=09=09=09line-height: 100%;
+=09=09=09}
+=09=09=09/* Force Hotmail to display normal line spacing.  More on that: ht=
+tp://www.emailonacid.com/forum/viewthread/43/ */
+=09=09=09#backgroundTable {
+=09=09=09=09margin: 0;
+=09=09=09=09padding: 0;
+=09=09=09=09width: 100% !important;
+=09=09=09=09line-height: 100% !important;
+=09=09=09}
+=09=09=09/* End reset */
+=09=09=09/* Some sensible defaults for images
+=09=09=091. "-ms-interpolation-mode: bicubic" works to help ie properly res=
+ize images in IE. (if you are resizing them using the width and height attr=
+ibutes)
+=09=09=092. "border:none" removes border when linking images.
+=09=09=093. Updated the common Gmail/Hotmail image display fix: Gmail and H=
+otmail unwantedly adds in an extra space below images when using non IE bro=
+wsers.=20
+=09=09=09You may not always want all of your images to be block elements. A=
+pply the "image_fix" class to any image you need to fix.
+=09=09=09Bring inline: Yes.
+=09=09=09*/
+=09=09=09img {
+=09=09=09=09outline: none;
+=09=09=09=09text-decoration: none;
+=09=09=09=09-ms-interpolation-mode: bicubic;
+=09=09=09}
+=09=09=09a img {
+=09=09=09=09border: none;
+=09=09=09}
+=09=09=09.image_fix {
+=09=09=09=09display: block;
+=09=09=09}
+=09=09=09/** Yahoo paragraph fix: removes the proper spacing or the paragra=
+ph (p) tag. To correct we set the top/bottom margin to=20
+=09=09=091em in the head of the document. Simple fix with little effect on =
+other styling. NOTE: It is also common to use two breaks=20
+=09=09=09instead of the paragraph tag but I think this way is cleaner and m=
+ore semantic. NOTE: This example recommends 1em. More info=20
+=09=09=09on setting web defaults: http://www.w3.org/TR/CSS21/sample.html or=
+ http://meiert.com/en/blog/20070922/user-agent-style-sheets/
+=09=09=09Bring inline: Yes.
+=09=09=09**/
+=09=09=09p {
+=09=09=09=09margin: 1em 0;
+=09=09=09}
+=09=09=09/** Hotmail header color reset: Hotmail replaces your header color=
+ styles with a green color on H2, H3, H4, H5, and H6 tags.=20
+=09=09=09In this example, the color is reset to black for a non-linked head=
+er, blue for a linked header, red for an active header=20
+=09=09=09(limited support), and purple for a visited header (limited suppor=
+t).  Replace with your choice of color. The !important is really=20
+=09=09=09what is overriding Hotmail's styling. Hotmail also sets the H1 and=
+ H2 tags to the same size.
+=09=09=09Bring inline: Yes.
+=09=09=09**/
+=09=09=09h1,
+=09=09=09h2,
+=09=09=09h3,
+=09=09=09h4,
+=09=09=09h5,
+=09=09=09h6 {
+=09=09=09=09color: #222 !important;
+=09=09=09}
+=09=09=09h1 a,
+=09=09=09h2 a,
+=09=09=09h3 a,
+=09=09=09h4 a,
+=09=09=09h5 a,
+=09=09=09h6 a {
+=09=09=09=09color: #222 !important;
+=09=09=09}
+=09=09=09h1 a:active,
+=09=09=09h2 a:active,
+=09=09=09h3 a:active,
+=09=09=09h4 a:active,
+=09=09=09h5 a:active,
+=09=09=09h6 a:active {
+=09=09=09=09color: #222 !important;
+=09=09=09=09/* Preferably not the same color as the normal header link colo=
+r.  There is limited support for psuedo classes in email clients,=20
+=09=09=09=09this was added just for good measure. */
+=09=09=09}
+=09=09=09h1 a:visited,
+=09=09=09h2 a:visited,
+=09=09=09h3 a:visited,
+=09=09=09h4 a:visited,
+=09=09=09h5 a:visited,
+=09=09=09h6 a:visited {
+=09=09=09=09color: #222 !important;
+=09=09=09=09/* Preferably not the same color as the normal header link colo=
+r. There is limited support for psuedo classes in email clients,=20
+=09=09=09=09this was added just for good measure. */
+=09=09=09}
+=09=09=09/** Outlook 07, 10 Padding issue: These "newer" versions of Outloo=
+k add some padding around table cells potentially throwing off your=20
+=09=09=09perfectly pixeled table.  The issue can cause added space and also=
+ throw off borders completely.  Use this fix in your header or inline
+=09=09=09to safely fix your table woes.
+=09=09=09More info: http://www.ianhoar.com/2008/04/29/outlook-2007-borders-=
+and-1px-padding-on-table-cells/
+=09=09=09http://www.campaignmonitor.com/blog/post/3392/1px-borders-padding-=
+on-table-cells-in-outlook-07/
+=09=09=09H/T @edmelly
+=09=09=09Bring inline: No.
+=09=09=09**/
+=09=09=09table td {
+=09=09=09=09border-collapse: collapse;
+=09=09=09}
+=09=09=09/** Remove spacing around Outlook 07, 10 tables
+=09=09=09More info : http://www.campaignmonitor.com/blog/post/3694/removing=
+-spacing-from-around-tables-in-outlook-2007-and-2010/
+=09=09=09Bring inline: Yes
+=09=09=09**/
+=09=09=09table {
+=09=09=09=09// border-collapse: collapse; // @kinja - I'm deactivating this=
+ because it prevents padding from being applied
+=09=09=09=09mso-table-lspace: 0pt;
+=09=09=09=09mso-table-rspace: 0pt;
+=09=09=09}
+=09=09=09/* Styling your links has become much simpler with the new Yahoo. =
+ In fact, it falls in line with the main credo of styling in email,=20
+=09=09=09bring your styles inline. Your link colors will be uniform across =
+clients when brought inline.
+=09=09=09Bring inline: Yes. */
+=09=09=09a {
+=09=09=09=09color: #222;
+=09=09=09}
+=09=09=09/* Or to go the gold star route...
+=09=09=09a:link { color: #222; }
+=09=09=09a:visited { color: #222; }
+=09=09=09a:hover { color: #222; }
+=09=09=09*/
+=09=09=09/* %%[ if false then ]%% */
+=09=09=09.hide-pre-render {
+=09=09=09=09display: none !important;
+=09=09=09}
+=09=09=09/* %%[ endif ]%% */
+=09=09=09/***************************************************
+=09=09=09****************************************************
+=09=09=09MOBILE TARGETING
+=09=09=09Use @media queries with care.  You should not bring these styles i=
+nline -- so it's recommended to apply them AFTER you bring the other stlyin=
+g=20
+=09=09=09inline.
+=09=09=09Note: test carefully with Yahoo.
+=09=09=09Note 2: Don't bring anything below this line inline.
+=09=09=09****************************************************
+=09=09=09***************************************************/
+=09=09=09/* NOTE: To properly use @media queries and play nice with yahoo m=
+ail, use attribute selectors in place of class, id declarations.
+=09=09=09table[class=3Dclassname]
+=09=09=09Read more: http://www.campaignmonitor.com/blog/post/3457/media-que=
+ry-issues-in-yahoo-mail-mobile-email/
+=09=09=09*/
+=09=09=09@media screen and (max-width: 480px) {
+=09=09=09=09/* A nice and clean way to target phone numbers you want clicka=
+ble and avoid a mobile phone from linking other numbers that look like,=20
+=09=09=09=09but are not phone numbers.  Use these two blocks of code to "un=
+style" any numbers that may be linked.  The second block gives you a class =
+to=20
+=09=09=09=09apply with a span tag to the numbers you would like linked and =
+styled.
+=09=09=09=09Inspired by Campaign Monitor's article on using phone numbers i=
+n email:=20
+=09=09=09=09http://www.campaignmonitor.com/blog/post/3571/using-phone-numbe=
+rs-in-html-email/.
+=09=09=09=09Step 1 (Step 2: line 224)
+=09=09=09=09*/
+=09=09=09=09body,
+=09=09=09=09#backgroundTable {
+=09=09=09=09=09background-color: #ffffff !important;
+=09=09=09=09}
+=09=09=09=09body>table>tbody>tr>td {
+=09=09=09=09=09padding-top: 0 !important;
+=09=09=09=09}
+=09=09=09=09a[href^=3D"tel"],
+=09=09=09=09a[href^=3D"sms"] {
+=09=09=09=09=09text-decoration: none;
+=09=09=09=09=09color: black;
+=09=09=09=09=09/* or whatever your want */
+=09=09=09=09=09pointer-events: none;
+=09=09=09=09=09cursor: default;
+=09=09=09=09}
+=09=09=09}
+=09=09</style>
+=09</head><body style=3D"margin-top:0;margin-right:0;margin-bottom:0;margin=
+-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;font-=
+family:HelveticaNeue,Helvetica,sans-serif;color:#222"><table style=3D"width=
+:100%;padding-top:42px;padding-bottom:42px;background-color:#f5f5f5" cellPa=
+dding=3D"0" cellSpacing=3D"0"><tr><td><table align=3D"center" style=3D"marg=
+in-left:auto;margin-right:auto;max-width:540px;background-color:#fff" cellP=
+adding=3D"0" cellSpacing=3D"0"><tr><td><div style=3D"display:none!important=
+;visibility:hidden;font-size:1px;color:#f5f5f5;line-height:1px;max-height:0=
+px;max-width:0px;opacity:0;overflow:hidden">Here=E2=80=99s what=E2=80=99s h=
+appening in the world of television for Tuesday, December 29. All times are=
+ Eastern.
+...</div></td></tr><tr><td><div style=3D"display:none;max-height:0;overflow=
+:hidden">&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;=
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zw=
+nj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;</div></t=
+d></tr><tr><td><table style=3D"width:100%;border-spacing:0;padding-right:16=
+px;padding-bottom:16px;padding-left:16px;color:#fff;font-size:20px;border-t=
+op:5px solid #9408A3;text-align:center" cellPadding=3D"0" cellSpacing=3D"0"=
+><tr><td style=3D"padding-top:39px;padding-right:0;padding-bottom:0;padding=
+-left:0;text-align:center" colSpan=3D"2"><a href=3D"https://r.g-omedia.com/=
+CL0/https:%2F%2Fwww.avclub.com%2F%3Futm_source=3DAV_Club_Daily_RSS%26utm_me=
+dium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4=
+491-b49e-ffa9e1f4ee43-000000/oe0UYLOzJhEL_T76EaNeZFgRGtpUkrUgUGqLu5zK4QE=3D=
+173" target=3D"_blank" rel=3D"noopener noreferrer"><img src=3D"https://x.ki=
+nja-static.com/assets/images/newsletter/avclub/Logo.png" style=3D"width:112=
+.5px;vertical-align:middle" border=3D"0"/></a></td></tr><tr><td style=3D"te=
+xt-align:center;color:gray;font-family:&#x27;Helvetica Neue&#x27;,Helvetica=
+,Arial,sans-serif;font-style:italic;padding-top:8px;padding-bottom:28px;fon=
+t-size:15px" colSpan=3D"2">Pop culture obsessives writing for the pop cultu=
+re obsessed.</td></tr><tr><td style=3D"padding-top:0;padding-right:0;paddin=
+g-bottom:0;padding-left:0;color:gray;font-size:12px;text-align:left;text-tr=
+ansform:uppercase;font-family:&#x27;ProximaNovaCond&#x27;, sans-serif;lette=
+r-spacing:1px">Tuesday, December 29, 2020</td><td style=3D"padding-top:0;pa=
+dding-right:0;padding-bottom:0;padding-left:0;color:gray;font-size:12px;tex=
+t-align:right;text-transform:uppercase;font-family:&#x27;ProximaNovaCond&#x=
+27;, sans-serif;letter-spacing:1px;text-decoration:none"></td></tr></table>=
+</td></tr><tr><td style=3D"padding-left:10px;padding-right:10px"><a href=3D=
+"https://r.g-omedia.com/CL0/https:%2F%2Ftv.avclub.com%2Fa-teacher-departs-1=
+845935733%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campa=
+ign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-00=
+0000/GNekMKFFH9CZcUCT8MhuC4q9C8kSg5LbUOtbKW2qQjE=3D173" target=3D"_blank" r=
+el=3D"noopener noreferrer"><img src=3D"https://i.kinja-img.com/gawker-media=
+/image/upload/c_fill,fl_progressive,g_center,h_264,q_80,w_470/ewt2mrfaoc5l2=
+0paunxr.jpg?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=
+=3D2020-12-29" style=3D"width:100%;height:auto;margin-top:0;margin-right:0;=
+margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;padding-bottom:=
+0;padding-left:0;text-align:center;outline-style:none;text-decoration:none;=
+border-style:none"/></a></td></tr><tr><td><a href=3D"https://r.g-omedia.com=
+/CL0/https:%2F%2Fwww.avclub.com%2Fc%2Fwhats-on-tonight%3Futm_source=3DAV_Cl=
+ub_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c=
+6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/ahjlsMxTAGx7PBYj5388BS6V0=
+l-7Y6LoWSFNT5V7ZJE=3D173" style=3D"text-decoration:none" target=3D"_blank" =
+rel=3D"noopener noreferrer"><div style=3D"font-size:12px;line-height:17px;b=
+ackground-color:#9408A3;text-transform:uppercase;text-decoration:none;font-=
+family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-style:nor=
+mal;font-variant:normal;color:white;margin-left:10px;padding:2px 10px 2px 1=
+0px;height:16px;width:fit-content;text-align:center;margin-top:10px">What's=
+ On Tonight</div></a></td></tr><tr><td><a href=3D"https://r.g-omedia.com/CL=
+0/https:%2F%2Ftv.avclub.com%2Fa-teacher-departs-1845935733%3Futm_source=3DA=
+V_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/2/0100017=
+6b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/5xmyj_77LxfeMTm5JC_Pz=
+gEVGAADMDogC7Vure4pqbI=3D173" style=3D"text-decoration:none" target=3D"_bla=
+nk" rel=3D"noopener noreferrer"><h1 style=3D"margin-right:10px;margin-left:=
+10px;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;color:#2=
+22;font-size:21px;font-style:normal;font-variant:normal;font-weight:normal;=
+text-decoration:none;line-height:1.3;font-family:&#x27;Helvetica Neue&#x27;=
+,Helvetica,Arial,sans-serif"><i>A Teacher</i> departs</h1></a></td></tr><tr=
+><td style=3D"border-bottom:1px solid;height:2px;width:100%;border-color:#e=
+5e5e5"></td></tr><tr><td><table style=3D"padding-left:10px;padding-right:10=
+px;padding-top:10px;padding-bottom:10px"><tr><td style=3D"width:50%;padding=
+-top:10px;padding-bottom:10px;padding-right:10px;border-bottom-width:1px;bo=
+rder-bottom-style:solid;border-color:#e5e5e5;min-height:270px;vertical-alig=
+n:text-top"><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Fnews.avclub.c=
+om%2Fsteven-soderbergh-is-working-on-a-philosophical-seque-1845962194%3Futm=
+_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-2=
+9/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/nRse98XpH4=
+YKcAWlghjrnbzca-4okvBqS2fR2BU-Yuw=3D173" target=3D"_blank" rel=3D"noopener =
+noreferrer"><img src=3D"https://i.kinja-img.com/gawker-media/image/upload/c=
+_fill,f_auto,fl_progressive,g_center,h_180,q_80,w_320/nvgjx0xdzuvm4tpzyh4d.=
+png?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-1=
+2-29" style=3D"width:100%;height:auto;margin-top:0;margin-right:0;margin-bo=
+ttom:0;margin-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding=
+-left:0;text-align:center;outline-style:none;text-decoration:none;border-st=
+yle:none"/></a><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Fwww.avclub=
+.com%2Fc%2Fnewswire%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%2=
+6utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e=
+1f4ee43-000000/mtiB3W8PFgOXfZy9GYvq3MWqKUpfzOH79gpaZYW9s74=3D173" style=3D"=
+text-decoration:none" target=3D"_blank" rel=3D"noopener noreferrer"><div st=
+yle=3D"font-size:12px;color:#9408A3;text-transform:uppercase;text-decoratio=
+n:none;font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;fo=
+nt-style:normal;font-variant:normal;font-weight:bold;padding-top:5px;paddin=
+g-bottom:5px">Newswire</div></a><a href=3D"https://r.g-omedia.com/CL0/https=
+:%2F%2Fnews.avclub.com%2Fsteven-soderbergh-is-working-on-a-philosophical-se=
+que-1845962194%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_=
+campaign=3D2020-12-29/2/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee=
+43-000000/sEXp18bpCjohTMu7SHZYfSXDnKWirt4qkNbSqMstWhc=3D173" style=3D"text-=
+decoration:none" target=3D"_blank" rel=3D"noopener noreferrer"><h2 style=3D=
+"margin-top:5px;margin-right:0;margin-bottom:0;margin-left:0;color:#222;fon=
+t-size:14px;font-style:normal;font-variant:normal;text-decoration:none;line=
+-height:1.4;font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-ser=
+if;font-weight:normal">Steven Soderbergh is working on a "philosophical" se=
+quel to <i>Contagion</i></h2></a></td><td style=3D"width:50%;padding-top:10=
+px;padding-bottom:10px;padding-right:0px;border-bottom-width:1px;border-bot=
+tom-style:solid;border-color:#e5e5e5;min-height:270px;vertical-align:text-t=
+op;border-left:1px solid;border-left-color:#e5e5e5;padding-left:10px"><a hr=
+ef=3D"https://r.g-omedia.com/CL0/https:%2F%2Ffilm.avclub.com%2Fandrea-riseb=
+orough-on-studio-sexism-in-oblivion-and-bei-1845897639%3Futm_source=3DAV_Cl=
+ub_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c=
+6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/w09YjyBMl9762hNRLvsJjX5ru=
+CBPRhLvns2wVQvuWzI=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><im=
+g src=3D"https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl=
+_progressive,g_center,h_180,q_80,w_320/wunixpkviaavoldswhn6.jpg?utm_source=
+=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29" style=3D=
+"width:100%;height:auto;margin-top:0;margin-right:0;margin-bottom:0;margin-=
+left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;text-a=
+lign:center;outline-style:none;text-decoration:none;border-style:none"/></a=
+><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Fwww.avclub.com%2Fc%2Fint=
+erview%2Frandom-roles%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail=
+%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa=
+9e1f4ee43-000000/S2BPftS-h3Iy2SqlYK5OfmlFN-TU8-WHyA21M3mFfys=3D173" style=
+=3D"text-decoration:none" target=3D"_blank" rel=3D"noopener noreferrer"><di=
+v style=3D"font-size:12px;color:#9408A3;text-transform:uppercase;text-decor=
+ation:none;font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-seri=
+f;font-style:normal;font-variant:normal;font-weight:bold;padding-top:5px;pa=
+dding-bottom:5px">Random Roles</div></a><a href=3D"https://r.g-omedia.com/C=
+L0/https:%2F%2Ffilm.avclub.com%2Fandrea-riseborough-on-studio-sexism-in-obl=
+ivion-and-bei-1845897639%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Dem=
+ail%26utm_campaign=3D2020-12-29/2/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-=
+ffa9e1f4ee43-000000/6iYiLVWZfZuKR9WLG0KDDVF96h63IXByMTER-gQjG3U=3D173" styl=
+e=3D"text-decoration:none" target=3D"_blank" rel=3D"noopener noreferrer"><h=
+2 style=3D"margin-top:5px;margin-right:0;margin-bottom:0;margin-left:0;colo=
+r:#222;font-size:14px;font-style:normal;font-variant:normal;text-decoration=
+:none;line-height:1.4;font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Aria=
+l,sans-serif;font-weight:normal">Andrea Riseborough on studio sexism in <i>=
+Oblivion</i> and being at home in <i>Birdman</i></h2></a></td></tr><tr><td =
+style=3D"width:50%;padding-top:10px;padding-bottom:10px;padding-right:10px;=
+border-bottom-width:0;border-bottom-style:solid;border-color:#e5e5e5;min-he=
+ight:270px;vertical-align:text-top"><a href=3D"https://r.g-omedia.com/CL0/h=
+ttps:%2F%2Ftv.avclub.com%2Fan-improved-second-season-of-his-dark-materials-=
+stumble-1845958557%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26=
+utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1=
+f4ee43-000000/-yPUKvTU1LxNgl9ZAW_1a4yk7cRSPTGz2DAYe71t_QI=3D173" target=3D"=
+_blank" rel=3D"noopener noreferrer"><img src=3D"https://i.kinja-img.com/gaw=
+ker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_180,q_80,w_3=
+20/fewp2kbaxo9giak3xg96.jpg?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Dema=
+il&utm_campaign=3D2020-12-29" style=3D"width:100%;height:auto;margin-top:0;=
+margin-right:0;margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;=
+padding-bottom:0;padding-left:0;text-align:center;outline-style:none;text-d=
+ecoration:none;border-style:none"/></a><a href=3D"https://r.g-omedia.com/CL=
+0/https:%2F%2Fwww.avclub.com%2Fc%2Ftv-review%2Fhis-dark-materials%2Fseason-=
+2%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D20=
+20-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/cXQ=
+JbeIqEiOHRTdBwCr1P0tzFn4GIOaQ6dtk8jEj9GY=3D173" style=3D"text-decoration:no=
+ne" target=3D"_blank" rel=3D"noopener noreferrer"><div style=3D"font-size:1=
+2px;color:#9408A3;text-transform:uppercase;text-decoration:none;font-family=
+:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-style:normal;fo=
+nt-variant:normal;font-weight:bold;padding-top:5px;padding-bottom:5px">Seas=
+on 2</div></a><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Ftv.avclub.c=
+om%2Fan-improved-second-season-of-his-dark-materials-stumble-1845958557%3Fu=
+tm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12=
+-29/2/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/7IvwIpfp=
+_Muq3ohdOhoj6TkoXW1nX1co5uymzgIPYBE=3D173" style=3D"text-decoration:none" t=
+arget=3D"_blank" rel=3D"noopener noreferrer"><h2 style=3D"margin-top:5px;ma=
+rgin-right:0;margin-bottom:0;margin-left:0;color:#222;font-size:14px;font-s=
+tyle:normal;font-variant:normal;text-decoration:none;line-height:1.4;font-f=
+amily:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-weight:nor=
+mal">An improved second season of <i>His Dark Materials </i>stumbles a bit =
+at the finish line</h2></a></td><td style=3D"width:50%;padding-top:10px;pad=
+ding-bottom:10px;padding-right:0px;border-bottom-width:0;border-bottom-styl=
+e:solid;border-color:#e5e5e5;min-height:270px;vertical-align:text-top;borde=
+r-left:1px solid;border-left-color:#e5e5e5;padding-left:10px"><a href=3D"ht=
+tps://r.g-omedia.com/CL0/https:%2F%2Ftv.avclub.com%2Fbridgertons-jonathan-b=
+ailey-on-the-challenges-of-being-1845930025%3Futm_source=3DAV_Club_Daily_RS=
+S%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3=
+f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/Mt0Suduy5kurmg78MCjzN21Z4MOQ0jA6dQmC=
+x7sed2s=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><img src=3D"ht=
+tps://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressiv=
+e,g_center,h_180,q_80,w_320/cujpimicn3zu8vk859js.jpg?utm_source=3DAV_Club_D=
+aily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29" style=3D"width:100%;=
+height:auto;margin-top:0;margin-right:0;margin-bottom:0;margin-left:0;paddi=
+ng-top:0;padding-right:0;padding-bottom:0;padding-left:0;text-align:center;=
+outline-style:none;text-decoration:none;border-style:none"/></a><a href=3D"=
+https://r.g-omedia.com/CL0/https:%2F%2Fwww.avclub.com%2Fc%2Fvideo%2Fintervi=
+ew%2F2021%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campa=
+ign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-00=
+0000/6hyIeclfcFHt-QwXyBBSHsCmOON8TjDYIJaCP5k9HRM=3D173" style=3D"text-decor=
+ation:none" target=3D"_blank" rel=3D"noopener noreferrer"><div style=3D"fon=
+t-size:12px;color:#9408A3;text-transform:uppercase;text-decoration:none;fon=
+t-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-style:n=
+ormal;font-variant:normal;font-weight:bold;padding-top:5px;padding-bottom:5=
+px">2021</div></a><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Ftv.avcl=
+ub.com%2Fbridgertons-jonathan-bailey-on-the-challenges-of-being-1845930025%=
+3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020=
+-12-29/2/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/FBxwv=
+E01MzDChixUUfPupHmNph8hAXL5EbgZ5fbI5pA=3D173" style=3D"text-decoration:none=
+" target=3D"_blank" rel=3D"noopener noreferrer"><h2 style=3D"margin-top:5px=
+;margin-right:0;margin-bottom:0;margin-left:0;color:#222;font-size:14px;fon=
+t-style:normal;font-variant:normal;text-decoration:none;line-height:1.4;fon=
+t-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-weight:=
+normal"><i>Bridgerton</i>'s Jonathan Bailey on the challenges of being an e=
+ldest son</h2></a></td></tr></table></td></tr><tr style=3D"background-color=
+:#e5e5e5;height:292px;width:100%;margin-left:auto;margin-right:auto;text-al=
+ign:center"><td><p style=3D"font-size:12px;color:grey">G/O Media might get =
+a commision</p><div href=3D"https://www.radpowerbikes.com/products/radrover=
+-step-thru?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=
+=3D2020-12-29" style=3D"width:300px;background-color:white;border:1px solid=
+ #72ad75;margin-left:auto;margin-right:auto;padding:10px"><a href=3D"https:=
+//r.g-omedia.com/CL0/https:%2F%2Fwww.radpowerbikes.com%2Fproducts%2Fradrove=
+r-step-thru%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_cam=
+paign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-=
+000000/CAMvQYloNXwd6YcWWEkR0Gztwh5ykAXrEASlCqIwni4=3D173" style=3D"text-dec=
+oration:none;color:black"><img src=3D"https://i.kinja-img.com/gawker-media/=
+image/upload/c_fill,f_auto,fl_progressive,g_center,h_180,q_80,w_320/ipsxej7=
+mzbpitp8lni3t.jpg?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_cam=
+paign=3D2020-12-29" style=3D"width:220px"/><br/><span style=3D"font-weight:=
+bold;color:black">RadRover Step-Thru 1</span><br/><div style=3D"background-=
+color:#72ad75;color:white;padding:10px;font-size:12px;width:200px;margin-le=
+ft:auto;margin-right:auto;margin-top:10px;border-radius:5px">Buy for $1599 =
+from Rad Power Bikes</div><span style=3D"font-size:12px"></span></a></div><=
+/td></tr><tr><td style=3D"padding-top:28px;padding-bottom:16px;padding-left=
+:10px;padding-right:10px;vertical-align:text-top"><a href=3D"https://r.g-om=
+edia.com/CL0/https:%2F%2Fnews.avclub.com%2Fa-shomer-gets-supernatural-in-th=
+e-teaser-for-ifcs-the-v-1845851015%3Futm_source=3DAV_Club_Daily_RSS%26utm_m=
+edium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-=
+4491-b49e-ffa9e1f4ee43-000000/A21xhAb9hchjWkjNCZRoN6-Wfo8tzwqnRUhFq5o4CdQ=
+=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><img src=3D"https://i=
+.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_cen=
+ter,h_180,q_80,w_320/a56t9wi53adqbsgw2nlb.jpg?utm_source=3DAV_Club_Daily_RS=
+S&utm_medium=3Demail&utm_campaign=3D2020-12-29" style=3D"width:130px;height=
+:74px;margin-top:0;margin-right:0;margin-bottom:0;margin-left:0;padding-top=
+:0;padding-right:0;padding-bottom:0;padding-left:0;text-align:center;outlin=
+e-style:none;text-decoration:none;border-style:none;float:left"/></a><a hre=
+f=3D"https://r.g-omedia.com/CL0/https:%2F%2Fwww.avclub.com%2Fc%2Fclips%3Fut=
+m_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-=
+29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/CANrSmsRi=
+-F6SGmCd0ty2PW60gB0U2cnn_jrn5fc2Qs=3D173" style=3D"text-decoration:none" ta=
+rget=3D"_blank" rel=3D"noopener noreferrer"><div style=3D"font-size:12px;ba=
+ckground-color:#9408A3;text-transform:uppercase;text-decoration:none;font-f=
+amily:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-style:norm=
+al;font-variant:normal;color:white;margin-left:140px;padding:2px 10px 2px 1=
+0px;width:fit-content;text-align:center">Clips</div></a><p style=3D"margin-=
+top:5px;margin-left:140px"><a href=3D"https://r.g-omedia.com/CL0/https:%2F%=
+2Fnews.avclub.com%2Fa-shomer-gets-supernatural-in-the-teaser-for-ifcs-the-v=
+-1845851015%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_cam=
+paign=3D2020-12-29/2/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-=
+000000/B4HSaR5Ldr2ZJe2eLGrA56WU2vVg-loQzL4nGJDvWMk=3D173" style=3D"text-dec=
+oration:none;font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-se=
+rif;font-size:14px;color:black" target=3D"_blank" rel=3D"noopener noreferre=
+r"><span>A shomer gets supernatural in the teaser for IFC's <i>The Vigil</i=
+></span></a></p></td></tr><tr><td style=3D"padding-top:16px;padding-bottom:=
+16px;padding-left:10px;padding-right:10px;vertical-align:text-top"><a href=
+=3D"https://r.g-omedia.com/CL0/https:%2F%2Fnews.avclub.com%2Fnetflixs-corse=
+t-clad-pearl-clutching-bridgerton-gets-a-1845877360%3Futm_source=3DAV_Club_=
+Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b2=
+37-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/09HtpuA-pGJRYMQ-9K_Z-qR5n1CT=
+vMAjzttLutIjjdA=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><img s=
+rc=3D"https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_pr=
+ogressive,g_center,h_180,q_80,w_320/kpuk2xgf1ci4uvbpcjjb.jpg?utm_source=3DA=
+V_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29" style=3D"wid=
+th:130px;height:74px;margin-top:0;margin-right:0;margin-bottom:0;margin-lef=
+t:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;text-alig=
+n:center;outline-style:none;text-decoration:none;border-style:none;float:le=
+ft"/></a><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Fwww.avclub.com%2=
+Fc%2Fclips%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_camp=
+aign=3D2020-12-29/2/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-0=
+00000/wBlhJ29_f8oPknAAx0QE7TfHVIZI1e3Teuw5mLAqGJs=3D173" style=3D"text-deco=
+ration:none" target=3D"_blank" rel=3D"noopener noreferrer"><div style=3D"fo=
+nt-size:12px;background-color:#9408A3;text-transform:uppercase;text-decorat=
+ion:none;font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;=
+font-style:normal;font-variant:normal;color:white;margin-left:140px;padding=
+:2px 10px 2px 10px;width:fit-content;text-align:center">Clips</div></a><p s=
+tyle=3D"margin-top:5px;margin-left:140px"><a href=3D"https://r.g-omedia.com=
+/CL0/https:%2F%2Fnews.avclub.com%2Fnetflixs-corset-clad-pearl-clutching-bri=
+dgerton-gets-a-1845877360%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3De=
+mail%26utm_campaign=3D2020-12-29/2/01000176b0c6b237-52ae3f4d-b45f-4491-b49e=
+-ffa9e1f4ee43-000000/imkhDsWMoXoipNJwRgqU4mipV9R7ecXMs8rsjQkJT4Q=3D173" sty=
+le=3D"text-decoration:none;font-family:&#x27;Helvetica Neue&#x27;,Helvetica=
+,Arial,sans-serif;font-size:14px;color:black" target=3D"_blank" rel=3D"noop=
+ener noreferrer"><span>Netflix's corset-clad, pearl-clutching <i>Bridgerton=
+</i> gets a steamy new trailer</span></a></p></td></tr><tr><td style=3D"pad=
+ding-top:16px;padding-bottom:28px;padding-left:10px;padding-right:10px;vert=
+ical-align:text-top"><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Ffilm=
+.avclub.com%2Fthe-moving-irish-family-drama-herself-puts-hardship-and-18459=
+16559%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=
+=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-00000=
+0/OZrMPcfBQ4HHzklsaQa_RQ62dc71g1-k1RE7HloS7Rk=3D173" target=3D"_blank" rel=
+=3D"noopener noreferrer"><img src=3D"https://i.kinja-img.com/gawker-media/i=
+mage/upload/c_fill,f_auto,fl_progressive,g_center,h_180,q_80,w_320/vpaotyho=
+ibpezra67clg.jpg?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_camp=
+aign=3D2020-12-29" style=3D"width:130px;height:74px;margin-top:0;margin-rig=
+ht:0;margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;padding-bo=
+ttom:0;padding-left:0;text-align:center;outline-style:none;text-decoration:=
+none;border-style:none;float:left"/></a><a href=3D"https://r.g-omedia.com/C=
+L0/https:%2F%2Fwww.avclub.com%2Fc%2Freview%2Fmovie-review%3Futm_source=3DAV=
+_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176=
+b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/JajmYfK2IN2_m6yVXiURXX=
+s0sUvvUCxBDm-i6ehtvO0=3D173" style=3D"text-decoration:none" target=3D"_blan=
+k" rel=3D"noopener noreferrer"><div style=3D"font-size:12px;background-colo=
+r:#9408A3;text-transform:uppercase;text-decoration:none;font-family:&#x27;H=
+elvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-style:normal;font-varia=
+nt:normal;color:white;margin-left:140px;padding:2px 10px 2px 10px;width:fit=
+-content;text-align:center">Movie Review</div></a><p style=3D"margin-top:5p=
+x;margin-left:140px"><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Ffilm=
+.avclub.com%2Fthe-moving-irish-family-drama-herself-puts-hardship-and-18459=
+16559%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=
+=3D2020-12-29/2/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-00000=
+0/ypENXAWEZ0CmJT19w1NlZFQwJMLgZE-qgUPJ8oydzAo=3D173" style=3D"text-decorati=
+on:none;font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;f=
+ont-size:14px;color:black" target=3D"_blank" rel=3D"noopener noreferrer"><s=
+pan>The moving Irish family drama<i> Herself </i>puts hardship and hope on =
+equal footing</span></a></p></td></tr><tr><td><table style=3D"width:100%;bo=
+rder-spacing:0;padding-right:10px;padding-bottom:24px;padding-top:24px;padd=
+ing-left:10px;color:#fff;font-size:20px;border-top:5px solid #9408A3;text-a=
+lign:center" cellPadding=3D"0" cellSpacing=3D"0"><tr><td style=3D"padding-r=
+ight:0;padding-bottom:0;padding-left:0;text-align:center"><a href=3D"https:=
+//r.g-omedia.com/CL0/https:%2F%2Fwww.avclub.com%2Fc%2Fvideo%3Futm_source=3D=
+AV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/010001=
+76b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/WHbkOnd7Y5Lyi25qYUNE=
+0XkQ9H1VXoeypB4rgd-9pws=3D173" target=3D"_blank" rel=3D"noopener noreferrer=
+"><img src=3D"https://x.kinja-static.com/assets/images/newsletter/avclub/Lo=
+go.png" style=3D"width:103.125px;vertical-align:middle" border=3D"0"/><span=
+ style=3D"font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif=
+;color:#1C263C;font-size:23px;display:inline-block;padding-left:6px;vertica=
+l-align:middle">VIDEO</span></a></td></tr></table></td></tr><tr><td style=
+=3D"padding-left:10px;padding-right:10px"><a href=3D"https://r.g-omedia.com=
+/CL0/https:%2F%2Ftv.avclub.com%2Fwhoopi-goldberg-and-the-cast-of-the-stand-=
+on-bringing-n-1845852010%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Dem=
+ail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-=
+ffa9e1f4ee43-000000/FqWIQ0wKRRZJXrLVEfhCmpY1VDR_lF7v-w9r8LUkPTs=3D173" targ=
+et=3D"_blank" rel=3D"noopener noreferrer"><img src=3D"https://i.kinja-img.c=
+om/gawker-media/image/upload/c_fill,fl_progressive,g_center,h_900,q_80,w_16=
+00/dc2oeymvbxn3uzit13wi.jpg?utm_source=3DAV_Club_Daily_RSS&utm_medium=3Dema=
+il&utm_campaign=3D2020-12-29" style=3D"width:100%;height:auto;margin-top:0;=
+margin-right:0;margin-bottom:0;margin-left:0;padding-top:0;padding-right:0;=
+padding-bottom:0;padding-left:0;text-align:center;outline-style:none;text-d=
+ecoration:none;border-style:none"/></a></td></tr><tr><td><a href=3D"https:/=
+/r.g-omedia.com/CL0/https:%2F%2Ftv.avclub.com%2Fwhoopi-goldberg-and-the-cas=
+t-of-the-stand-on-bringing-n-1845852010%3Futm_source=3DAV_Club_Daily_RSS%26=
+utm_medium=3Demail%26utm_campaign=3D2020-12-29/2/01000176b0c6b237-52ae3f4d-=
+b45f-4491-b49e-ffa9e1f4ee43-000000/LKlCPmeFXUVM5vW0yiIn-qqnAGO5_dXGeys29mth=
+hiU=3D173" style=3D"text-decoration:none" target=3D"_blank" rel=3D"noopener=
+ noreferrer"><h1 style=3D"margin-right:10px;margin-left:10px;padding-top:0;=
+padding-right:0;padding-bottom:0;padding-left:0;color:#222;font-size:21px;f=
+ont-style:normal;font-variant:normal;font-weight:normal;text-decoration:non=
+e;line-height:1.3;font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sa=
+ns-serif">Whoopi Goldberg and the cast of <i>The Stand</i> on bringing new =
+textures to Stephen King&#39;s beloved epic</h1></a></td></tr><tr><td><tabl=
+e style=3D"padding-left:10px;padding-right:10px;padding-top:10px;padding-bo=
+ttom:10px"><tr><td style=3D"padding-top:16px;padding-bottom:16px;padding-le=
+ft:8px;padding-right:8px;border-color:#e5e5e5;min-height:270px;vertical-ali=
+gn:text-top"><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Ftv.avclub.co=
+m%2Fan-iconic-gag-drag-race-season-13s-queens-on-everythin-1845930451%3Futm=
+_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-2=
+9/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/f6qhwveFcy=
+2hZYWQXcq70IPNKtRVH2bfGJ0Wd3wRmQI=3D173" target=3D"_blank" rel=3D"noopener =
+noreferrer"><img src=3D"https://i.kinja-img.com/gawker-media/image/upload/c=
+_fill,fl_progressive,g_center,h_900,q_80,w_1600/vnnyjqcs7veuoms6sz5q.png?ut=
+m_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29" =
+style=3D"width:100%;height:auto;margin-top:0;margin-right:0;margin-bottom:0=
+;margin-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left:=
+0;text-align:center;outline-style:none;text-decoration:none;border-style:no=
+ne"/></a><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Ftv.avclub.com%2F=
+an-iconic-gag-drag-race-season-13s-queens-on-everythin-1845930451%3Futm_sou=
+rce=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/2/=
+01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/tVFp2FxypGOgTN=
+1mDYaevJhAOOTgjHEsrGuyYRSnHIA=3D173" style=3D"text-decoration:none" target=
+=3D"_blank" rel=3D"noopener noreferrer"><h2 style=3D"margin-top:5px;margin-=
+right:0;margin-bottom:0;margin-left:0;color:#222;font-size:14px;font-style:=
+normal;font-variant:normal;text-decoration:none;line-height:1.4;font-family=
+:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-weight:normal">=
+An iconic gag: <i>Drag Race</i> season 13&#39;s queens on everything from <=
+i>Chromatica</i> to COVID</h2></a></td><td style=3D"padding-top:16px;paddin=
+g-bottom:16px;padding-left:10px;padding-right:0px;border-color:#e5e5e5;min-=
+height:270px;vertical-align:text-top;border-left:1px solid;border-left-colo=
+r:#e5e5e5"><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Ffilm.avclub.co=
+m%2Fjamie-foxx-on-what-it-means-to-voice-the-first-black-pr-1845897219%3Fut=
+m_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-=
+29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/IDSBYdRcM=
+KIhpLaCIkC_kL6UldvTexa-cy5fZZKbzVY=3D173" target=3D"_blank" rel=3D"noopener=
+ noreferrer"><img src=3D"https://i.kinja-img.com/gawker-media/image/upload/=
+c_fill,fl_progressive,g_center,h_900,q_80,w_1600/lrdpvfcamub3vvb36qef.jpg?u=
+tm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29"=
+ style=3D"width:100%;height:auto;margin-top:0;margin-right:0;margin-bottom:=
+0;margin-left:0;padding-top:0;padding-right:0;padding-bottom:0;padding-left=
+:0;text-align:center;outline-style:none;text-decoration:none;border-style:n=
+one"/></a><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Ffilm.avclub.com=
+%2Fjamie-foxx-on-what-it-means-to-voice-the-first-black-pr-1845897219%3Futm=
+_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-2=
+9/2/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/S_q3Exh9sX=
+pANrtBnQPGrPYxbmDYQ2npXrwJp3cYx2A=3D173" style=3D"text-decoration:none" tar=
+get=3D"_blank" rel=3D"noopener noreferrer"><h2 style=3D"margin-top:5px;marg=
+in-right:0;margin-bottom:0;margin-left:0;color:#222;font-size:14px;font-sty=
+le:normal;font-variant:normal;text-decoration:none;line-height:1.4;font-fam=
+ily:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-weight:norma=
+l">Jamie Foxx on what it means to voice the first black protagonist of a Pi=
+xar movie</h2></a></td></tr></table></td></tr><tr style=3D"background-color=
+:#e5e5e5;height:292px;width:100%;margin-left:auto;margin-right:auto;text-al=
+ign:center"><td><p style=3D"font-size:12px;color:grey">G/O Media might get =
+a commision</p><div href=3D"https://homedepot.sjv.io/c/379647/456723/8154?s=
+ubId1=3D-&u=3Dhttps://www.homedepot.com/p/Whirlpool-5-3-cu-ft-Smart-Chrome-=
+Shadow-Top-Load-Washing-Machine-with-Impeller-and-Load-and-Go-ENERGY-STAR-W=
+TW7120HC/312274173&utm_source=3DAV_Club_Daily_RSS&utm_medium=3Demail&utm_ca=
+mpaign=3D2020-12-29" style=3D"width:300px;background-color:white;border:1px=
+ solid #72ad75;margin-left:auto;margin-right:auto;padding:10px"><a href=3D"=
+https://r.g-omedia.com/CL0/https:%2F%2Fhomedepot.sjv.io%2Fc%2F379647%2F4567=
+23%2F8154%3FsubId1=3D-%26u=3Dhttps:%2F%2Fwww.homedepot.com%2Fp%2FWhirlpool-=
+5-3-cu-ft-Smart-Chrome-Shadow-Top-Load-Washing-Machine-with-Impeller-and-Lo=
+ad-and-Go-ENERGY-STAR-WTW7120HC%2F312274173%26utm_source=3DAV_Club_Daily_RS=
+S%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3=
+f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/QZS8I-VXNFulx7I1CwherdovOE9voifJIGoa=
+N5po8Nw=3D173" style=3D"text-decoration:none;color:black"><img src=3D"https=
+://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g=
+_center,h_180,q_80,w_320/ftcwkrtkmvikkimfdto7.jpg?utm_source=3DAV_Club_Dail=
+y_RSS&utm_medium=3Demail&utm_campaign=3D2020-12-29" style=3D"width:220px"/>=
+<br/><span style=3D"font-weight:bold;color:black">Whirlpool Smart Chrome Sh=
+adow Top Load Washing Machine</span><br/><div style=3D"background-color:#72=
+ad75;color:white;padding:10px;font-size:12px;width:200px;margin-left:auto;m=
+argin-right:auto;margin-top:10px;border-radius:5px">Buy for $1099 from The =
+Home Depot</div><span style=3D"font-size:12px"></span></a></div></td></tr><=
+tr><td style=3D"border-bottom:1px solid;height:2px;width:100%;border-color:=
+#e5e5e5"></td></tr><tr><td style=3D"padding-top:42px;padding-right:20px;pad=
+ding-bottom:16px;padding-left:20px;font-size:21px;line-height:21px;text-tra=
+nsform:uppercase;font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,san=
+s-serif">More from G/O Media</td></tr><tr><td><table style=3D"padding-left:=
+16px;padding-right:16px"><tr><td style=3D"padding-top:16px;padding-bottom:1=
+6px;padding-left:8px;padding-right:8px;min-height:270px;vertical-align:text=
+-top"><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Fgizmodo.com%3Futm_s=
+ource=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/=
+1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/aAGG0-v7caCt=
+U59H6FVqxGofp2IqGLcghXccde18ZqM=3D173" style=3D"color:#0075B2;text-decorati=
+on:none" target=3D"_blank" rel=3D"noopener noreferrer"><div><span style=3D"=
+color:gray;font-size:12px;font-style:normal;height:14px;line-height:14px;ma=
+rgin-right:4px;text-transform:uppercase;text-decoration:none;float:left;mar=
+gin-top:3px">Read On</span><img src=3D"https://x.kinja-static.com/assets/im=
+ages/newsletter/gizmodo/Logo.png" style=3D"width:112.5px;vertical-align:0%"=
+ border=3D"0"/></div></a><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2F=
+io9.gizmodo.com%2Fgal-gadot-s-wonder-woman-is-a-trash-friend-1845956154%3Fu=
+tm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12=
+-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/iuEN4tZy=
+6DoNPynyJI0OLm17lAv7fpuFZfWsQSJBxiE=3D173" style=3D"text-decoration:none" t=
+arget=3D"_blank" rel=3D"noopener noreferrer"><h2 style=3D"margin-top:5px;ma=
+rgin-right:0;margin-bottom:0;margin-left:0;color:#222;font-size:14px;font-s=
+tyle:normal;font-variant:normal;text-decoration:none;line-height:1.4;font-f=
+amily:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-weight:nor=
+mal">Gal Gadot=E2=80=99s Wonder Woman Is a Trash Friend</h2></a></td></tr><=
+tr><td style=3D"padding-top:16px;padding-bottom:16px;padding-left:8px;paddi=
+ng-right:8px;min-height:270px;vertical-align:text-top"><a href=3D"https://r=
+.g-omedia.com/CL0/https:%2F%2Fgizmodo.com%3Futm_source=3DAV_Club_Daily_RSS%=
+26utm_medium=3Demail%26utm_campaign=3D2020-12-29/2/01000176b0c6b237-52ae3f4=
+d-b45f-4491-b49e-ffa9e1f4ee43-000000/fYUXyg0Qs-8BTHMjze82D3BEfTSWy9E7jrpfuH=
+rWrSs=3D173" style=3D"color:#0075B2;text-decoration:none" target=3D"_blank"=
+ rel=3D"noopener noreferrer"><div><span style=3D"color:gray;font-size:12px;=
+font-style:normal;height:14px;line-height:14px;margin-right:4px;text-transf=
+orm:uppercase;text-decoration:none;float:left;margin-top:3px">Read On</span=
+><img src=3D"https://x.kinja-static.com/assets/images/newsletter/gizmodo/Lo=
+go.png" style=3D"width:112.5px;vertical-align:0%" border=3D"0"/></div></a><=
+a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Fgizmodo.com%2Fcoinbase-lea=
+ves-ripple-to-twist-in-the-wind-1845961363%3Futm_source=3DAV_Club_Daily_RSS=
+%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f=
+4d-b45f-4491-b49e-ffa9e1f4ee43-000000/iJJ4eoxLQfylBa4OTBEGUuXwDNLCDhaFcCmVZ=
+66lupA=3D173" style=3D"text-decoration:none" target=3D"_blank" rel=3D"noope=
+ner noreferrer"><h2 style=3D"margin-top:5px;margin-right:0;margin-bottom:0;=
+margin-left:0;color:#222;font-size:14px;font-style:normal;font-variant:norm=
+al;text-decoration:none;line-height:1.4;font-family:&#x27;Helvetica Neue&#x=
+27;,Helvetica,Arial,sans-serif;font-weight:normal">Coinbase Leaves Ripple t=
+o Twist in the Wind</h2></a></td></tr><tr><td style=3D"padding-top:16px;pad=
+ding-bottom:16px;padding-left:8px;padding-right:8px;min-height:270px;vertic=
+al-align:text-top"><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Flifeha=
+cker.com%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campai=
+gn=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000=
+000/yoOZ15pCpu9-5GMfrVQQSU6Q0PkExIy1hWHI5S6dvGg=3D173" style=3D"color:#297A=
+A3;text-decoration:none" target=3D"_blank" rel=3D"noopener noreferrer"><div=
+><span style=3D"color:gray;font-size:12px;font-style:normal;height:14px;lin=
+e-height:14px;margin-right:4px;text-transform:uppercase;text-decoration:non=
+e;float:left;margin-top:3px">Read On</span><img src=3D"https://x.kinja-stat=
+ic.com/assets/images/newsletter/lifehacker/Logo.png" style=3D"width:90px;ve=
+rtical-align:-25%" border=3D"0"/></div></a><a href=3D"https://r.g-omedia.co=
+m/CL0/https:%2F%2Fskillet.lifehacker.com%2F7-unexpected-things-to-make-in-y=
+our-new-instant-pot-1845958274%3Futm_source=3DAV_Club_Daily_RSS%26utm_mediu=
+m=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491=
+-b49e-ffa9e1f4ee43-000000/OFILlTyAptoIGjSEVgDPvrUqFTcE6yunrIl4rjHPabI=3D173=
+" style=3D"text-decoration:none" target=3D"_blank" rel=3D"noopener noreferr=
+er"><h2 style=3D"margin-top:5px;margin-right:0;margin-bottom:0;margin-left:=
+0;color:#222;font-size:14px;font-style:normal;font-variant:normal;text-deco=
+ration:none;line-height:1.4;font-family:&#x27;Helvetica Neue&#x27;,Helvetic=
+a,Arial,sans-serif;font-weight:normal">7 Unexpected Things to Make in Your =
+New Instant Pot</h2></a></td></tr><tr><td style=3D"padding-top:16px;padding=
+-bottom:16px;padding-left:8px;padding-right:8px;min-height:270px;vertical-a=
+lign:text-top;border-bottom-width:0"><a href=3D"https://r.g-omedia.com/CL0/=
+https:%2F%2Fgizmodo.com%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Dema=
+il%26utm_campaign=3D2020-12-29/3/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-f=
+fa9e1f4ee43-000000/1kbqk5mAnnn_AK7KmxAbfxCGiDhzrKYJdd1Gw74dcwM=3D173" style=
+=3D"color:#0075B2;text-decoration:none" target=3D"_blank" rel=3D"noopener n=
+oreferrer"><div><span style=3D"color:gray;font-size:12px;font-style:normal;=
+height:14px;line-height:14px;margin-right:4px;text-transform:uppercase;text=
+-decoration:none;float:left;margin-top:3px">Read On</span><img src=3D"https=
+://x.kinja-static.com/assets/images/newsletter/gizmodo/Logo.png" style=3D"w=
+idth:112.5px;vertical-align:0%" border=3D"0"/></div></a><a href=3D"https://=
+r.g-omedia.com/CL0/https:%2F%2Fgizmodo.com%2Fyou-think-covid-19-is-bad-1845=
+961878%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=
+=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-00000=
+0/OxYOuTo8mgEou7Pxurs1l0Z62eXE8wNG27wJJfNDhWE=3D173" style=3D"text-decorati=
+on:none" target=3D"_blank" rel=3D"noopener noreferrer"><h2 style=3D"margin-=
+top:5px;margin-right:0;margin-bottom:0;margin-left:0;color:#222;font-size:1=
+4px;font-style:normal;font-variant:normal;text-decoration:none;line-height:=
+1.4;font-family:&#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;font-=
+weight:normal">You Think Covid-19 Is Bad?</h2></a></td></tr></table></td></=
+tr><tr><td style=3D"text-align:center;padding-bottom:8px"><a href=3D"https:=
+//r.g-omedia.com/CL0/https:%2F%2Ffacebook.com%2Ftheavclub/1/01000176b0c6b23=
+7-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/RYAomh6o8JXRO_RwtkvZ8qf0AHMdk=
+tcvlFJYgNDTgic=3D173" style=3D"outline-style:none;text-decoration:none;bord=
+er-style:none;fill:#9408A3;padding-right:20px" target=3D"_blank" rel=3D"noo=
+pener noreferrer"><img src=3D"https://x.kinja-static.com/assets/images/news=
+letter/avclub/Facebook.png" style=3D"width:16px" border=3D"0"/></a><a href=
+=3D"https://r.g-omedia.com/CL0/https:%2F%2Ftwitter.com%2Ftheavclub/1/010001=
+76b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/zC9HC7UQ-QAlxUnlrevG=
+6Jmq4KKaFi9v6ocNLmlDsaA=3D173" style=3D"outline-style:none;text-decoration:=
+none;border-style:none;fill:#9408A3;padding-right:20px" target=3D"_blank" r=
+el=3D"noopener noreferrer"><img src=3D"https://x.kinja-static.com/assets/im=
+ages/newsletter/avclub/Twitter.png" style=3D"width:16px" border=3D"0"/></a>=
+<a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Finstagram.com%2Ftheavc%2F=
+/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/1G2EkhCmnqA=
+RQnMhZEq9dIaa-eaRThOyH89seKjQNj0=3D173" style=3D"outline-style:none;text-de=
+coration:none;border-style:none;fill:#9408A3;padding-right:20px" target=3D"=
+_blank" rel=3D"noopener noreferrer"><img src=3D"https://x.kinja-static.com/=
+assets/images/newsletter/avclub/Instagram.png" style=3D"width:16px" border=
+=3D"0"/></a><a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Fwww.avclub.co=
+m%2Frss/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/WeVX=
+YaGRobXg2KnuMm2lK8gAO3_QBaac8-RLhdZWtoA=3D173" style=3D"outline-style:none;=
+text-decoration:none;border-style:none;fill:#9408A3;padding-right:20px" tar=
+get=3D"_blank" rel=3D"noopener noreferrer"><img src=3D"https://x.kinja-stat=
+ic.com/assets/images/newsletter/avclub/RSS.png" style=3D"width:16px" border=
+=3D"0"/></a></td></tr><tr><td style=3D"text-align:center;background-color:#=
+f5f5f5;padding-top:28px;padding-bottom:20px"><a href=3D"https://r.g-omedia.=
+com/CL0/https:%2F%2Fwww.avclub.com%2F%3Futm_source=3DAV_Club_Daily_RSS%26ut=
+m_medium=3Demail%26utm_campaign=3D2020-12-29/2/01000176b0c6b237-52ae3f4d-b4=
+5f-4491-b49e-ffa9e1f4ee43-000000/eGHLYjVzuOSbB1pwdcuseDiz4ILl5RuB1jaEHO8lUt=
+A=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><img src=3D"https://=
+x.kinja-static.com/assets/images/newsletter/avclub/Logo.png" style=3D"width=
+:103.125px" border=3D"0"/></a></td></tr><tr><td style=3D"margin-top:42px;te=
+xt-align:center;color:#666;font-size:14px;font-family:&#x27;Helvetica Neue&=
+#x27;,Helvetica,Arial,sans-serif;text-transform:uppercase;background-color:=
+#f5f5f5;letter-spacing:2px"><a href=3D"https://r.g-omedia.com/CL0/https:%2F=
+%2Fg-omedia.com%2Fterms-of-service%3Futm_source=3DAV_Club_Daily_RSS%26utm_m=
+edium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-=
+4491-b49e-ffa9e1f4ee43-000000/v1_Tz5S7rh0fFDKYnviepUnFO5NDnpgoiFFtgoKScUw=
+=3D173" style=3D"color:#9408A3;font-size:14px;text-decoration:none" target=
+=3D"_blank" rel=3D"noopener noreferrer">Terms of Service</a>=C2=A0=C2=A0|=
+=C2=A0=C2=A0<a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Fg-omedia.com%=
+2Fprivacy-policy%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26ut=
+m_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4=
+ee43-000000/EmsQbCvST0PpcLA1LBE62uMhPhCVfM9iA4pY0XJXq-g=3D173" style=3D"col=
+or:#9408A3;font-size:14px;text-decoration:none" target=3D"_blank" rel=3D"no=
+opener noreferrer">Privacy Policy</a>=C2=A0=C2=A0|=C2=A0=C2=A0<a href=3D"ht=
+tps://r.g-omedia.com/CL0/https:%2F%2Fwww.avclub.com%2Fnewsletter%2Funsubscr=
+ibe%3FsubscriptionToken=3Dfa58543a3a800c65e532a98b348537f21cdfece6-101787%2=
+6utm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-=
+12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/wNlx8v=
+_9Flh_lyDpB6fcCEOjIu8WjGfcLuyVKJvISIc=3D173" style=3D"color:#9408A3;font-si=
+ze:14px;text-decoration:none" target=3D"_blank" rel=3D"noopener noreferrer"=
+>Unsubscribe</a></td></tr><tr><td style=3D"text-align:center;background-col=
+or:#f5f5f5;padding-top:42px;padding-bottom:16px"><a href=3D"https://r.g-ome=
+dia.com/CL0/https:%2F%2Fg-omedia.com%2F%3Futm_source=3DAV_Club_Daily_RSS%26=
+utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-=
+b45f-4491-b49e-ffa9e1f4ee43-000000/04Fmrgr6t6XgTtNZGJ76PAF4HJEVHUqf3ukYvf5g=
+54Y=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><img src=3D"https:=
+//x.kinja-static.com/assets/images/logos/newsletter/avatars/gomedia.png" st=
+yle=3D"vertical-align:middle;width:100px" border=3D"0"/></a>=C2=A0<a href=
+=3D"https://r.g-omedia.com/CL0/https:%2F%2Favclub.com%2F%3Futm_source=3DAV_=
+Club_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b=
+0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/sAxC799__dqLrF7liqoMWTE=
+dWz4uugZkIt0UdKhPUH8=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><=
+img src=3D"https://x.kinja-static.com/assets/images/logos/newsletter/avatar=
+s/avatar-avc.png" style=3D"width:28px;height:28px;vertical-align:middle" bo=
+rder=3D"0"/></a>=C2=A0<a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Fdea=
+dspin.com%2F%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_ca=
+mpaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43=
+-000000/q3ZwoYLDTlCbF8dNaFzjgeYaJgcp3_SPp7BZC22KeWA=3D173" target=3D"_blank=
+" rel=3D"noopener noreferrer"><img src=3D"https://x.kinja-static.com/assets=
+/images/logos/newsletter/avatars/avatar-deadspin.png" style=3D"width:28px;h=
+eight:28px;vertical-align:middle" border=3D"0"/></a>=C2=A0<a href=3D"https:=
+//r.g-omedia.com/CL0/https:%2F%2Fgizmodo.com%2F%3Futm_source=3DAV_Club_Dail=
+y_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-5=
+2ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/JCePkgaus01ZDLwM89C6RFHWJZDGlkfb=
+KABFeVC5NFI=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><img src=
+=3D"https://x.kinja-static.com/assets/images/logos/newsletter/avatars/avata=
+r-gizmodo.png" style=3D"width:28px;height:28px;vertical-align:middle" borde=
+r=3D"0"/></a>=C2=A0<a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Ftheinv=
+entory.com%2F%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_c=
+ampaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee4=
+3-000000/K-NhxVtG0Eo4dFAFn7aCWzqTE725Qi7MVZKprq9MeBE=3D173" target=3D"_blan=
+k" rel=3D"noopener noreferrer"><img src=3D"https://x.kinja-static.com/asset=
+s/images/logos/newsletter/avatars/avatar-theinventory.png" style=3D"width:2=
+8px;height:28px;vertical-align:middle" border=3D"0"/></a>=C2=A0<a href=3D"h=
+ttps://r.g-omedia.com/CL0/https:%2F%2Fjalopnik.com%2F%3Futm_source=3DAV_Clu=
+b_Daily_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6=
+b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/K6mUyDx25E5fmeeHWAfrZQb9KC=
+Qj3qu-gcjtn912R_A=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><img=
+ src=3D"https://x.kinja-static.com/assets/images/logos/newsletter/avatars/a=
+vatar-jalopnik.png" style=3D"width:28px;height:28px;vertical-align:middle" =
+border=3D"0"/></a>=C2=A0<a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Fj=
+ezebel.com%2F%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_c=
+ampaign=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee4=
+3-000000/BrRU0EMYpg2XCJV0Zwq1tDX4JOwiL1cnjuWZgFebIuQ=3D173" target=3D"_blan=
+k" rel=3D"noopener noreferrer"><img src=3D"https://x.kinja-static.com/asset=
+s/images/logos/newsletter/avatars/avatar-jezebel.png" style=3D"width:28px;h=
+eight:28px;vertical-align:middle" border=3D"0"/></a>=C2=A0<a href=3D"https:=
+//r.g-omedia.com/CL0/https:%2F%2Fkotaku.com%2F%3Futm_source=3DAV_Club_Daily=
+_RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52=
+ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/G1OCg15smqcL9NRookkrzu7VSclapeRPK=
+syxepbmqLw=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><img src=3D=
+"https://x.kinja-static.com/assets/images/logos/newsletter/avatars/avatar-k=
+otaku.png" style=3D"width:28px;height:28px;vertical-align:middle" border=3D=
+"0"/></a>=C2=A0<a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Flifehacker=
+.com%2F%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaig=
+n=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-0000=
+00/X2C6iqknQ9dcMQQ4iSVscw0l-GdOfHrupXctoQYB9xw=3D173" target=3D"_blank" rel=
+=3D"noopener noreferrer"><img src=3D"https://x.kinja-static.com/assets/imag=
+es/logos/newsletter/avatars/avatar-lifehacker.png" style=3D"width:28px;heig=
+ht:28px;vertical-align:middle" border=3D"0"/></a>=C2=A0<a href=3D"https://r=
+.g-omedia.com/CL0/https:%2F%2Ftheonion.com%2F%3Futm_source=3DAV_Club_Daily_=
+RSS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52a=
+e3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/YrgTGsO3i-sJ8zNWA_Y6HdCaKR1RpiJ3um=
+b4yZee7nY=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><img src=3D"=
+https://x.kinja-static.com/assets/images/logos/newsletter/avatars/avatar-th=
+eonion.png" style=3D"width:28px;height:28px;vertical-align:middle" border=
+=3D"0"/></a>=C2=A0<a href=3D"https://r.g-omedia.com/CL0/https:%2F%2Ftheroot=
+.com%2F%3Futm_source=3DAV_Club_Daily_RSS%26utm_medium=3Demail%26utm_campaig=
+n=3D2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-0000=
+00/e1_AXMI2H7CmZdoBtg2isJb2M7RUE1KrSJ6kp-KtPoI=3D173" target=3D"_blank" rel=
+=3D"noopener noreferrer"><img src=3D"https://x.kinja-static.com/assets/imag=
+es/logos/newsletter/avatars/avatar-theroot.png" style=3D"width:28px;height:=
+28px;vertical-align:middle" border=3D"0"/></a>=C2=A0<a href=3D"https://r.g-=
+omedia.com/CL0/https:%2F%2Fthetakeout.com%2F%3Futm_source=3DAV_Club_Daily_R=
+SS%26utm_medium=3Demail%26utm_campaign=3D2020-12-29/1/01000176b0c6b237-52ae=
+3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/l_2MrFmSZHE0ojcQLn7TZ2eIy2qcKs3sGXV=
+WvfIRfyk=3D173" target=3D"_blank" rel=3D"noopener noreferrer"><img src=3D"h=
+ttps://x.kinja-static.com/assets/images/logos/newsletter/avatars/avatar-the=
+takeout.png" style=3D"width:28px;height:28px;vertical-align:middle" border=
+=3D"0"/></a></td></tr><tr style=3D"background-color:#f5f5f5;margin-top:16px=
+;text-align:center;color:#666;font-size:12px;line-height:24px;font-family:&=
+#x27;Helvetica Neue&#x27;,Helvetica,Arial,sans-serif;text-transform:upperca=
+se;letter-spacing:3px"><td>1540 Broadway - 27th Floor<br/>New York, NY 1003=
+6<br/>=C2=A9 2020 G/O Media</td></tr></table></td></tr></table><img alt=3D"=
+" src=3D"http://r.g-omedia.com/CI0/01000176b0c6b237-52ae3f4d-b45f-4491-b49e=
+-ffa9e1f4ee43-000000/JIDwD-y_-kQZMxAMe_gJVF3OE9fKSj9Im1tYNYmdKQY=3D173" sty=
+le=3D"display: none; width: 1px; height: 1px;">
+</body></html>
+------=_Part_10455247_100531314.1609283579523--

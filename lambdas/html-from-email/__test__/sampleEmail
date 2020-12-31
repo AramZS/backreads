@@ -1,0 +1,365 @@
+Return-Path: <azs.gmu+caf_=givemeyournewsletter=backreads.com@gmail.com>
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by inbound-smtp.us-east-1.amazonaws.com with SMTP id cg2nfoubi9qob90094u80pgcdq7sbufe8koa5701
+ for givemeyournewsletter@backreads.com;
+ Wed, 30 Dec 2020 13:35:56 +0000 (UTC)
+Received-SPF: pass (spfCheck: domain of _spf.google.com designates 209.85.167.178 as permitted sender) client-ip=209.85.167.178; envelope-from=azs.gmu+caf_=givemeyournewsletter=backreads.com@gmail.com; helo=mail-oi1-f178.google.com;
+Authentication-Results: amazonses.com;
+ spf=pass (spfCheck: domain of _spf.google.com designates 209.85.167.178 as permitted sender) client-ip=209.85.167.178; envelope-from=azs.gmu+caf_=givemeyournewsletter=backreads.com@gmail.com; helo=mail-oi1-f178.google.com;
+ dkim=pass header.i=@funnyordie.com;
+ dmarc=pass header.from=funnyordie.com;
+X-SES-RECEIPT: AEFBQUFBQUFBQUFFeXFJUUdtakdidGZuRmlhYXBQaG10eGIrQ2g0VUN5VmRMemVVODh2Q2VPcVh4RFdkeXRKU0ZxbTRSc3RYSCttK2dyOXVhdjFPcm9kUGNTb1F6cGVTdVllbm1qbzN4VjVmemQxTkNIdWh2U3Bvb25IU0d1THRZMGtzNHJ5Y25VajBoMzA1UUlrajE3UHZvckZLWDJRYWwvKzhwdDJXQmp6TWdxZVFla1RPd21XeXhWdVFoTTJBaUdGalVXN2sxbnRLWFhoWTRtNHEwdjBRZWlNajZBdVZXMEdSUERvU3dQUDJLTDJBQllaN1FKbzNRRUg1NytENVBOa3lrd1ZqSUh2NzYxQWZ6N2FqZzBlcEpDT2xMSUNwK2xjRHZmQ1BNNHE4VmNsSDRHaVBwMFJEc2VjN09kVXNNUkIxNDM2R3NIaVVUZkZldllScDB2a0VSNmdiTHgwdE5VTmhMUXN2QVZ5RTN3KzBmMGY3VkNnPT0=
+X-SES-DKIM-SIGNATURE: a=rsa-sha256; q=dns/txt; b=XDdNLbsndPHWw3ib+iOUnRSCfgnMd7YXBN4U99W80B0ge84RqDXa42/AJpN/ly0/oq3DAI5gmUrnHfSzc6LdEqLvIYQoIdvCDfGU4itCRSAWQmLB+5uyaoTzZCMHkd3jeJMcr2DQ9FB/wm9ZhSay3kBQ8BjSOPuXwq+fTslX4H8=; c=relaxed/simple; s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1609335356; v=1; bh=SRo0xQQ/hhD9isPl8Bnd/65S/OOqQ8E9uBh04D5TJZQ=; h=From:To:Cc:Bcc:Subject:Date:Message-ID:MIME-Version:Content-Type:X-SES-RECEIPT;
+Received: by mail-oi1-f178.google.com with SMTP id 9so18686571oiq.3
+        for <givemeyournewsletter@backreads.com>; Wed, 30 Dec 2020 05:35:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:delivered-to:dkim-signature:from:reply-to:to
+         :date:message-id:subject:form-sub:mime-version;
+        bh=e7nWRVtVBb5QaRIR3ukFoF1y7GEEkMlyk+dnwiqvMNo=;
+        b=e4qoUvcBGtUtQAg9uqQetCoCikBdQ/8hIcUQQDeBuoSqfe7Ehlefz+9JznneyUznhD
+         73Qv0xnDbB23TN6g2eRMLkVfNEyhO7PpGCj2SjsNTYzAwv5GvyYDEox4brQNbFqOwab0
+         GtYaZvoC7gxaDwtPLkQod6HFQqJFRqE+tyfPmK98lxJDjajwhCAeTXV1K6Vw1O8tbDFp
+         kBrXRTmVbBURQD4EzZk77O5F8k7z8+xjoA5zE4wRfDogr6V3Nn3bCXWjIcKewaf3dXQe
+         bY5tJPqZ0HQcScXOAabU+M8o3LYZ1h5zJpH6d6ckVY+qWDagwApD5X2JmERf/55TWKOQ
+         rG5A==
+X-Gm-Message-State: AOAM530HQaDUaUjo2shu6XkOk9LPJ/J+iP2CpMvbC13Emaz4y5Ujdod7
+	XuDbITiHVisyJBG94FH9P3ZC6tz3Abzqgwn6lRodjR/0RMhOoimsnA==
+X-Received: by 2002:a05:6808:a0c:: with SMTP id n12mr5106054oij.70.1609335355638;
+        Wed, 30 Dec 2020 05:35:55 -0800 (PST)
+X-Forwarded-To: givemeyournewsletter@backreads.com
+X-Forwarded-For: azs.gmu@gmail.com givemeyournewsletter@backreads.com
+Delivered-To: azs.gmu@gmail.com
+Received: by 2002:a9d:6c58:0:0:0:0:0 with SMTP id g24csp11272838otq;
+        Wed, 30 Dec 2020 05:35:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyMYe3AQAp/RtuVFvPKa4JQcqlr/GBi20yZE/yhuuAbUmU+uCy8VFNAsvadK6q+Kb/8os3E
+X-Received: by 2002:a9d:f66:: with SMTP id 93mr37956025ott.289.1609335354381;
+        Wed, 30 Dec 2020 05:35:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1609335354; cv=none;
+        d=google.com; s=arc-20160816;
+        b=hxIohZ99j8OZNwPEDRcWkkMlgzd83spBlsurBbypqM3rBSjUsJDEnfDCCerx0fevoV
+         BJd+nTXRx4HvBMPR2WCVCkd8xoPrXua+71Vn6xFN2ZDSvwd9jRlYhg+ztR19Q3mZ3yEQ
+         2b3PgSMlkYx/QtJJGzWtDgirs3+b0slvqhkzWWtOVqWKn5vFbJF49fRWVqsK5ctNMIfy
+         Zx5uR6EGkn+1BllATj3L3ShCJBP8RY/PSA/dE9Y014Jo4w0V129fr5KM850Cnju1CMEl
+         U1JmV2xEc31+bWrpUlvWwTv594pkWbNiXNzjF3IkdzLEqeXIFRWRB6nZezWJzTXl+HGz
+         8hgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:form-sub:subject:message-id:date:to:reply-to:from
+         :dkim-signature;
+        bh=e7nWRVtVBb5QaRIR3ukFoF1y7GEEkMlyk+dnwiqvMNo=;
+        b=jV66EGKSDE+8BWwA5ES1URdzRmi/P4buaz+tePRrGj4M4e5GMVOROz025Eeyam7jGG
+         rRZodSdLe1Q9f2peUzH/gSKLA8oajXIpN3cvQseH87jbBn3PiFX1jRT5Xyg8Yni0e7/J
+         uKPoItMfcyMrNfZ9+GDpXp7jc+ecIGornw4kSG5s8tPPrYaZHdLcGWEmnQ+zuu2oQmO0
+         QvvksTaSX28B10tQh1pfy1uuJhazl4C6C9Y4VVyoXwldIr0yodvTFuHxowRWDEb9gdlF
+         2sqzXUBv4i/uUGxC1XejE86kPKQAQUobmSpr+xDGja22bErQATSOZbzKOUzV4N8tNHuY
+         YxZw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@funnyordie.com header.s=k1 header.b=14PtUhOe;
+       spf=softfail (google.com: domain of transitioning bounce-mcsys.us13_58532613.7e0e627995-givemeyournewsletter=aramzs.me@mail9.mcsignup.com does not designate 192.185.51.172 as permitted sender) smtp.mailfrom="bounce-mcsys.us13_58532613.7e0e627995-givemeyournewsletter=aramzs.me@mail9.mcsignup.com";
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=funnyordie.com
+Return-Path: <bounce-mcsys.us13_58532613.7e0e627995-givemeyournewsletter=aramzs.me@mail9.mcsignup.com>
+Received: from gateway24.websitewelcome.com (gateway24.websitewelcome.com. [192.185.51.172])
+        by mx.google.com with ESMTPS id 31si18712607otf.4.2020.12.30.05.35.54
+        for <azs.gmu@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 30 Dec 2020 05:35:54 -0800 (PST)
+Received-SPF: softfail (google.com: domain of transitioning bounce-mcsys.us13_58532613.7e0e627995-givemeyournewsletter=aramzs.me@mail9.mcsignup.com does not designate 192.185.51.172 as permitted sender) client-ip=192.185.51.172;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@funnyordie.com header.s=k1 header.b=14PtUhOe;
+       spf=softfail (google.com: domain of transitioning bounce-mcsys.us13_58532613.7e0e627995-givemeyournewsletter=aramzs.me@mail9.mcsignup.com does not designate 192.185.51.172 as permitted sender) smtp.mailfrom="bounce-mcsys.us13_58532613.7e0e627995-givemeyournewsletter=aramzs.me@mail9.mcsignup.com";
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=funnyordie.com
+Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
+	by gateway24.websitewelcome.com (Postfix) with ESMTP id 1B5EA81269
+	for <azs.gmu@gmail.com>; Wed, 30 Dec 2020 07:35:54 -0600 (CST)
+Received: from box2279.bluehost.com ([50.87.192.171])
+	by cmsmtp with SMTP
+	id ubdpkI2xRDT64ubdpkQMhz; Wed, 30 Dec 2020 07:35:54 -0600
+X-Authority-Reason: s=1
+Received: from mail9.mcsignup.com ([198.2.140.13]:57481)
+	by box2279.bluehost.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <bounce-mcsys.us13_58532613.7e0e627995-givemeyournewsletter=aramzs.me@mail9.mcsignup.com>)
+	id 1kubdp-003Pzj-Ce
+	for givemeyournewsletter@aramzs.me; Wed, 30 Dec 2020 06:35:53 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=funnyordie.com;
+	s=k1; t=1609335342; i=newsletter@funnyordie.com;
+	bh=e7nWRVtVBb5QaRIR3ukFoF1y7GEEkMlyk+dnwiqvMNo=;
+	h=From:Reply-To:To:Date:Message-ID:Subject:Form-Sub:MIME-Version:
+	 Content-Type;
+	b=14PtUhOepMHIyNjPZsTGv2whcxPoBYQDqMmmCUhYn95Q93lWzN0w2rRkPRWVAN9Au
+	 tNPp3Kb+WdvHMMlPH4OCtRBbaUCmsZTQKjRaxoDMgxmzCnT5ZpKGcxn2+KqdTN8IWh
+	 ErDp8it3/e4fMEddmz7dJZIoxhOmkidqW4xrzna4=
+Received: from 127.0.0.1 (localhost [127.0.0.1])
+	by mail9.mcsignup.com (Mailchimp) with ESMTP id 4D5XNZ2GYdzK6M9gb
+	for <givemeyournewsletter@aramzs.me>; Wed, 30 Dec 2020 13:35:42 +0000 (GMT)
+From: =?utf-8?Q?Funny=20Or=20Die?= <newsletter@funnyordie.com>
+Reply-To: =?utf-8?Q?Funny=20Or=20Die?= <newsletter@funnyordie.com>
+To:  <givemeyournewsletter@aramzs.me>
+Date: Wed, 30 Dec 2020 13:35:42 +0000
+Message-ID: <21708371f07f95ae2985b6da0d072f70679.20201230133542@mail9.mcsignup.com>
+X-Mailer: MailChimp Mailer - **CID7e0e627995d072f70679**
+X-Campaign: mailchimp21708371f07f95ae2985b6da0.7e0e627995
+X-campaignid: mailchimp21708371f07f95ae2985b6da0.7e0e627995
+X-Report-Abuse: Please report abuse for this campaign here: https://mailchimp.com/contact/abuse/?u=21708371f07f95ae2985b6da0&id=7e0e627995&e=d072f70679
+X-MC-User: 21708371f07f95ae2985b6da0
+X-Feedback-ID: 58532613:58532613.7e0e627995:us13:mc
+X-Auto-Response-Suppress: OOF, AutoReply
+X-Accounttype: pr
+Subject: Weekly Newsletter: Subscription Confirmed
+Form-Sub: v=1;ip4=96.232.200.90
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="_----------=_MCPart_1591508107"
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - box2279.bluehost.com
+X-AntiAbuse: Original Domain - aramzs.me
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - mail9.mcsignup.com
+X-BWhitelist: no
+X-Source-IP: 198.2.140.13
+X-Source-L: No
+X-Exim-ID: 1kubdp-003Pzj-Ce
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: mail9.mcsignup.com [198.2.140.13]:57481
+X-Source-Auth: chronoto
+X-Email-Count: 6
+X-Source-Cap: Y2hyb25vdG87Y2hyb25vdG87Ym94MjI3OS5ibHVlaG9zdC5jb20=
+X-Local-Domain: no
+X-Forwarder: box2279.bluehost.com
+X-Special-Header: aws
+
+
+--_----------=_MCPart_1591508107
+Content-Type: text/plain; charset="us-ascii"
+
+Your subscription to our list has been confirmed!
+
+For your records, here is a copy of the information you submitted to us...
+ 
+* Email Address: givemeyournewsletter@aramzs.me   
+* First Name:    
+* Last Name:      
+* Psst...do you like extremely cool shirts?:     
+
+If at any time you wish to stop receiving our emails, you can:
+unsubscribe here (https://us13.mailchimp.com/mctx/clicks?url=https%3A%2F%2Ffunnyordie.us13.list-manage.com%2Funsubscribe%3Fu%3D21708371f07f95ae2985b6da0%26id%3D1289e3caf9%26e%3Da49ea19164&h=049013d0dca02d9bd329eecfe82c871900360b51960336a27dde195be09fac6f&v=1&xid=7e0e627995&uid=58532613&pool=contact_facing&subject=Weekly+Newsletter%3A+Subscription+Confirmed)
+
+You may also contact us at:
+community.manager@funnyordie.com (mailto:community.manager@funnyordie.com)
+--_----------=_MCPart_1591508107
+Content-Type: text/html; charset="utf-8"; format="fixed"
+Content-Transfer-Encoding: quoted-printable
+
+<!doctype html>=0A<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=
+=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:=
+office:office" dir=3D"ltr">=0A    <head>=0A        <!--[if gte mso 15]>=
+=0A        <xml>=0A            <o:OfficeDocumentSettings>=0A           =
+     <o:AllowPNG/>=0A                <o:PixelsPerInch>96</o:PixelsPerInc=
+h>=0A            </o:OfficeDocumentSettings>=0A        </xml>=0A       =
+ <![endif]-->=0A        <title>Weekly Newsletter</title>=0A        <meta=
+ http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">=0A=
+        <meta http-equiv=3D"x-ua-compatible" content=3D"IE=3Dedge">=0A =
+       <meta name=3D"viewport" content=3D"width=3Ddevice-width=2C initia=
+l-scale=3D1">=0A        <meta name=3D"description" content=3D"Weekly New=
+sletter Email Forms">=0A        <meta name=3D"keywords" content=3D"Weekl=
+y Newsletter">=0A        =0A    <style type=3D"text/css">=0A=09=09body{=
+=0A=09=09=09font:14px/20px 'Helvetica'=2C Arial=2C sans-serif;=0A=09=09=
+=09margin:0;=0A=09=09=09padding:75px 0 0 0;=0A=09=09=09text-align:center=
+;=0A=09=09=09-webkit-text-size-adjust:none;=0A=09=09}=0A=09=09p{=0A=09=
+=09=09padding:0 0 10px 0;=0A=09=09}=0A=09=09h1 img{=0A=09=09=09max-width=
+:100%;=0A=09=09=09height:auto !important;=0A=09=09=09vertical-align:bott=
+om;=0A=09=09}=0A=09=09h2{=0A=09=09=09font-size:22px;=0A=09=09=09line-hei=
+ght:28px;=0A=09=09=09margin:0 0 12px 0;=0A=09=09}=0A=09=09h3{=0A=09=09=
+=09margin:0 0 12px 0;=0A=09=09}=0A=09=09.headerBar{=0A=09=09=09backgroun=
+d:none;=0A=09=09=09padding:0;=0A=09=09=09border:none;=0A=09=09}=0A=09=09=
+.wrapper{=0A=09=09=09width:600px;=0A=09=09=09margin:0 auto 10px auto;=0A=
+=09=09=09text-align:left;=0A=09=09}=0A=09=09input.formEmailButton{=0A=09=
+=09=09border:none !important;=0A=09=09}=0A=09=09.formEmailButton{=0A=09=
+=09=09display:inline-block;=0A=09=09=09font-weight:500;=0A=09=09=09font-=
+size:16px;=0A=09=09=09line-height:42px;=0A=09=09=09font-family:'Helvetic=
+a'=2C Arial=2C sans-serif;=0A=09=09=09width:auto;=0A=09=09=09white-space=
+:nowrap;=0A=09=09=09height:42px;=0A=09=09=09margin:12px 5px 12px 0;=0A=
+=09=09=09padding:0 22px;=0A=09=09=09text-decoration:none;=0A=09=09=09tex=
+t-align:center;=0A=09=09=09cursor:pointer;=0A=09=09=09border:0;=0A=09=09=
+=09border-radius:3px;=0A=09=09=09vertical-align:top;=0A=09=09}=0A=09=09.=
+formEmailButton span{=0A=09=09=09display:inline;=0A=09=09=09font-family:=
+'Helvetica'=2C Arial=2C sans-serif;=0A=09=09=09text-decoration:none;=0A=
+=09=09=09font-weight:500;=0A=09=09=09font-style:normal;=0A=09=09=09font-=
+size:16px;=0A=09=09=09line-height:42px;=0A=09=09=09cursor:pointer;=0A=09=
+=09=09border:none;=0A=09=09}=0A=09=09.rounded6{=0A=09=09=09border-radius=
+:6px;=0A=09=09}=0A=09=09.poweredWrapper{=0A=09=09=09padding:20px 0;=0A=
+=09=09=09width:560px;=0A=09=09=09margin:0 auto;=0A=09=09}=0A=09=09.power=
+edBy{=0A=09=09=09display:block;=0A=09=09}=0A=09=09span.or{=0A=09=09=09di=
+splay:inline-block;=0A=09=09=09height:32px;=0A=09=09=09line-height:32px;=
+=0A=09=09=09padding:0 5px;=0A=09=09=09margin:5px 5px 0 0;=0A=09=09}=0A=
+=09=09.clear{=0A=09=09=09clear:both;=0A=09=09}=0A=09=09.profile-list{=0A=
+=09=09=09display:block;=0A=09=09=09margin:15px 20px;=0A=09=09=09padding:=
+0;=0A=09=09=09list-style:none;=0A=09=09=09border-top:1px solid #eee;=0A=
+=09=09}=0A=09=09.profile-list li{=0A=09=09=09display:block;=0A=09=09=09m=
+argin:0;=0A=09=09=09padding:5px 0;=0A=09=09=09border-bottom:1px solid #e=
+ee;=0A=09=09}=0A=09=09html[dir=3Drtl] .wrapper=2Chtml[dir=3Drtl] .contai=
+ner=2Chtml[dir=3Drtl] label{=0A=09=09=09text-align:right !important;=0A=
+=09=09}=0A=09=09html[dir=3Drtl] ul.interestgroup_field label{=0A=09=09=
+=09padding:0;=0A=09=09}=0A=09=09html[dir=3Drtl] ul.interestgroup_field i=
+nput{=0A=09=09=09margin-left:5px;=0A=09=09}=0A=09=09html[dir=3Drtl] .hid=
+den-from-view{=0A=09=09=09right:-5000px;=0A=09=09=09left:auto;=0A=09=09}=
+=0A=09=09body=2C#bodyTable{=0A=09=09=09background-color:#eeeeee;=0A=09=
+=09}=0A=09=09h1{=0A=09=09=09font-size:28px;=0A=09=09=09line-height:110%;=
+=0A=09=09=09margin-bottom:30px;=0A=09=09=09margin-top:0;=0A=09=09=09padd=
+ing:0;=0A=09=09}=0A=09=09#templateContainer{=0A=09=09=09background-color=
+:none;=0A=09=09}=0A=09=09#templateBody{=0A=09=09=09background-color:#fff=
+fff;=0A=09=09}=0A=09=09.bodyContent{=0A=09=09=09line-height:150%;=0A=09=
+=09=09font-family:Helvetica;=0A=09=09=09font-size:14px;=0A=09=09=09color=
+:#333333;=0A=09=09=09padding:20px;=0A=09=09}=0A=09=09a:link=2Ca:active=
+=2Ca:visited=2Ca{=0A=09=09=09color:#336699;=0A=09=09}=0A=09=09.formEmail=
+Button:link=2C.formEmailButton:active=2C.formEmailButton:visited=2C.form=
+EmailButton=2C.formEmailButton span{=0A=09=09=09background-color:#5d5d5d=
+ !important;=0A=09=09=09color:#ffffff !important;=0A=09=09}=0A=09=09.for=
+mEmailButton:hover{=0A=09=09=09background-color:#444444 !important;=0A=
+=09=09=09color:#ffffff !important;=0A=09=09}=0A=09=09label{=0A=09=09=09l=
+ine-height:150%;=0A=09=09=09font-family:Helvetica;=0A=09=09=09font-size:=
+16px;=0A=09=09=09color:#5d5d5d;=0A=09=09}=0A=09=09.field-group input=2Cs=
+elect=2Ctextarea=2C.dijitInputField{=0A=09=09=09font-family:Helvetica;=
+=0A=09=09=09color:#5d5d5d !important;=0A=09=09}=0A=09=09.asterisk{=0A=09=
+=09=09color:#cc6600;=0A=09=09=09font-size:20px;=0A=09=09}=0A=09=09label=
+ .asterisk{=0A=09=09=09visibility:hidden;=0A=09=09}=0A=09=09.indicates-r=
+equired{=0A=09=09=09display:block;=0A=09=09}=0A=09=09.field-help{=0A=09=
+=09=09color:#777;=0A=09=09}=0A=09=09.error=2C.errorText{=0A=09=09=09colo=
+r:#e85c41;=0A=09=09=09font-weight:bold;=0A=09=09}=0A=09@media (max-width=
+: 620px){=0A=09=09body{=0A=09=09=09width:100%;=0A=09=09=09-webkit-font-s=
+moothing:antialiased;=0A=09=09=09padding:10px 0 0 0 !important;=0A=09=09=
+=09min-width:300px !important;=0A=09=09}=0A=0A}=09@media (max-width: 620=
+px){=0A=09=09.wrapper=2C.poweredWrapper{=0A=09=09=09width:auto !importan=
+t;=0A=09=09=09max-width:600px !important;=0A=09=09=09padding:0 10px;=0A=
+=09=09}=0A=0A}=09@media (max-width: 620px){=0A=09=09#templateContainer=
+=2C#templateBody=2C#templateContainer table{=0A=09=09=09width:100% !impo=
+rtant;=0A=09=09=09-moz-box-sizing:border-box;=0A=09=09=09-webkit-box-siz=
+ing:border-box;=0A=09=09=09box-sizing:border-box;=0A=09=09}=0A=0A}=09@me=
+dia (max-width: 620px){=0A=09=09.addressfield span{=0A=09=09=09width:aut=
+o;=0A=09=09=09float:none;=0A=09=09=09padding-right:0;=0A=09=09}=0A=0A}=
+=09@media (max-width: 620px){=0A=09=09.captcha{=0A=09=09=09width:auto;=
+=0A=09=09=09float:none;=0A=09=09}=0A=0A}=09=09.gdpr-mergeRow{=0A=09=09=
+=09margin:10px 0;=0A=09=09=09color:#4a4a4a;=0A=09=09=09font-family:Helve=
+tica;=0A=09=09}=0A=09=09.gdpr-content{=0A=09=09=09margin:0 -20px 0 -20px=
+;=0A=09=09=09padding:20px;=0A=09=09=09background:rgba(255=2C 255=2C 255=
+=2C 0.8);=0A=09=09}=0A=09=09#gdpr-label{=0A=09=09=09margin-top:0;=0A=09=
+=09}=0A=09=09#gdpr-description{=0A=09=09=09margin-top:6px;=0A=09=09=09ma=
+rgin-bottom:0;=0A=09=09=09padding-bottom:11px;=0A=09=09}=0A=09=09.gdpr-c=
+ontent p{=0A=09=09=09color:#4a4a4a;=0A=09=09=09font-size:13px;=0A=09=09=
+=09line-height:1.5;=0A=09=09}=0A=09=09.gdpr-content .checkbox-group labe=
+l{=0A=09=09=09font-weight:normal;=0A=09=09=09font-size:13px;=0A=09=09}=
+=0A=09=09#gdpr-legal{=0A=09=09=09padding-top:20px;=0A=09=09=09margin:0;=
+=0A=09=09}=0A=09=09.gdpr-footer{=0A=09=09=09margin:0 -20px 0 -20px;=0A=
+=09=09=09padding:20px;=0A=09=09=09background:rgba(255=2C 255=2C 255=2C 0=
+.9);=0A=09=09=09overflow:auto;=0A=09=09=09color:#6d6d6d;=0A=09=09}=0A=09=
+=09.gdpr-footer p{=0A=09=09=09font-size:10px;=0A=09=09=09line-height:1.5=
+;=0A=09=09=09margin-bottom:0;=0A=09=09}=0A=09=09.gdpr-footer a{=0A=09=09=
+=09color:#206578;=0A=09=09}=0A=09=09.gdpr-footer img{=0A=09=09=09width:6=
+5px;=0A=09=09=09float:left;=0A=09=09=09margin-right:15px;=0A=09=09}=0A</=
+style></head>=0A    <body leftmargin=3D"0" marginwidth=3D"0" topmargin=
+=3D"0" marginheight=3D"0" offset=3D"0" style=3D"font: 14px/20px 'Helveti=
+ca'=2C Arial=2C sans-serif;margin: 0;padding: 75px 0 0 0;text-align: cen=
+ter;-webkit-text-size-adjust: none;background-color: #eeeeee;">=0A   =
+ =09<center>=0A        =09<table border=3D"0" cellpadding=3D"20" cellspa=
+cing=3D"0" height=3D"100%" width=3D"100%" id=3D"bodyTable" style=3D"back=
+ground-color: #eeeeee;">=0A            =09<tr>=0A                =09<td=
+ align=3D"center" valign=3D"top">=0A                    =09<!-- // BEGIN=
+ CONTAINER -->=0A                        <!--[if gte mso 9]>=0A        =
+                <table align=3D"center" border=3D"0" cellspacing=3D"0" c=
+ellpadding=3D"0" width=3D"600" style=3D"width:600px;">=0A              =
+          <tr>=0A                        <td align=3D"center" valign=3D"=
+top" width=3D"600" style=3D"width:600px;">=0A                        <![=
+endif]-->=0A                        <table border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0" width=3D"100%" style=3D"max-width: 600px;border-radi=
+us: 6px;background-color: none;" id=3D"templateContainer" class=3D"round=
+ed6">=0A                        =09<tr>=0A                           =
+ =09<td align=3D"center" valign=3D"top">=0A                            =
+    =09<!-- // BEGIN HEADER -->=0A                                    <t=
+able border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%" sty=
+le=3D"max-width:600px">=0A                                    =09<tr>=0A=
+                                        =09<td>=0A                     =
+                       =09<h1 style=3D"font-size: 28px;line-height: 110%=
+;margin-bottom: 30px;margin-top: 0;padding: 0;"><a href=3D"https://us13.=
+mailchimp.com/mctx/clicks?url=3Dhttp%3A%2F%2Fwww.funnyordie.com&h=3D3c43=
+20032002a5cac5c28403f5c8ff1e05a3497141fd6ec784bf62adca0cfc88&v=3D1&xid=
+=3D7e0e627995&uid=3D58532613&pool=3Dcontact_facing&subject=3DWeekly+News=
+letter%3A+Subscription+Confirmed" target=3D"_blank" style=3D"color: #336=
+699;"><img src=3D"https://gallery.mailchimp.com/21708371f07f95ae2985b6da=
+0/images/9aaabc7e-9e9e-445e-b956-de8d6845e506.gif" alt=3D"" border=3D"0"=
+ style=3D"border: 0px;border-color: ;border-style: ;border-width: 0px;he=
+ight: 69px;width: 232px;margin: 0;padding: 0;max-width: 100%;vertical-al=
+ign: bottom;" width=3D"232" height=3D"69"></a></h1>=0A                 =
+                           </td>=0A                                    =
+    </tr>=0A                                    </table>=0A            =
+                    =09<!-- END HEADER \\ -->=0A                       =
+         </td>=0A                            </tr>=0A                  =
+      =09<tr>=0A                            =09<td align=3D"center" vali=
+gn=3D"top">=0A                                =09<!-- // BEGIN BODY -->=
+=0A                                =09<table border=3D"0" cellpadding=3D=
+"0" cellspacing=3D"0" width=3D"100%" style=3D"max-width: 600px;border-ra=
+dius: 6px;background-color: #ffffff;" id=3D"templateBody" class=3D"round=
+ed6">=0A                                    =09<tr>=0A                 =
+                           =0A                                         =
+   <td align=3D"left" valign=3D"top" class=3D"bodyContent" style=3D"line=
+-height: 150%;font-family: Helvetica;font-size: 14px;color: #333333;padd=
+ing: 20px;">=0A                                                =0A     =
+                                           <div>Your subscription to our=
+ list has been confirmed!=0A</div>=0A<p style=3D"padding: 0 0 10px 0;">F=
+or your records=2C here is a copy of the information you submitted to us=
+...</p>=0A<ul class=3D"profile-list" style=3D"display: block;margin: 15p=
+x 20px;padding: 0;list-style: none;border-top: 1px solid #eee;">=0A=0A=
+=0A<li style=3D"display: block;margin: 0;padding: 5px 0;border-bottom: 1=
+px solid #eee;"><strong>Email Address:</strong> givemeyournewsletter@ara=
+mzs.me</li>=0A=0A=0A=0A<li style=3D"display: block;margin: 0;padding: 5p=
+x 0;border-bottom: 1px solid #eee;"><strong>First Name:</strong> </li>=
+=0A=0A=0A=0A<li style=3D"display: block;margin: 0;padding: 5px 0;border-=
+bottom: 1px solid #eee;"><strong>Last Name:</strong> </li>=0A=0A=0A=0A =
+   =0A        =0A        <li style=3D"display: block;margin: 0;padding:=
+ 5px 0;border-bottom: 1px solid #eee;"><strong>Psst...do you like extrem=
+ely cool shirts?:</strong> </li>=0A        =0A    =0A=0A=0A</ul>=0A<p st=
+yle=3D"padding: 0 0 10px 0;">If at any time you wish to stop receiving o=
+ur emails=2C you can:<br>=0A    <a class=3D"formEmailButton" href=3D"htt=
+ps://us13.mailchimp.com/mctx/clicks?url=3Dhttps%3A%2F%2Ffunnyordie.us13.=
+list-manage.com%2Funsubscribe%3Fu%3D21708371f07f95ae2985b6da0%26id%3D128=
+9e3caf9%26e%3Da49ea19164&h=3D049013d0dca02d9bd329eecfe82c871900360b51960=
+336a27dde195be09fac6f&v=3D1&xid=3D7e0e627995&uid=3D58532613&pool=3Dconta=
+ct_facing&subject=3DWeekly+Newsletter%3A+Subscription+Confirmed" style=
+=3D"color: #ffffff !important;display: inline-block;font-weight: 500;fon=
+t-size: 16px;line-height: 42px;font-family: 'Helvetica'=2C Arial=2C sans=
+-serif;width: auto;white-space: nowrap;height: 42px;margin: 12px 5px 12p=
+x 0;padding: 0 22px;text-decoration: none;text-align: center;cursor: poi=
+nter;border: 0;border-radius: 3px;vertical-align: top;background-color:=
+ #5d5d5d !important;"><span style=3D"display: inline;font-family: 'Helve=
+tica'=2C Arial=2C sans-serif;text-decoration: none;font-weight: 500;font=
+-style: normal;font-size: 16px;line-height: 42px;cursor: pointer;border:=
+ none;background-color: #5d5d5d !important;color: #ffffff !important;">u=
+nsubscribe here</span></a></p>=0A<p style=3D"padding: 0 0 10px 0;">You m=
+ay also contact us at:<br>=0A<a href=3D"mailto:community.manager@funnyor=
+die.com" style=3D"color: #336699;">community.manager@funnyordie.com</a><=
+/p>=0A=0A                                            </td>=0A          =
+                                  =0A                                  =
+      </tr>=0A                                    </table>=0A          =
+                          <!-- END BODY \\ -->=0A                      =
+          </td>=0A                            </tr>=0A                 =
+       =09<tr>=0A                            =09<td align=3D"center" val=
+ign=3D"top">=0A                                =09<!-- // BEGIN FOOTER -=
+->=0A                                =09<table border=3D"0" cellpadding=
+=3D"20" cellspacing=3D"0" width=3D"100%" style=3D"max-width:600px">=0A =
+                                   =09<tr>=0A                          =
+              =09<td align=3D"center" valign=3D"top">=0A               =
+                                 =0A                                   =
+         </td>=0A                                        </tr>=0A      =
+                              </table>=0A                              =
+      <!-- END FOOTER \\ -->=0A                                </td>=0A=
+                            </tr>=0A                        </table>=0A=
+                        <!--[if gte mso 9]>=0A                        </=
+td>=0A                        </tr>=0A                        </table>=
+=0A                        <![endif]-->=0A                        <!-- E=
+ND CONTAINER \\ -->=0A                    </td>=0A                </tr>=
+=0A            </table>=0A        </center>=0A    <img src=3D"https://us=
+13.mailchimp.com/mctx/opens?xid=3D7e0e627995&uid=3D58532613&pool=3Dconta=
+ct_facing&subject=3DWeekly+Newsletter%3A+Subscription+Confirmed" height=
+=3D"1" width=3D"1"></body>=0A</html>
+--_----------=_MCPart_1591508107--
+

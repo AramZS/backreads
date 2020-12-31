@@ -1,5 +1,6 @@
 import * as cdk from '@aws-cdk/core';
 import * as lambda from '@aws-cdk/aws-lambda';
+import { SnsEventSource } from '@aws-cdk/aws-lambda-event-sources';
 import * as s3 from '@aws-cdk/aws-s3'
 import * as s3Deployment from '@aws-cdk/aws-s3-deployment'
 import * as ssm from '@aws-cdk/aws-ssm'
@@ -16,7 +17,7 @@ import * as ses from '@aws-cdk/aws-ses'
 import * as sesActions from '@aws-cdk/aws-ses-actions'
 import * as cr from '@aws-cdk/custom-resources';
 import { SPADeploy } from './cdk-spa-deploy'
-import { PhysicalResourceId } from '@aws-cdk/custom-resources';
+import * as sns from '@aws-cdk/aws-sns';
 
 export class AwsStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -24,6 +25,8 @@ export class AwsStack extends cdk.Stack {
 
     // Adapted from https://bahr.dev/2020/09/01/multiple-frontends/
     const domain = 'backreads.com'
+
+    const emailNewslettersTopic = new sns.Topic(this, 'emailNewslettersTopic');
 
     const hostedZone = route53.HostedZone.fromLookup(this, "HostedZone", {
       domainName: domain
@@ -53,13 +56,23 @@ export class AwsStack extends cdk.Stack {
             }),
             new sesActions.S3({
               bucket: textsBucket,
-              objectKeyPrefix: 'emails/'
+              objectKeyPrefix: 'emails/',
+              topic: emailNewslettersTopic
             })
           ],
           enabled: true
         }
       ],
     });
+
+    const emailToHtml = new lambda.Function(this, 'HelloHandler', {
+      runtime: lambda.Runtime.NODEJS_10_X,    // execution environment
+      code: lambda.Code.fromAsset('../lambdas/html-from-email'),  // code loaded from "lambda" directory
+      handler: 'html-from-email.handler'                // file is "hello", function is "handler"
+    });
+
+    emailToHtml.addEventSource(new SnsEventSource(emailNewslettersTopic))
+    
     /**
     const activateSESRuleSet = new cr.AwsCustomResource(this, 'ActivateSESRuleSet', {
       onUpdate: {

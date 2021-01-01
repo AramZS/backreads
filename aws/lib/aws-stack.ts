@@ -18,6 +18,10 @@ import * as sesActions from '@aws-cdk/aws-ses-actions'
 import * as cr from '@aws-cdk/custom-resources';
 import { SPADeploy } from './cdk-spa-deploy'
 import * as sns from '@aws-cdk/aws-sns';
+import * as codebuild from '@aws-cdk/aws-codebuild';
+import * as codecommit from '@aws-cdk/aws-codecommit';
+import * as codepipeline from '@aws-cdk/aws-codepipeline';
+import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions';
 
 export class AwsStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -36,8 +40,8 @@ export class AwsStack extends cdk.Stack {
 
     // The code that defines your stack goes here
     const pinboardBucket = new s3.Bucket(this, 'PinboardLinks')
-    const textsBucket = new s3.Bucket(this, 'Texts', {
-      bucketName: 'texts'
+    const textsBucket = new s3.Bucket(this, 'BackreadsTexts', {
+      bucketName: 'texts-for-processing'
     })
     const storyBucket = new s3.Bucket(this, 'StoryLinks')
 
@@ -68,11 +72,13 @@ export class AwsStack extends cdk.Stack {
     });
 
     const emailToHtml = new lambda.Function(this, 'emailToHtml', {
-      runtime: lambda.Runtime.NODEJS_10_X,    // execution environment
+      runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/html-from-email'),  // code loaded from "lambda" directory
-      handler: 'html-from-email.handler'                // file is "hello", function is "handler"
+      handler: 'html-from-email.handler',                // file is "hello", function is "handler"
+      memorySize: 500,
+      timeout: cdk.Duration.seconds(600)
     });
-
+    textsBucket.grantReadWrite(emailToHtml)
     emailToHtml.addEventSource(new SnsEventSource(emailNewslettersTopic))
     
     /**

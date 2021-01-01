@@ -1,14 +1,16 @@
 const tools = require('../parsing-tools')
 const fs = require('fs')
 const path = require('path');
-const simpleParser = require('mailparser').simpleParser;
+// const simpleParser = require('mailparser').simpleParser;
+var MailParser = require("mailparser-mit").MailParser;
 const jsdom = require("jsdom")
 const { JSDOM } = jsdom
 const fetch = require('node-fetch');
-const metascraper = require('metascraper')([
+
+/** const metascraper = require('metascraper')([
 	require('metascraper-url')(),
 	require('metascraper-title')(),
-  ])
+  ]) */
 describe('feed tools', () => {
 	let file
 	beforeAll(async (done) => {
@@ -22,7 +24,23 @@ describe('feed tools', () => {
 	  });
 	  it('should parse an email', async (done) => {
 		expect.assertions(4)
-		simpleParser(file, null, (err, parsed) => {
+		var mailparser = new MailParser();
+		mailparser.on("end", function(mail_object){
+			// console.log(mail_object.html)
+			expect(mail_object.subject).toBe('Weekly Newsletter: Subscription Confirmed')
+			expect(mail_object.html).toBeDefined();
+			var dom = new JSDOM(mail_object.html)
+			expect(dom.window.document.querySelector('a.formEmailButton')).toBeDefined()
+			var link = dom.window.document.querySelector('a.formEmailButton').href
+			expect(link).toMatch("us13.mailchimp.com/mctx/clicks")
+			done()
+		});
+		 
+		// send the email source to the parser
+		mailparser.write(file);
+		mailparser.end();
+
+		/**simpleParser(file, null, (err, parsed) => {
 			expect(parsed.headers.get('subject')).toBe('Weekly Newsletter: Subscription Confirmed')
 			expect(parsed.html).toBeDefined()
 			var dom = new JSDOM(parsed.html)
@@ -30,7 +48,8 @@ describe('feed tools', () => {
 			var link = dom.window.document.querySelector('a.formEmailButton').href
 			expect(link).toMatch("us13.mailchimp.com/mctx/clicks")
 			done()
-		});
+		}); */
+
 	  })
 	  it('should parse a record event', () => {
 		let event = {
@@ -69,12 +88,19 @@ describe('feed tools', () => {
 		expect(tools.getPathFromEmailEvent(tools.parseDataFromRecord(event))).toBe('emails/dse8s7jhc9eg90tmimg1q2scsc14gvjvbbom6n81')
 	})
 	it('should extract links from the email', async (done) => {
-		expect.assertions(6)
-		const fileBuffer = fs.readFileSync(path.join(__dirname, 'sampleEmail2'));
-		fileTwo = fileBuffer.toString();
-		simpleParser(fileTwo, null, (err, parsed) => {
-			expect(parsed.headers.get('subject')).toBe('A Teacher departs')
+		expect.assertions(7)
+		const fileBufferTwo = fs.readFileSync(path.join(__dirname, 'sampleEmail2'));
+		fileTwo = fileBufferTwo.toString();
+		var mailparser = new MailParser();
+		mailparser.on("end", async function(parsed){
+			expect(parsed.subject).toBe('A Teacher departs')
 			expect(parsed.html).toBeDefined()
+			const virtualConsole = new jsdom.VirtualConsole();
+			// virtualConsole.on("error", () => { console.log(error) });
+			// virtualConsole.sendTo(c, { omitJSDOMErrors: true });
+			var dom = new JSDOM(parsed.html, { pretendToBeVisual: false, virtualConsole })			
+			var links = dom.window.document.querySelectorAll('a')
+			expect(links.length).toBeGreaterThan(0)
 			var linkset = tools.getLinksFromEmailHTML(parsed.html);
 			expect(linkset).toBeDefined()
 			expect(linkset).toHaveProperty('links')
@@ -82,13 +108,31 @@ describe('feed tools', () => {
 			expect(linkset.links[0]).toEqual('https://r.g-omedia.com/CL0/https:%2F%2Fwww.avclub.com%2F%3Futm_source=AV_Club_Daily_RSS%26utm_medium=email%26utm_campaign=2020-12-29/1/01000176b0c6b237-52ae3f4d-b45f-4491-b49e-ffa9e1f4ee43-000000/oe0UYLOzJhEL_T76EaNeZFgRGtpUkrUgUGqLu5zK4QE=173')
 			done()
 		});
+		mailparser.write(fileTwo);
+		mailparser.end();
+	})
+	it('should resolve dom', async (done) => {
+		var link = "https://link.mail.bloombergbusiness.com/click/22534452.104710/aHR0cHM6Ly9vcGVuLnNwb3RpZnkuY29tL3Nob3cvNW4xanJXYndoQnVLbkw2VE1pS3hKbj9zaT1DRnBPeEdIclNuaXVVWE1zN1BfbHNB/5756c6a26ce954a71a8b4d74B592858be"
+		var r = await fetch(link, {redirect: 'follow'})
+		let url = r.url
+		let text = await r.text();
+		const virtualConsole = new jsdom.VirtualConsole();
+		// virtualConsole.on("error", () => { console.log(error) });
+		// virtualConsole.sendTo(c, { omitJSDOMErrors: true });
+		var dom = new JSDOM(text, { pretendToBeVisual: false, virtualConsole })
+		expect(dom).toBeDefined()
+		expect(dom).toHaveProperty('window')
+		expect(dom.window).toHaveProperty('document')
+		expect(dom.window.document).toHaveProperty('querySelector')
+		done()
 	})
 	it('should resolve links', async (done) => {
-		expect.assertions(8)
-		const fileBuffer = fs.readFileSync(path.join(__dirname, 'sampleEmail2'));
-		fileTwo = fileBuffer.toString();
-		simpleParser(fileTwo, null, async (err, parsed) => {
-			expect(parsed.headers.get('subject')).toBe('A Teacher departs')
+		expect.assertions(9)
+		const fileBufferTwo = fs.readFileSync(path.join(__dirname, 'sampleEmail2'));
+		fileTwo = fileBufferTwo.toString();
+		var mailparser = new MailParser();
+		mailparser.on("end", async function(parsed){
+			expect(parsed.subject).toBe('A Teacher departs')
 			expect(parsed.html).toBeDefined()
 			var linkset = tools.getLinksFromEmailHTML(parsed.html);
 			expect(linkset).toBeDefined()
@@ -98,8 +142,11 @@ describe('feed tools', () => {
 
 			var resolvedLinkSet = await tools.resolveLinks(linkset)
 			expect(resolvedLinkSet.links.length).toBeGreaterThan(0)
-			expect(resolvedLinkSet.links[0].url).toEqual('https://www.avclub.com')
+			expect(resolvedLinkSet.links[0].url).toEqual('https://www.avclub.com/')
+			expect(resolvedLinkSet.links[0].title).toEqual('The A.V. Club | Pop culture obsessives writing for the pop culture obsessed.')
 			done()
 		});
-	}, 290000)
+		mailparser.write(fileTwo);
+		mailparser.end();
+	}, 600000)
 });

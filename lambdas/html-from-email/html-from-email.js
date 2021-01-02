@@ -160,13 +160,14 @@ exports.handler = async function(event) {
 
 		const emailName = (receiptKey.split('/'))[1]
 		const dtKey = 'dt=' + ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
-
+		
 		const handleLinks = async (link, pageObj) => {
+			var date = ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
 			var md5sum = crypto.createHash('md5');
 			md5sum.update(link);
 			var linkhash = md5sum.digest('hex');
 			var linkObj = {
-				date: (new Date()).toISOString(),
+				date: date,
 				description: pageObj.description,
 				hash: linkhash,
 				platform: "email",
@@ -175,21 +176,27 @@ exports.handler = async function(event) {
 				title: pageObj.title,
 				weight: 1
 			}
-			var exists = await existsOnS3(process.env.DEPOSIT_BUCKET, linkObj.hash + ".json")
+			var exists = await existsOnS3(process.env.DEPOSIT_BUCKET, 'item/' + linkObj.hash + ".json")
 			let uploadResult = {}
+			let uploadResultDate = {}
+			let finalLinkObj = {}
 			if (!exists){
-				uploadResult = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, linkObj.hash + ".json",  Buffer.from(JSON.stringify(linkObj)))
+				finalLinkObj = linkObj
+				uploadResult = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'item/' + linkObj.hash + ".json",  Buffer.from(JSON.stringify(linkObj)))
+				
 			} else {
-				var fileText = await getText(process.env.DEPOSIT_BUCKET, linkObj.hash + ".json")
+				var fileText = await getText(process.env.DEPOSIT_BUCKET, 'item/' + linkObj.hash + ".json")
 				var oldLinkObj = JSON.parse(fileText)
 				if (oldLinkObj.hasOwnProperty('weight')){
 					oldLinkObj.weight = oldLinkObj.weight + 1
 				} else {
 					oldLinkObj.weight = 2
 				}
-				uploadResult = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, linkObj.hash + ".json",  Buffer.from(JSON.stringify(oldLinkObj)))
+				finalLinkObj = oldLinkObj
+				uploadResult = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'item/' + linkObj.hash + ".json",  Buffer.from(JSON.stringify(oldLinkObj)))
 			}
-			return uploadResult
+			uploadResultDate = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'dailyLinks/' + date + '/' + linkObj.hash + ".json",  Buffer.from(JSON.stringify(finalLinkObj)))
+			return {uploadResult, uploadResultDate}
 		}
 
 		const linkset = tools.getLinksFromEmailHTML(emailHtml)

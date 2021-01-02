@@ -14,7 +14,7 @@ exports.handler = async function(event) {
 	const upload = new Promise((resolve, reject) => {
 		S3.upload({
 			Bucket:depositBucketName,
-			Key: 'feed.json',
+			Key: 'pinboard/feed.json',
 			Body: base64data
 		  },function (resp) {
 			console.log('Successfully uploaded package.', resp);

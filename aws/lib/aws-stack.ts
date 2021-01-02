@@ -17,7 +17,7 @@ import { DnsValidatedCertificate, ValidationMethod, CertificateValidation } from
 import * as ses from '@aws-cdk/aws-ses'
 import * as sesActions from '@aws-cdk/aws-ses-actions'
 import * as cr from '@aws-cdk/custom-resources';
-import { SPADeploy } from './cdk-spa-deploy'
+import { SPADeploy } from 'cdk-spa-deploy'
 import * as sns from '@aws-cdk/aws-sns';
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as codecommit from '@aws-cdk/aws-codecommit';
@@ -40,7 +40,9 @@ export class AwsStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'Site', {value: 'https://'+domain})
 
     // The code that defines your stack goes here
-    const pinboardBucket = new s3.Bucket(this, 'PinboardLinks')
+    const sourceLinkBucket = new s3.Bucket(this, 'SourceLinks', {
+      bucketName: 'source-links'
+    })
     const textsBucket = new s3.Bucket(this, 'BackreadsTexts', {
       bucketName: 'texts-for-processing'
     })
@@ -87,11 +89,14 @@ export class AwsStack extends cdk.Stack {
       code: lambda.Code.fromAsset('../lambdas/accrue-email'),  // code loaded from "lambda" directory
       handler: 'accrue-email.handler',                // file is "hello", function is "handler"
       environment: {
-        DEPOSIT_BUCKET: backreadsSiteBucket.bucketName
+        DEPOSIT_BUCKET: backreadsSiteBucket.bucketName,
+        PICKUP_BUCKET: textsBucket.bucketName
       }
     });
     backreadsSiteBucket.grantReadWrite(accrueEmailData)
     storyBucket.grantReadWrite(accrueEmailData)
+    textsBucket.grantReadWrite(accrueEmailData)
+
     const emailToHtml = new lambda.Function(this, 'emailToHtml', {
       runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/html-from-email'),  // code loaded from "lambda" directory
@@ -100,10 +105,10 @@ export class AwsStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(600),
       environment: {
         DEPOSIT_BUCKET: storyBucket.bucketName
-      },
-      onSuccess: new lambdaDestinations.LambdaDestination(accrueEmailData, {
+      }
+      /** onSuccess: new lambdaDestinations.LambdaDestination(accrueEmailData, {
         responseOnly: true // auto-extract
-      })
+      }) */
     });
     storyBucket.grantReadWrite(emailToHtml)
     textsBucket.grantReadWrite(emailToHtml)
@@ -187,18 +192,17 @@ export class AwsStack extends cdk.Stack {
     })
     const cloudfrontTarget = route53.RecordTarget
         .fromAlias(new targets.CloudFrontTarget(deployment.distribution));
-    /**
+    
     const siteDeployment = new s3Deployment.BucketDeployment(
       this,
       'deployStaticWebsite',
       {
           sources: [s3Deployment.Source.asset('../static')],
           destinationBucket: backreadsSiteBucket,
-          distribution,
-          distributionPaths: ['/*']
+          distribution: deployment.distribution,
+          distributionPaths: ['/index.html', '/error.html']
       }
     );
-    */
 
     // Route53 alias record for the CloudFront distribution
     new route53.ARecord(this, 'ARecord', {
@@ -236,7 +240,7 @@ export class AwsStack extends cdk.Stack {
       code: lambda.Code.fromAsset('../lambdas/pinboard-pull'),  // code loaded from "lambda" directory
       handler: 'pinboard-pull.handler', // file is "hello", function is "handler"
       environment: {
-        DEPOSIT_BUCKET: pinboardBucket.bucketName,
+        DEPOSIT_BUCKET: sourceLinkBucket.bucketName,
         FEED_NAME: secretPinboardFeed.stringValue
       }
     });
@@ -247,8 +251,8 @@ export class AwsStack extends cdk.Stack {
       handler: 'items-to-link-obj.handler', // file is "hello", function is "handler"
       timeout: cdk.Duration.seconds(10),
       environment: {
-        PICKUP_BUCKET: pinboardBucket.bucketName,
-        FEED_NAME: 'feed.json',
+        PICKUP_BUCKET: sourceLinkBucket.bucketName,
+        FEED_NAME: 'pinboard/feed.json',
         DEPOSIT_BUCKET: storyBucket.bucketName
       }
     });
@@ -258,14 +262,14 @@ export class AwsStack extends cdk.Stack {
       code: lambda.Code.fromAsset('../lambdas/rss-to-json'),  // code loaded from "lambda" directory
       handler: 'rss-to-json.handler', // file is "hello", function is "handler"
       environment: {
-        DEPOSIT_BUCKET: pinboardBucket.bucketName,
+        DEPOSIT_BUCKET: sourceLinkBucket.bucketName,
         FEED_NAME: 'https://feeds.pinboard.in/rss/secret:7651932a7e7c6db975ea/u:AramZS/'
       }
     });
      */
 
-    pinboardBucket.grantReadWrite(pinboardPull)
-    pinboardBucket.grantReadWrite(pinboardStoryLinks)
+    sourceLinkBucket.grantReadWrite(pinboardPull)
+    sourceLinkBucket.grantReadWrite(pinboardStoryLinks)
     storyBucket.grantReadWrite(pinboardStoryLinks)
 
     const pullPinboardTask = new tasks.LambdaInvoke(this, 'Get Pinboard Feed', {
@@ -279,6 +283,12 @@ export class AwsStack extends cdk.Stack {
       outputPath: '$'
     })
 
+    const collectEmailLinksTask = new tasks.LambdaInvoke(this, 'Process Email links into daily summary', {
+      lambdaFunction: accrueEmailData,
+      // inputPath: '$.guid',
+      outputPath: '$'
+    })
+
     const jobFailed = new sfn.Fail(this, 'Job Failed', {
       cause: 'AWS Batch Job Failed',
       error: 'DescribeJob returned FAILED',
@@ -288,6 +298,7 @@ export class AwsStack extends cdk.Stack {
 
     const definition = pullPinboardTask
       .next(processLinksTask)
+      .next(collectEmailLinksTask)
       .next(new sfn.Choice(this, 'Job Complete?')
           // Look at the "status" field
           .when(sfn.Condition.numberGreaterThanEquals('$.StatusCode', 400), jobFailed)

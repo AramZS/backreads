@@ -27,8 +27,19 @@ exports.getLinksFromEmailHTML = function(html){
 	var links = dom.window.document.querySelectorAll('a')
 	const testRegex = RegExp('unsubscribe')
 	const testMailtoRegex = RegExp('mailto:')
+	const manageLinks = RegExp('list-manage')
+	const fbLinks = RegExp('facebook.com/')
+	const twitterLinks = RegExp('twitter.com/')
 	links.forEach(link => {
-		if ( (link.innerText || link.innerHTML) && ( !link.innerText || !testRegex.test(link.innerText) ) && !testMailtoRegex.test(link.href)){
+		if ( 
+			(link.innerText || link.innerHTML) && 
+			( !link.innerText || !testRegex.test(link.innerText) ) && 
+			!testMailtoRegex.test(link.href) &&
+			!testRegex.test(link.href) &&
+			!manageLinks.test(link.href) &&
+			!fbLinks.test(link.href) &&
+			!twitterLinks.test(link.href)
+		){
 			linksJson.links.push(link.href)
 		}
 	});
@@ -49,7 +60,7 @@ exports.resolveLinks = async function(linkSet, aCallback){
 	const uas = [user_agent_windows, user_agent_macbook, user_agent_firefox, user_agent_safari]
 	let user_agent_desktop = uas[0]
 	const linksResolve = linkSet.links.filter((link) => link && link.length).map(async (link, index) => {
-		await timeout(index*2000)
+		await timeout(index*1000)
 		user_agent_desktop = uas[Math.floor(Math.random() * uas.length)];
 		try {
 			

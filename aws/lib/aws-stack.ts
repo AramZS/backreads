@@ -91,7 +91,7 @@ export class AwsStack extends cdk.Stack {
       }
     });
     backreadsSiteBucket.grantReadWrite(accrueEmailData)
-
+    storyBucket.grantReadWrite(accrueEmailData)
     const emailToHtml = new lambda.Function(this, 'emailToHtml', {
       runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/html-from-email'),  // code loaded from "lambda" directory

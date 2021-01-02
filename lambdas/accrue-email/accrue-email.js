@@ -6,13 +6,17 @@ const getText = (bucket, key) => {
 			{ Bucket: bucket, Key: key },
 			(err, data) => {
 				// console.log({ Bucket: getBucket(), Key: file }, 'getJSON result');
+				if ((err && err.statusCode >= 400) || (data && data.statusCode >= 400)){
+					console.log('File does not exist.')
+					reject( 'File does not exist' )
+				}
 				try {
 					// console.log('result retrieved', data);
 					const results = data.Body.toString();
 					resolve(results);
 				} catch (error) {
-					console.log('Error in retrieval: ', error)
-					reject('Error in retrieval: ' + JSON.stringify(error) + ' ' + JSON.stringify(err));
+					console.log('Error in retrieval of '+bucket+'/'+key+': ', error)
+					reject('Error in retrieval: ' + JSON.stringify(error) + ' ' + JSON.stringify(err) + data);
 					//reject(error);
 				}
 			}
@@ -47,12 +51,7 @@ const uploadDatastreamToS3 = (
 
 exports.handler = async function(event) {
 	console.log("accrue email request:", JSON.stringify(event, undefined, 2));
-	var retrievalObject = {
-		Bucket: event.sentLinks.Bucket,
-		Key: event.sentLinks.Key
-	}
-	var linksText = await getText(event.sentLinks.Bucket, event.sentLinks.Key)
-	var linksJSON = JSON.parse(linksText)
+	var linksJSON = event.resolvedLinks
 	var linksCount = linksJSON.links.length
 	var dtString = ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0]);
 	let dailyData = {
@@ -60,7 +59,8 @@ exports.handler = async function(event) {
 		links: {}
 	}
 	try {
-		dailyData = await getText(process.env.DEPOSIT_BUCKET, 'emails/'+dtString+'/links.json')
+		const dailyDataText = await getText(process.env.DEPOSIT_BUCKET, 'emails/'+dtString+'/links.json')
+		dailyData = JSON.parse(dailyDataText)
 		dailyData.emailCount += 1
 		linksJSON.links.forEach((linkObj) => {
 			if (dailyData.links.hasOwnProperty(linkObj.url)){
@@ -77,6 +77,7 @@ exports.handler = async function(event) {
 			}
 		})
 	} catch (e) {
+		console.log('File does not already exist')
 		linksJSON.links.forEach((linkObj) => {
 			dailyData.links[linkObj.url] = { 
 				title: linkObj.title, 

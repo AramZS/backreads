@@ -71,7 +71,7 @@ const uploadDatastreamToS3 = (
 
 const existsOnS3 = (bucket, key) => {
 	return new Promise((resolve, reject) => {
-		s3.headObject({ Bucket: bucket, Key: key }, (err, metadata) => {
+		S3.headObject({ Bucket: bucket, Key: key }, (err, metadata) => {
 			if (err && ['NotFound', 'Forbidden'].indexOf(err.code) > -1){
 				 return resolve(false);
 			}
@@ -206,7 +206,8 @@ exports.handler = async function(event) {
 		return {
 			links: linkset,
 			sentHtmlLocation: 'emails-html/'+dtKey+'/'+emailName+'.html',
-			sentLinks: sendLinks
+			resolvedLinksFile: sendLinks,
+			resolvedLinks: resolvedLinkSet
 		};
 	} catch (e) {
 		console.log('Lambda failed with error ', e)

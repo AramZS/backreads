@@ -1,6 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import * as lambda from '@aws-cdk/aws-lambda';
 import { SnsEventSource } from '@aws-cdk/aws-lambda-event-sources';
+import * as lambdaDestinations from '@aws-cdk/aws-lambda-destinations';
 import * as s3 from '@aws-cdk/aws-s3'
 import * as s3Deployment from '@aws-cdk/aws-s3-deployment'
 import * as ssm from '@aws-cdk/aws-ssm'
@@ -49,6 +50,16 @@ export class AwsStack extends cdk.Stack {
     const secretEmail = ssm.StringParameter.fromStringParameterAttributes(this, 'newsletterEmail', {
       parameterName: '/backreads/newsletteremail'
     });    
+
+    const backreadsSiteBucket = new s3.Bucket(this, 'BackreadsSite', {
+      bucketName: domain,
+      publicReadAccess: true,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      websiteIndexDocument: 'index.html',
+      websiteErrorDocument: 'error.html'
+    })
+
+    new cdk.CfnOutput(this, 'Bucket', { value: backreadsSiteBucket.bucketName })
     // Needed to set up the domain in SES Identity Management dashboard
     // For a possible CDK way to do it - https://developer.aliyun.com/mirror/npm/package/@aws-cdk/custom-resources 
     const emailReceivingRuleset = new ses.ReceiptRuleSet(this, 'RuleSet', {
@@ -71,13 +82,30 @@ export class AwsStack extends cdk.Stack {
       ],
     });
 
+    const accrueEmailData = new lambda.Function(this, 'accrueEmailData', {
+      runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
+      code: lambda.Code.fromAsset('../lambdas/accrue-email'),  // code loaded from "lambda" directory
+      handler: 'accrue-email.handler',                // file is "hello", function is "handler"
+      environment: {
+        DEPOSIT_BUCKET: backreadsSiteBucket.bucketName
+      }
+    });
+    backreadsSiteBucket.grantReadWrite(accrueEmailData)
+
     const emailToHtml = new lambda.Function(this, 'emailToHtml', {
       runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/html-from-email'),  // code loaded from "lambda" directory
       handler: 'html-from-email.handler',                // file is "hello", function is "handler"
       memorySize: 500,
-      timeout: cdk.Duration.seconds(600)
+      timeout: cdk.Duration.seconds(600),
+      environment: {
+        DEPOSIT_BUCKET: storyBucket.bucketName
+      },
+      onSuccess: new lambdaDestinations.LambdaDestination(accrueEmailData, {
+        responseOnly: true // auto-extract
+      })
     });
+    storyBucket.grantReadWrite(emailToHtml)
     textsBucket.grantReadWrite(emailToHtml)
     emailToHtml.addEventSource(new SnsEventSource(emailNewslettersTopic))
     
@@ -94,16 +122,6 @@ export class AwsStack extends cdk.Stack {
       policy: cr.AwsCustomResourcePolicy.fromSdkCalls({resources: cr.AwsCustomResourcePolicy.ANY_RESOURCE})
     });    
      */
-
-    const backreadsSiteBucket = new s3.Bucket(this, 'BackreadsSite', {
-      bucketName: domain,
-      publicReadAccess: true,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      websiteIndexDocument: 'index.html',
-      websiteErrorDocument: 'error.html'
-    })
-
-    new cdk.CfnOutput(this, 'Bucket', { value: backreadsSiteBucket.bucketName })
 
 
     const certificate = new DnsValidatedCertificate(this, "SiteCertificate", {

@@ -39,7 +39,7 @@ function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-exports.resolveLinks = async function(linkSet){
+exports.resolveLinks = async function(linkSet, aCallback){
 	let user_agent_windows = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' + 
 			'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 ' +
 			'Safari/537.36'
@@ -78,7 +78,7 @@ exports.resolveLinks = async function(linkSet){
 				} catch (e){
 					console.log('no canonical', r.url)
 					try {
-						url = window.document.querySelector('meta[property="og:url"]').content
+						url = dom.window.document.querySelector('meta[property="og:url"]').content
 					} catch (e) {
 						console.log('no og:url', r.url)
 						url = (r.url.split('?'))[0]
@@ -90,14 +90,32 @@ exports.resolveLinks = async function(linkSet){
 				} catch (e) {
 					console.log('Could not find title', r.url, e)
 					try {
-						title = window.document.querySelector('meta[property="og:title"]').content
+						title = dom.window.document.querySelector('meta[property="og:title"]').content
 					} catch(e){
 						title = ""
 					}
 				}
+				let description = ''
+				try {
+					description = dom.window.document.querySelector('meta[name="description"]').content
+				} catch (e) {
+					console.log('Could not find description', r.url, e)
+					try {
+						description = dom.window.document.querySelector('meta[property="og:description"]').content
+					} catch(e){
+						description = ""
+					}
+				}
+				
+				if (aCallback){
+					let check = await aCallback(url, { title, description })
+				}
 				return { title: title, url }
 			} catch (e){
 				console.log('Error in links resolution', r.url, e)
+				if (aCallback){
+					let check = await aCallback( r.url, { title: "", description: "" })
+				}
 				return { title: '', url: r.url }
 			}
 		} catch (e) {

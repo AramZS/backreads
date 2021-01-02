@@ -24,6 +24,7 @@ def process_feed(feed_data):
         print(feed_data_item['source'])
         hash_object = hashlib.md5(feed_data_item['source'].encode())
         feed_data_item['hash'] = hash_object.hexdigest()
+        feed_data_item['weight'] = 1
         item_objs.append(feed_data_item)
         item_links.append(feed_data_item['source'])
     return item_objs

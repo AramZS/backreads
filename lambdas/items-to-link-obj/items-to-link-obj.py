@@ -15,6 +15,7 @@ feed_file = os.environ.get('FEED_NAME')
 
 def pick_up_feed(pickup, file):
     feed_object = s3.Object(pickup, file)
+    print('Feed Object Found')
     feed_data = json.loads(feed_object.get()['Body'].read().decode('utf-8'))
     return feed_data
 
@@ -27,7 +28,7 @@ def yesterday():
     # Yesterday date
     yesterday = today - timedelta(days=1)
     print("Yesterday was: ", yesterday)
-    return yesterday
+    return yesterday.strftime('%Y-%m-%d')
 
 
 def process_feed(feed_data):
@@ -55,6 +56,8 @@ def create_updated_link_object(bucket, item_data):
         json_data['weight'] = json_data['weight']+1
         # print('append old link with new data')
         # print(json_data['weight'])
+        s3.Object(bucket, 'item/'+item_data['hash']+'.json').put(
+            Body=json.dumps(item_data, indent=4, sort_keys=True, default=str))
         return json_data
     except Exception as e:
         s3.Object(bucket, 'item/'+item_data['hash']+'.json').put(
@@ -64,25 +67,45 @@ def create_updated_link_object(bucket, item_data):
 
 
 def create_link_files(bucket, link_set):
+    yesterdayString = yesterday()
+    linkPrefix = 'dailyLinks/'+yesterdayString
+    print('target for upload')
+    print(bucket)
+    print(link_set)
     for feed_data_item in link_set:
+        print('processing feed item')
+        print(feed_data_item['source'])
         final_feed_data_item = create_updated_link_object(
             bucket, feed_data_item)
-        s3.Object(bucket, 'dailyLinks/'+yesterday()+'/'+feed_data_item['hash']+'.json').put(
-            Body=json.dumps(feed_data_item, indent=4, sort_keys=True, default=str))
+        s3.Object(bucket, linkPrefix+'/'+feed_data_item['hash']+'.json').put(
+            Body=json.dumps(final_feed_data_item, indent=4, sort_keys=True, default=str))
 
     return True
 
 
 def handler(event=None, context=None):
-    feed_data = pick_up_feed(pickup_bucket, feed_file)
-    processed_data = process_feed(feed_data)
-    return create_link_files(dropoff_bucket, processed_data)
+    print('Event: ')
+    print(event)
+    print('Download Params')
+    print(event['uploadBucket'])
+    print(event['uploadKey'])
+    try:
+        feed_data = pick_up_feed(event['uploadBucket'], event['uploadKey'])
+        print('Picked up data from:')
+        print(event['uploadBucket'])
+        print(event['uploadKey'])
+        processed_data = process_feed(feed_data)
+        return create_link_files(dropoff_bucket, processed_data)
+    except Exception as e:
+        print('could not pick up feed')
+        print(e)
+        return False
 
 
 if __name__ == "__main__":
     feed = pick_up_feed(
         'backreads-pinboardlinks365067f9-uqf5fmwd9km7', 'feed.json')
-    # print(feed)
+    print("Main")
     day = yesterday()
     print(day)
     sampleLink = {
@@ -97,7 +120,23 @@ if __name__ == "__main__":
     }
     finished_object = create_updated_link_object(
         "backreads-storylinksf7459473-1mas6jxy3j45q", sampleLink)
-    print(finished_object)
+    # print(finished_object)
+    yesterdayString = yesterday()
+    linkPrefix = 'dailyLinks/'+yesterdayString
+    # print(linkPrefix)
+    sampleInput = {
+        "uploadResult": {
+            "ETag": "\"024865a178d301fed70de10ef7a63c34\"",
+            "Location": "https://source-links.s3.amazonaws.com/pinboard/feed.json",
+            "key": "pinboard/feed.json",
+            "Key": "pinboard/feed.json",
+            "Bucket": "source-links"
+        },
+        "uploadBucket": "source-links",
+        "uploadKey": "pinboard/feed.json"
+    }
+    dropoff_bucket = 'backreads-storylinksf7459473-1mas6jxy3j45q'
+    handler(sampleInput, False)
     with open('../pinboard-pull/__test__/sampleJSON.json') as f:
         data = json.load(f)
 

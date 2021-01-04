@@ -245,11 +245,11 @@ export class AwsStack extends cdk.Stack {
       }
     });
 
-    const pinboardStoryLinks = new lambda.Function(this, 'PinboardStoryLinks', {
+    const createLinkObjs = new lambda.Function(this, 'BuldLinkObj', {
       runtime: lambda.Runtime.PYTHON_3_7,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/items-to-link-obj'),  // code loaded from "lambda" directory
       handler: 'items-to-link-obj.handler', // file is "hello", function is "handler"
-      timeout: cdk.Duration.seconds(10),
+      timeout: cdk.Duration.seconds(30),
       environment: {
         PICKUP_BUCKET: sourceLinkBucket.bucketName,
         FEED_NAME: 'pinboard/feed.json',
@@ -269,23 +269,23 @@ export class AwsStack extends cdk.Stack {
      */
 
     sourceLinkBucket.grantReadWrite(pinboardPull)
-    sourceLinkBucket.grantReadWrite(pinboardStoryLinks)
-    storyBucket.grantReadWrite(pinboardStoryLinks)
+    sourceLinkBucket.grantReadWrite(createLinkObjs)
+    storyBucket.grantReadWrite(createLinkObjs)
 
     const pullPinboardTask = new tasks.LambdaInvoke(this, 'Get Pinboard Feed', {
       lambdaFunction: pinboardPull,
-      outputPath: '$'
+      outputPath: '$.Payload.uploadedFeed'
     })
 
     const processLinksTask = new tasks.LambdaInvoke(this, 'Process Pinboard Feed', {
-      lambdaFunction: pinboardStoryLinks,
-      // inputPath: '$.guid',
+      lambdaFunction: createLinkObjs,
+      inputPath: '$',
       outputPath: '$'
     })
 
     const collectEmailLinksTask = new tasks.LambdaInvoke(this, 'Process Email links into daily summary', {
       lambdaFunction: accrueEmailData,
-      // inputPath: '$.guid',
+      inputPath: '$',
       outputPath: '$'
     })
 

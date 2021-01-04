@@ -16,10 +16,17 @@ exports.handler = async function(event) {
 			Bucket:depositBucketName,
 			Key: 'pinboard/feed.json',
 			Body: base64data
-		  },function (resp) {
+		  },function (err, resp) {
 			console.log('Successfully uploaded package.', resp);
 			resolve(resp)
 		  });
 	})
-	await upload;
+	const uploadComplete = await upload;
+	return { 
+		uploadedFeed: { 
+			uploadResult: uploadComplete,
+			uploadBucket: depositBucketName,
+			uploadKey:  'pinboard/feed.json'
+		}
+	};
   };

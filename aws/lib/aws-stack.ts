@@ -236,11 +236,11 @@ export class AwsStack extends cdk.Stack {
       parameterName: '/backreads/pinboardkey'
     });
     
-    const secretLoginEmail = ssm.StringParameter.fromStringParameterAttributes(this, 'MySecureValue', {
+    const secretLoginEmail = ssm.StringParameter.fromStringParameterAttributes(this, 'LoginEmail', {
       parameterName: '/backreads/loginemail'
     });    
     
-    const secretReadupPassword = ssm.StringParameter.fromStringParameterAttributes(this, 'MySecureValue', {
+    const secretReadupPassword = ssm.StringParameter.fromStringParameterAttributes(this, 'ReadupPassword', {
       parameterName: '/backreads/readuppassword'
     });        
 
@@ -259,6 +259,7 @@ export class AwsStack extends cdk.Stack {
       code: lambda.Code.fromAsset('../lambdas/readup-pull'),  // code loaded from "lambda" directory
       handler: 'readup-pull.handler', // file is "hello", function is "handler"
       functionName: 'ReadupPull',
+      timeout: cdk.Duration.seconds(300),
       environment: {
         DEPOSIT_BUCKET: sourceLinkBucket.bucketName,
         USERNAME: secretLoginEmail.stringValue,

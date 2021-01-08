@@ -8,9 +8,9 @@ const depositBucketName = process.env.DEPOSIT_BUCKET;
 
 exports.handler = async function(event) {
 	console.log("request:", JSON.stringify(event, undefined, 2));
-	const feedAsString = await tools.getFeed(username, password, 1)
-	const rssJs = await tools.feedToJS(feedAsString)
-	const feedAsJsonString = await tools.feedJStoJSONString(rssJs)
+	const cookieString = await tools.acquireAuth(username, password)
+	const feedAsJSON = await tools.getFeed(cookieString, 1)
+	const feedAsJsonString = tools.feedJStoJSONString(feedAsJSON)
 	var base64data = Buffer.from(feedAsJsonString);
 	const upload = new Promise((resolve, reject) => {
 		S3.upload({

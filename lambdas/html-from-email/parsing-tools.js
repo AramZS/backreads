@@ -147,8 +147,7 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 					'Accept-Language': 'en-US,en;q=0.8',
 					'User-Agent': user_agent_desktop
 				},
-				signal: controller.signal,
-				origin: "hs-sites.origin.hubspot.net"
+				signal: controller.signal
 			})
 			let url = r.url
 			let text = await r.text();

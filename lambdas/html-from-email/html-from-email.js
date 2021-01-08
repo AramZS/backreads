@@ -159,7 +159,7 @@ exports.handler = async function(event) {
 		const emailHtml = await getEmailHtml(email)
 
 		const emailName = (receiptKey.split('/'))[1]
-		const dtKey = 'dt=' + ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
+		const dtKey = ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
 		
 		const handleLinks = async (link, pageObj) => {
 			var date = ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
@@ -190,7 +190,11 @@ exports.handler = async function(event) {
 				if (oldLinkObj.hasOwnProperty('weight')){
 					oldLinkObj.weight = oldLinkObj.weight + 1
 				} else {
-					oldLinkObj.weight = 2
+					// Base email weight is 1
+					oldLinkObj.weight = 1
+				}
+				if (linkObj.description.length > oldLinkObj.description.length) {
+					oldLinkObj = linkObj.description
 				}
 				finalLinkObj = oldLinkObj
 				uploadResult = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'item/' + linkObj.hash + ".json",  Buffer.from(JSON.stringify(oldLinkObj)))

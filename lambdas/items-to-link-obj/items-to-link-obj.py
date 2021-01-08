@@ -53,11 +53,15 @@ def create_updated_link_object(bucket, item_data):
         data = linkS3Obj.get()['Body'].read().decode('utf-8')
         json_data = json.loads(data)
         # print(json_data)
-        json_data['weight'] = json_data['weight']+1
+        # Change depending on input
+        #   Pinboard weight: 2
+        json_data['weight'] = json_data['weight']+2
+        if (len(item_data['description']) > len(json_data['description'])):
+            json_data['description'] = item_data['description']
         # print('append old link with new data')
         # print(json_data['weight'])
-        s3.Object(bucket, 'item/'+item_data['hash']+'.json').put(
-            Body=json.dumps(item_data, indent=4, sort_keys=True, default=str))
+        s3.Object(bucket, 'item/'+json_data['hash']+'.json').put(
+            Body=json.dumps(json_data, indent=4, sort_keys=True, default=str))
         return json_data
     except Exception as e:
         s3.Object(bucket, 'item/'+item_data['hash']+'.json').put(

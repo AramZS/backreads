@@ -24,7 +24,7 @@ exports.feedJStoJSONString = async (rss) => {
 					description: item.description && item.description.length ? item.description[0] : "",
 					tags: item["dc:subject"] && item["dc:subject"].length ? item["dc:subject"] : [],
 					date: item["dc:date"] && item["dc:date"].length ? item["dc:date"][0] : (new Date()).toISOString(),
-					platform: 'pinboard'
+					platform: item["dc:source"] && item["dc:source"].length ? item["dc:source"] : 'pinboard'
 				};
 			}
 			

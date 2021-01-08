@@ -87,7 +87,8 @@ export class AwsStack extends cdk.Stack {
     const accrueEmailData = new lambda.Function(this, 'accrueEmailData', {
       runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/accrue-email'),  // code loaded from "lambda" directory
-      handler: 'accrue-email.handler',                // file is "hello", function is "handler"
+      handler: 'accrue-email.handler',
+      timeout: cdk.Duration.seconds(240),
       environment: {
         DEPOSIT_BUCKET: backreadsSiteBucket.bucketName,
         PICKUP_BUCKET: textsBucket.bucketName

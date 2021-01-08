@@ -100,8 +100,13 @@ exports.handler = async function(event) {
 		});
 	})
 	var resolvedSet = await Promise.all(promiseSet)
-	var updateDailyEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/'+dtString+'/links.json', Buffer.from(JSON.stringify(dailyData)))
+	var updateDailyEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/'+lastDateString+'/links.json', Buffer.from(JSON.stringify(dailyData)))
+	console.log('resolved', resolvedSet)
 	return {
+		resolved: {
+			bucket: process.env.DEPOSIT_BUCKET,
+			key: 'emails/'+lastDateString+'/links.json'
+		},
 		emailDateLevel: lastDateString,
 		uploaded: updateDailyEmailLinks
 	}

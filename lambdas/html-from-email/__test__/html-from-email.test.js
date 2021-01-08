@@ -126,6 +126,15 @@ describe('feed tools', () => {
 		expect(dom.window.document).toHaveProperty('querySelector')
 		done()
 	})
+	it('should ignore irrelevant links', ()=>{
+		expect(tools.collectableLink('https://link.mail.bloombergbusiness.com/click/22534452.104710/aHR0cHM6Ly9vcGVuLnNwb3RpZnkuY29tL3Nob3cvNW4xanJXYndoQnVLbkw2VE1pS3hKbj9zaT1DRnBPeEdIclNuaXVVWE1zN1BfbHNB/5756c6a26ce954a71a8b4d74B592858be')).toBe(true)
+		expect(tools.collectableLink('https://hacktext.com')).toBe(true)
+		expect(tools.collectableLink('https://facebook.com/aramzs')).toBe(false)
+		expect(tools.collectableLink('https://twitter.com/chronotope')).toBe(false)
+		expect(tools.collectableLink('https://tr.rev-stripe.com/stripe/redirect')).toBe(false)
+		expect(tools.collectableLink('https://www.instagram.com/accounts/login/')).toBe(false)
+		expect(tools.collectableLink('https://cdn.substack.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F0ff6f46d-4eb3-4b89-81b1-227e610a0f49_752x393.png')).toBe(false)
+	})
 	it('should resolve links', async (done) => {
 		expect.assertions(9)
 		const fileBufferTwo = fs.readFileSync(path.join(__dirname, 'sampleEmail2'));
@@ -149,4 +158,41 @@ describe('feed tools', () => {
 		mailparser.write(fileTwo);
 		mailparser.end();
 	}, 600000)
+	it('should resolve problem links', async (done) => {
+		// This one can't be crawled
+		// https://hubspot.fedscoop.com/e2t/tc/MWvcPNgnsh3W79LX1j6nwjf0W8fXtNV4lstWPMBB8SL2-GZQV1-WJV7CgZ1mW2dMh-Z1jqz1KN26x4n0wQm4gW3pPh3Z85pcthW7sWy6N2T-N8tW7JT5x_3jWtY2W33TXs68-pT8kN6fhJR-SvN-MW3cbRPL7dWtT3W9gw_8d9gjxLwW69_RD_72KCDHW7f1Q-h4wsGf2W7TJlpB7BPchRW1wsp7C4Mx0SpW964gTj5TWLbpVg_sqn8LgJN5W1qTLV-2XGk_-W4NMR6Q6fp8HSW6KPHKS62dgHV3qfx1
+		// https://s2.washingtonpost.com/2a970c9/5ff4606e9d2fda0efba0716e/596a51ce9bbc0f0e09ea0fc6/6/53/5ff4606e9d2fda0efba0716e
+		// https://email.mg2.substack.com/c/eJxFkMuOhCAQRb-m2Y3hpd29YNGb-Q1DQ6lkBAwUOvbXD-piksotUrn14BiNMMa0qyVmJIf0uC-gAmx5BkRIpGRIvbNKio6Rmix7tA_icj8kAK_drDAVIEt5z85odDEc7sed3zmZlB1Ag2atACoGCZJ1XcfZwLTtrDHWXDt1sQ6CAQUrpD0GILOaEJd8E68b_66xbVsTdnQecmOirxVOOauJniKrlFxlibNDZ87nMfGrHueXZkI_E6eOHspoy2TLW9awZl0-Uf6uzw-Ym6R-5E0u74za_BxbSFKjW8HDHkv6R1KdOmn_yY0__91Xqy_B4d5D0O8Z7IUEL6onpH6EAKnStr1GxTr6rBTFnXFBLwSVmWBUCkE5qTfYWLuC8jEFF8Y8Rcx_KZ6TBg 
+		// http://email.substack2.sinocism.com/c/eJxFkU0O3CAMhU8z2SUCQv4WLLrpNZADJkFNIAVnovT0JTOqKlm2kJ_N02cDhEtMtzpipupJmu4DVcArb0iEqTozJu2tkm3PK6vM3LaTrXzWLiHu4DdF6cTqOOfNGyAfw6MW1aosw8FNTDIzmMGJ1vXS9cil6MZWtNZ8_4PTegwGFb4x3TFgtamV6Miv9sdL_CxxXVdzQV59WCiGZ6gxcX8aMW22VMge9AHGO2_K0xQl1IRmrS0CrfXhgz1jidIUTPBS2Cd1j7ofZ2uHvpboXM05zjVw19XOghOjcQYmpjMVSM1K-1Z59axgnHVCsL6bGt7AuxO_ablkjC_J8jlnAvNLNNmHaHzeH7tVUot_4453PNN_vEUPCfY_udk_DHWR7mfwdGsMMG9ov3jpe6EPcL1gwFQuZzWQ4j2bxlFKPknGv0gL_7b4G3i5WHFjY5kK6p-bv2PXq0I
+		expect.assertions(7)
+		const result = await tools.resolveLinks(
+			{
+				links: ['https://s2.washingtonpost.com/2a970c9/5ff4606e9d2fda0efba0716e/596a51ce9bbc0f0e09ea0fc6/6/53/5ff4606e9d2fda0efba0716e']
+			},
+			null,
+			'Baiduspider+(+http://www.baidu.com/search/spider.htm)'
+		)
+		expect(result.links[0].url).not.toEqual('https://s2.washingtonpost.com/2a970c9/5ff4606e9d2fda0efba0716e/596a51ce9bbc0f0e09ea0fc6/6/53/5ff4606e9d2fda0efba0716e')
+		expect(result.links[0].url).not.toEqual('https://www.washingtonpost.com/politics/powerpost/the-health-202/?utm_campaign=wp_the_health_202&utm_medium=email&utm_source=newsletter&wpisrc=nl_health202')
+		expect(result.links[0].url).toEqual('https://www.washingtonpost.com/politics/powerpost/the-health-202/')
+		const result2 = await tools.resolveLinks(
+			{
+				links: ['http://email.substack2.sinocism.com/c/eJxFkU0O3CAMhU8z2SUCQv4WLLrpNZADJkFNIAVnovT0JTOqKlm2kJ_N02cDhEtMtzpipupJmu4DVcArb0iEqTozJu2tkm3PK6vM3LaTrXzWLiHu4DdF6cTqOOfNGyAfw6MW1aosw8FNTDIzmMGJ1vXS9cil6MZWtNZ8_4PTegwGFb4x3TFgtamV6Miv9sdL_CxxXVdzQV59WCiGZ6gxcX8aMW22VMge9AHGO2_K0xQl1IRmrS0CrfXhgz1jidIUTPBS2Cd1j7ofZ2uHvpboXM05zjVw19XOghOjcQYmpjMVSM1K-1Z59axgnHVCsL6bGt7AuxO_ablkjC_J8jlnAvNLNNmHaHzeH7tVUot_4453PNN_vEUPCfY_udk_DHWR7mfwdGsMMG9ov3jpe6EPcL1gwFQuZzWQ4j2bxlFKPknGv0gL_7b4G3i5WHFjY5kK6p-bv2PXq0I']
+			},
+			null,
+			'Baiduspider+(+http://www.baidu.com/search/spider.htm)'
+		)
+		expect(result2.links[0].url).not.toEqual('http://email.substack2.sinocism.com/c/eJxFkU0O3CAMhU8z2SUCQv4WLLrpNZADJkFNIAVnovT0JTOqKlm2kJ_N02cDhEtMtzpipupJmu4DVcArb0iEqTozJu2tkm3PK6vM3LaTrXzWLiHu4DdF6cTqOOfNGyAfw6MW1aosw8FNTDIzmMGJ1vXS9cil6MZWtNZ8_4PTegwGFb4x3TFgtamV6Miv9sdL_CxxXVdzQV59WCiGZ6gxcX8aMW22VMge9AHGO2_K0xQl1IRmrS0CrfXhgz1jidIUTPBS2Cd1j7ofZ2uHvpboXM05zjVw19XOghOjcQYmpjMVSM1K-1Z59axgnHVCsL6bGt7AuxO_ablkjC_J8jlnAvNLNNmHaHzeH7tVUot_4453PNN_vEUPCfY_udk_DHWR7mfwdGsMMG9ov3jpe6EPcL1gwFQuZzWQ4j2bxlFKPknGv0gL_7b4G3i5WHFjY5kK6p-bv2PXq0I')
+		expect(result2.links[0].url).toEqual('https://www.washingtonpost.com/world/asia_pacific/china-tech-death-pinduoduo/2021/01/05/c68bdd76-4eff-11eb-a1f5-fdaf28cfca90_story.html')
+		const result3 = await tools.resolveLinks(
+			{
+				links: ['https://email.mg2.substack.com/c/eJxFkMuOhCAQRb-m2Y3hpd29YNGb-Q1DQ6lkBAwUOvbXD-piksotUrn14BiNMMa0qyVmJIf0uC-gAmx5BkRIpGRIvbNKio6Rmix7tA_icj8kAK_drDAVIEt5z85odDEc7sed3zmZlB1Ag2atACoGCZJ1XcfZwLTtrDHWXDt1sQ6CAQUrpD0GILOaEJd8E68b_66xbVsTdnQecmOirxVOOauJniKrlFxlibNDZ87nMfGrHueXZkI_E6eOHspoy2TLW9awZl0-Uf6uzw-Ym6R-5E0u74za_BxbSFKjW8HDHkv6R1KdOmn_yY0__91Xqy_B4d5D0O8Z7IUEL6onpH6EAKnStr1GxTr6rBTFnXFBLwSVmWBUCkE5qTfYWLuC8jEFF8Y8Rcx_KZ6TBg']
+			},
+			null,
+			'Baiduspider+(+http://www.baidu.com/search/spider.htm)'
+		)
+		expect(result3.links[0].url).not.toEqual('https://email.mg2.substack.com/c/eJxFkMuOhCAQRb-m2Y3hpd29YNGb-Q1DQ6lkBAwUOvbXD-piksotUrn14BiNMMa0qyVmJIf0uC-gAmx5BkRIpGRIvbNKio6Rmix7tA_icj8kAK_drDAVIEt5z85odDEc7sed3zmZlB1Ag2atACoGCZJ1XcfZwLTtrDHWXDt1sQ6CAQUrpD0GILOaEJd8E68b_66xbVsTdnQecmOirxVOOauJniKrlFxlibNDZ87nMfGrHueXZkI_E6eOHspoy2TLW9awZl0-Uf6uzw-Ym6R-5E0u74za_BxbSFKjW8HDHkv6R1KdOmn_yY0__91Xqy_B4d5D0O8Z7IUEL6onpH6EAKnStr1GxTr6rBTFnXFBLwSVmWBUCkE5qTfYWLuC8jEFF8Y8Rcx_KZ6TBg')
+		expect(result3.links[0].url).toEqual('https://www.nytimes.com/2021/01/04/us/politics/pence-trump.html')
+		done()
+	}, 8000)
 });

@@ -31,6 +31,16 @@ def yesterday():
     return yesterday.strftime('%Y-%m-%d')
 
 
+def platformValue(x):
+    return {
+        'email': 1,
+        'https://pinboard.in': 2,
+        'https://twitter.com': 3,
+        'https://instapaper.com': 5,
+        'https://readup.com': 8
+    }.get(x, 2)
+
+
 def process_feed(feed_data):
     item_links = []
     item_objs = []
@@ -38,7 +48,16 @@ def process_feed(feed_data):
         # print(feed_data_item['source'])
         hash_object = hashlib.md5(feed_data_item['source'].encode())
         feed_data_item['hash'] = hash_object.hexdigest()
-        feed_data_item['weight'] = 1
+        if "platform" in feed_data_item:
+            if "weight" in feed_data_item:
+                # Weight is already assigned
+                feed_data_item['weight'] = feed_data_item['weight']
+            else:
+                feed_data_item['weight'] = platformValue(
+                    feed_data_item['platform'])
+        else:
+            feed_data_item['weight'] = 2
+            feed_data_item['platform'] = 'https://pinboard.in'
         item_objs.append(feed_data_item)
         item_links.append(feed_data_item['source'])
     return item_objs
@@ -55,11 +74,15 @@ def create_updated_link_object(bucket, item_data):
         # print(json_data)
         # Change depending on input
         #   Pinboard weight: 2
-        json_data['weight'] = json_data['weight']+2
+        # json_data['weight'] = json_data['weight']+2
         if (len(item_data['description']) > len(json_data['description'])):
             json_data['description'] = item_data['description']
-        # print('append old link with new data')
-        # print(json_data['weight'])
+
+        if (item_data['platform'] != json_data['platform']):
+            json_data['weight'] = json_data['weight'] + \
+                platformValue(item_data['platform'])
+            # print('append old link with new data')
+            # print(json_data['weight'])
         s3.Object(bucket, 'item/'+json_data['hash']+'.json').put(
             Body=json.dumps(json_data, indent=4, sort_keys=True, default=str))
         return json_data

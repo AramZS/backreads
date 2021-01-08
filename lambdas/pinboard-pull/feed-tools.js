@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const xml2js = require('xml2js');
-
+// Switch to API? https://pinboard.in/api#posts_get 
 exports.fetchFeed = async (feed) => {
 	const response = await fetch(feed)
 	return await response.text()
@@ -24,7 +24,7 @@ exports.feedJStoJSONString = async (rss) => {
 					description: item.description && item.description.length ? item.description[0] : "",
 					tags: item["dc:subject"] && item["dc:subject"].length ? item["dc:subject"] : [],
 					date: item["dc:date"] && item["dc:date"].length ? item["dc:date"][0] : (new Date()).toISOString(),
-					platform: item["dc:source"] && item["dc:source"].length ? item["dc:source"] : 'pinboard'
+					platform: item["dc:source"] && item["dc:source"].length ? item["dc:source"] : 'https://pinboard.in'
 				};
 			}
 			

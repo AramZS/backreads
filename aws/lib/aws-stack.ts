@@ -234,7 +234,15 @@ export class AwsStack extends cdk.Stack {
 
     const secretPinboardFeed = ssm.StringParameter.fromStringParameterAttributes(this, 'MySecureValue', {
       parameterName: '/backreads/pinboardkey'
+    });
+    
+    const secretLoginEmail = ssm.StringParameter.fromStringParameterAttributes(this, 'MySecureValue', {
+      parameterName: '/backreads/loginemail'
     });    
+    
+    const secretReadupPassword = ssm.StringParameter.fromStringParameterAttributes(this, 'MySecureValue', {
+      parameterName: '/backreads/readuppassword'
+    });        
 
     const pinboardPull = new lambda.Function(this, 'PinboardPull', {
       runtime: lambda.Runtime.NODEJS_10_X,    // execution environment
@@ -243,6 +251,18 @@ export class AwsStack extends cdk.Stack {
       environment: {
         DEPOSIT_BUCKET: sourceLinkBucket.bucketName,
         FEED_NAME: secretPinboardFeed.stringValue
+      }
+    });
+
+    const readupPull = new lambda.Function(this, 'ReadupPull', {
+      runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
+      code: lambda.Code.fromAsset('../lambdas/readup-pull'),  // code loaded from "lambda" directory
+      handler: 'readup-pull.handler', // file is "hello", function is "handler"
+      functionName: 'ReadupPull',
+      environment: {
+        DEPOSIT_BUCKET: sourceLinkBucket.bucketName,
+        USERNAME: secretLoginEmail.stringValue,
+        PASSWORD: secretReadupPassword.stringValue
       }
     });
 
@@ -268,13 +288,18 @@ export class AwsStack extends cdk.Stack {
       }
     });
      */
-
+    sourceLinkBucket.grantReadWrite(readupPull)
     sourceLinkBucket.grantReadWrite(pinboardPull)
     sourceLinkBucket.grantReadWrite(createLinkObjs)
     storyBucket.grantReadWrite(createLinkObjs)
 
     const pullPinboardTask = new tasks.LambdaInvoke(this, 'Get Pinboard Feed', {
       lambdaFunction: pinboardPull,
+      outputPath: '$.Payload.uploadedFeed'
+    })
+
+    const pullReadupTask = new tasks.LambdaInvoke(this, 'Get Readup Feed', {
+      lambdaFunction: readupPull,
       outputPath: '$.Payload.uploadedFeed'
     })
 
@@ -299,6 +324,7 @@ export class AwsStack extends cdk.Stack {
 
     const definition = pullPinboardTask
       .next(processLinksTask)
+      .next(pullReadupTask)
       .next(collectEmailLinksTask)
       .next(new sfn.Choice(this, 'Job Complete?')
           // Look at the "status" field

@@ -30,12 +30,12 @@ exports.feedJStoJSONString = async (rss) => {
 			
 		}
 	});
-	const filteredItem = items.filter((item) => {
+	const filteredItems = items.filter((item) => {
 		if (item){
 			return true
 		} else {
 			return false
 		}
 	})
-	return JSON.stringify(filteredItem, null, 3);	
+	return JSON.stringify({ links: filteredItems }, null, 3);	
 };

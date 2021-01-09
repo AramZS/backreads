@@ -3,6 +3,7 @@ const tools = require('./parsing-tools')
 var MailParser = require("mailparser-mit").MailParser;
 var AWS = require('aws-sdk');
 const S3 = new AWS.S3();
+const SNS = new AWS.SNS({apiVersion: '2010-03-31'})
 var crypto = require('crypto');
 
 const getText = (bucket, key) => {
@@ -149,6 +150,8 @@ const existsOnS3 = (bucket, key) => {
 
 exports.handler = async function(event) {
 	console.log("html-from-email request:", JSON.stringify(event, undefined, 2));
+	const depositBucket = process.env.DEPOSIT_BUCKET
+	const linksProcessingTopicArn = process.env.LINKS_PROCESSING_TOPIC
 	try {
 		const snsObject = tools.parseDataFromRecord(event)
 		const receiptBucket = tools.getBucketFromEmailEvent(snsObject)
@@ -209,6 +212,15 @@ exports.handler = async function(event) {
 		console.log('Push email HTML to ', receiptBucket, 'emails-html/'+dtKey+'/'+emailName+'.html')
 		const sendLinks = await uploadDatastreamToS3(receiptBucket, 'emails-links/'+dtKey+'/'+emailName+'.json', Buffer.from(JSON.stringify(resolvedLinkSet)))
 		console.log('Push email links to ', receiptBucket, 'emails-links/'+dtKey+'/'+emailName+'.json')
+		const topicMsg = {
+			Message: JSON.stringify({
+				uploadBucket: receiptBucket,
+				uploadKey: 'emails-links/'+dtKey+'/'+emailName+'.json'
+			}),
+			TopicArn: linksProcessingTopicArn
+		}
+		var publishTextPromise = await SNS.publish(topicMsg).promise();
+		console.log('Topic publish complete:', publishTextPromise)
 		console.log('Complete')
 		/**
 
@@ -218,7 +230,8 @@ exports.handler = async function(event) {
 			links: linkset,
 			sentHtmlLocation: 'emails-html/'+dtKey+'/'+emailName+'.html',
 			resolvedLinksFile: sendLinks,
-			resolvedLinks: resolvedLinkSet
+			resolvedLinks: resolvedLinkSet,
+			topicPublishEvent: publishTextPromise
 		};
 	} catch (e) {
 		console.log('Lambda failed with error ', e)

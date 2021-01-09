@@ -8,9 +8,7 @@ from datetime import timedelta
 
 s3 = boto3.resource('s3')
 
-pickup_bucket = os.environ.get('PICKUP_BUCKET')
 dropoff_bucket = os.environ.get('DEPOSIT_BUCKET')
-feed_file = os.environ.get('FEED_NAME')
 
 
 def pick_up_feed(pickup, file):
@@ -44,7 +42,7 @@ def platformValue(x):
 def process_feed(feed_data):
     item_links = []
     item_objs = []
-    for num, feed_data_item in enumerate(feed_data):
+    for num, feed_data_item in enumerate(feed_data['links']):
         # print(feed_data_item['source'])
         hash_object = hashlib.md5(feed_data_item['source'].encode())
         feed_data_item['hash'] = hash_object.hexdigest()
@@ -113,14 +111,25 @@ def create_link_files(bucket, link_set):
 def handler(event=None, context=None):
     print('Event: ')
     print(event)
+    uploadBucket = ''
+    uploadKey = ''
+    # https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html
+    if "Records" in event and 'body' in event["Records"][0]:
+        feedToProcess = json.loads(event["Records"][0]["body"])
+        uploadBucket = feedToProcess['uploadBucket']
+        uploadKey = feedToProcess['uploadKey']
+    else:
+        uploadBucket = event['uploadBucket']
+        uploadKey = event['uploadKey']
+
     print('Download Params')
-    print(event['uploadBucket'])
-    print(event['uploadKey'])
+    print(uploadBucket)
+    print(uploadKey)
     try:
-        feed_data = pick_up_feed(event['uploadBucket'], event['uploadKey'])
+        feed_data = pick_up_feed(uploadBucket, uploadKey)
         print('Picked up data from:')
-        print(event['uploadBucket'])
-        print(event['uploadKey'])
+        print(uploadBucket)
+        print(uploadKey)
         processed_data = process_feed(feed_data)
         return create_link_files(dropoff_bucket, processed_data)
     except Exception as e:

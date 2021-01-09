@@ -155,6 +155,14 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 			// virtualConsole.on("error", () => { console.log(error) });
 			// virtualConsole.sendTo(c, { omitJSDOMErrors: true });
 			var dom = new JSDOM(text, { pretendToBeVisual: false, virtualConsole })
+			let linkObj = {
+				source: "",
+				title: "",
+				description: "",
+				tags: [],
+				date: (new Date()).toISOString(),
+				platform: "email"
+			}
 			try {
 				try {
 					url = dom.window.document.querySelector('link[rel=canonical]').href
@@ -189,11 +197,13 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 						description = ""
 					}
 				}
+				linkObj.title = title
+				linkObj.description = description
 				if (exports.collectableLink(url)){
 					if (aCallback){
 						let check = await aCallback(url, { title, description })
 					}
-					return { title: title, url }
+					linkObj.url = url
 				} else {
 					return null
 				}
@@ -203,15 +213,19 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 					if (aCallback){
 						let check = await aCallback( r.url, { title: "", description: "" })
 					}
-					return { title: '', url: r.url }
+					linkObj.url = r.url
 				} else {
 					return null
 				}
 			}
+			return linkObj
 		} catch (e) {
 			console.log('Attempt to resolve link failed for ', link, "with ua", user_agent_desktop, "With error: ", e)
-			return { title: '', url: link }
+			linkObj.url = link
+			// return { title: '', url: link }
+			// return null
 		}
+		return linkObj
 			/** try {
 
 				const metadata = await metascraper({ html: text, url })

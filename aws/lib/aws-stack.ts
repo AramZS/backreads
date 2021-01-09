@@ -43,6 +43,7 @@ export class AwsStack extends cdk.Stack {
       queueName: 'linkProcessingQueue.fifo',
       fifo: true,
       visibilityTimeout: cdk.Duration.seconds(6*30)
+      // deadLetterQueue: // define this with a new queue to deliver to S3
     })
     linksTopic.addSubscription(new subscriptions.SqsSubscription(linkProcessingQueue))
 

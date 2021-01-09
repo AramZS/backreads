@@ -71,6 +71,39 @@ exports.feedJStoJSONString = (rss) => {
 	// console.log('output js', rss)
 	// console.log('output js item', rss['rdf:RDF'].item)
 	var items = rss.items.map((item) => {
+		/** 
+		 *     {
+      "id": 584361,
+      "title": "The Cops Showed Us Who They Are",
+      "slug": "discourse-blog_the-cops-showed-us-who-they-are",
+      "source": "Discourse Blog",
+      "datePublished": "2021-01-07T18:28:36",
+      "section": null,
+      "description": "The Capitol Police stood by as a Trump mob held the Capitol hostage. We shouldn't be surprised by this for a second.",
+      "aotdTimestamp": null,
+      "url": "https://discourseblog.com/police-allowed-trump-mob-to-storm-capitol/",
+      "authors": [],
+      "tags": [],
+      "wordCount": 1716,
+      "commentCount": 0,
+      "readCount": 0,
+      "averageRatingScore": null,
+      "dateCreated": "2021-01-07T23:15:45.794063",
+      "percentComplete": 16.3752913752914,
+      "isRead": false,
+      "dateStarred": null,
+      "ratingScore": null,
+      "datePosted": null,
+      "datesPosted": [],
+      "hotScore": 0,
+      "hotVelocity": 0,
+      "ratingCount": 0,
+      "firstPoster": null,
+      "flair": 0,
+      "aotdContenderRank": 0,
+      "proofToken": null
+    }
+		*/
 		if (item && item.hasOwnProperty('id') && item.hasOwnProperty('url')){
 			if (item['url'].match(/twitter\.com/g)){
 				// ignore twitter links
@@ -84,6 +117,9 @@ exports.feedJStoJSONString = (rss) => {
 					weight: 8,
 					platform: 'https://readup.com'
 				};
+				if (item.percentComplete > 90){
+					formedItem.weight = 10
+				}
 				return formedItem
 			}
 			

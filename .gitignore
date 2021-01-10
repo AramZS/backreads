@@ -12,3 +12,6 @@ cdk.out
 
 # Don't include cdk context with account info
 cdk.context.json
+
+# avoid python local test files that may need to export secrets to local env
+pytest.sh

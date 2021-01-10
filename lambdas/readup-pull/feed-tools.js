@@ -118,7 +118,7 @@ exports.feedJStoJSONString = (rss) => {
 					platform: 'https://readup.com'
 				};
 				if (item.percentComplete > 90){
-					formedItem.weight = 10
+					formedItem.weight = 13
 				}
 				return formedItem
 			}
@@ -132,5 +132,5 @@ exports.feedJStoJSONString = (rss) => {
 			return false
 		}
 	})
-	return JSON.stringify(filteredItem, null, 3);	
+	return JSON.stringify({links: filteredItem}, null, 3);	
 }

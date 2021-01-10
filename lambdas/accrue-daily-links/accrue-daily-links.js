@@ -95,12 +95,12 @@ exports.handler = async function(event) {
 	})
 	var resolvedLinkSet = await Promise.all(promiseSet)
 	dailyData.links = resolvedLinkSet
-	var updateDailyLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'dailyLinks/'+lastDateString+'/links.json', Buffer.from(JSON.stringify(dailyData)))
+	var updateDailyLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'daily-links/'+lastDateString+'/links.json', Buffer.from(JSON.stringify(dailyData)))
 	console.log('resolved', resolvedLinkSet)
 	return {
 		resolved: {
 			bucket: process.env.DEPOSIT_BUCKET,
-			key: 'emails/'+lastDateString+'/links.json'
+			key: 'daily-links/'+lastDateString+'/links.json'
 		},
 		emailDateLevel: lastDateString,
 		uploaded: updateDailyLinks

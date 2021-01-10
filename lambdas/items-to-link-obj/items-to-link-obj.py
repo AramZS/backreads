@@ -40,9 +40,14 @@ def platformValue(x):
 
 
 def process_feed(feed_data):
+    print('Process Feed')
     item_links = []
     item_objs = []
-    for num, feed_data_item in enumerate(feed_data['links']):
+    if isinstance(feed_data, dict):
+        linkset = feed_data['links']
+    else:
+        linkset = feed_data
+    for num, feed_data_item in enumerate(linkset):
         # print(feed_data_item['source'])
         hash_object = hashlib.md5(feed_data_item['source'].encode())
         feed_data_item['hash'] = hash_object.hexdigest()
@@ -56,6 +61,8 @@ def process_feed(feed_data):
         else:
             feed_data_item['weight'] = 2
             feed_data_item['platform'] = 'https://pinboard.in'
+
+        feed_data_item['platformsSeenOn'] = [feed_data_item['platform']]
         item_objs.append(feed_data_item)
         item_links.append(feed_data_item['source'])
     return item_objs
@@ -76,11 +83,19 @@ def create_updated_link_object(bucket, item_data):
         if (len(item_data['description']) > len(json_data['description'])):
             json_data['description'] = item_data['description']
 
-        if (item_data['platform'] != json_data['platform']):
+        if (item_data['platform'] == 'email' or item_data['platform'] != json_data['platform']):
             json_data['weight'] = json_data['weight'] + \
                 platformValue(item_data['platform'])
+
+            if 'platformsSeenOn' in json_data or (item_data['platform'] == 'email' and 'email' not in json_data['platformsSeenOn']):
+                json_data['platformsSeenOn'].append(item_data['platform'])
+            else:
+                json_data['platformsSeenOn'] = [
+                    item_data['platform'], json_data['platform']]
+
             # print('append old link with new data')
             # print(json_data['weight'])
+        print('update link')
         s3.Object(bucket, 'item/'+json_data['hash']+'.json').put(
             Body=json.dumps(json_data, indent=4, sort_keys=True, default=str))
         return json_data
@@ -97,15 +112,17 @@ def create_link_files(bucket, link_set):
     print('target for upload')
     print(bucket)
     print(link_set)
+    resultItems = []
     for feed_data_item in link_set:
-        print('processing feed item')
-        print(feed_data_item['source'])
+        # print('processing feed item')
+        # print(feed_data_item)
         final_feed_data_item = create_updated_link_object(
             bucket, feed_data_item)
-        s3.Object(bucket, linkPrefix+'/'+feed_data_item['hash']+'.json').put(
-            Body=json.dumps(final_feed_data_item, indent=4, sort_keys=True, default=str))
+        resultItems.append(s3.Object(bucket, linkPrefix+'/'+feed_data_item['hash']+'.json').put(
+            Body=json.dumps(final_feed_data_item, indent=4, sort_keys=True, default=str)))
 
-    return True
+    print('All links processed')
+    return resultItems
 
 
 def handler(event=None, context=None):
@@ -114,10 +131,13 @@ def handler(event=None, context=None):
     uploadBucket = ''
     uploadKey = ''
     # https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html
-    if "Records" in event and 'body' in event["Records"][0]:
-        feedToProcess = json.loads(event["Records"][0]["body"])
-        uploadBucket = feedToProcess['uploadBucket']
-        uploadKey = feedToProcess['uploadKey']
+    if 'Records' in event and 'body' in event['Records'][0]:
+        feedToProcess = json.loads(event['Records'][0]['body'])
+        print(feedToProcess)
+        feedMessage = json.loads(feedToProcess['Message'])
+        print(feedMessage)
+        uploadBucket = feedMessage['uploadBucket']
+        uploadKey = feedMessage['uploadKey']
     else:
         uploadBucket = event['uploadBucket']
         uploadKey = event['uploadKey']
@@ -139,6 +159,8 @@ def handler(event=None, context=None):
 
 
 if __name__ == "__main__":
+    boto3.session.Session(aws_access_key_id=os.environ.get(
+        'AWS_ACCESS_KEY_ID'), aws_secret_access_key=os.environ.get('AWS_SECRET_ACCESS_KEY'), profile_name="aram")
     feed = pick_up_feed(
         'backreads-pinboardlinks365067f9-uqf5fmwd9km7', 'feed.json')
     print("Main")
@@ -172,7 +194,32 @@ if __name__ == "__main__":
         "uploadKey": "pinboard/feed.json"
     }
     dropoff_bucket = 'backreads-storylinksf7459473-1mas6jxy3j45q'
-    handler(sampleInput, False)
+    # handler(sampleInput, False)
+
+    sampleQueueInput = {
+        "Records": [{
+            "messageId": "ad896612-b4b3-4ba8-af63-c506a9a4b0d7",
+            "receiptHandle": "AQEB79LecnXB+FfF2Kd2JK6mOkVtEywJmBEcqRhtbYkbWiezFJu3R56SgKtVBOb6gZX+HotCa+g6c8F58keU5+E0DW/nb1kiikrJe6o8VmcY7ZWzpdBq6HJ7pAev5eyZ0M2NxNw9Ug7qHfE/R0spD9ctVFzjwY4r3bHBhft7/KD3BQsalCiYDJsU0fMAP38e2XJbFGeYl0eIksZpsBWMcyqsKlJmKNbkizLalw7Gmx7LYi58ycjcsve3dQzDWkPPCoMUWLy73gGoif3GnKNVMRfUHWA04x4ZEJWFVzNVn6QTdZM=",
+            "body": "{\n  \"Type\" : \"Notification\",\n  \"MessageId\" : \"ec7a4369-3eaf-5606-9a26-1b1c7c9a63a5\",\n  \"SequenceNumber\" : \"10000000000000000003\",\n  \"TopicArn\" : \"arn:aws:sns:us-east-1:478108726520:linksetForProcessing.fifo\",\n  \"Message\" : \"{\\\"uploadBucket\\\":\\\"texts-for-processing\\\",\\\"uploadKey\\\":\\\"emails-links/2021-01-10/27guv0ca6h4gnf8l6dhh4ahuj9tj20fbmebgaeo1.json\\\"}\",\n  \"Timestamp\" : \"2021-01-10T17:57:09.883Z\",\n  \"UnsubscribeURL\" : \"https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:478108726520:linksetForProcessing.fifo:b4430595-ff81-457d-8c04-96800fa2395f\"\n}",
+            "attributes": {
+                "ApproximateReceiveCount": "1",
+                "SentTimestamp": "1610301430169",
+                "SequenceNumber": "18858981239832818688",
+                "MessageGroupId": "JOB2021-01-1027guv0ca6h4gnf8l6dhh4ahuj9tj20fbmebgaeo1",
+                "SenderId": "AIDAYRRVD2ENU4DSO2WBX",
+                "MessageDeduplicationId": "2021-01-1027guv0ca6h4gnf8l6dhh4ahuj9tj20fbmebgaeo1",
+                "ApproximateFirstReceiveTimestamp": "1610301430169"
+            },
+            "messageAttributes": {
+
+            },
+            "md5OfBody": "bd72f91ad9d1d38af524e62c2891f983",
+            "eventSource": "aws:sqs",
+            "eventSourceARN": "arn:aws:sqs:us-east-1:478108726520:linkProcessingQueue.fifo",
+            "awsRegion": "us-east-1"
+        }]
+    }
+    handler(sampleQueueInput, False)
     with open('../pinboard-pull/__test__/sampleJSON.json') as f:
         data = json.load(f)
 

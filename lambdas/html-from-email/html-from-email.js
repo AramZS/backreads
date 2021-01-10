@@ -164,7 +164,7 @@ exports.handler = async function(event) {
 		const emailName = (receiptKey.split('/'))[1]
 		const dtKey = ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
 		
-		const handleLinks = async (link, pageObj) => {
+		let handleLinks = async (link, pageObj) => {
 			var date = ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
 			var md5sum = crypto.createHash('md5');
 			md5sum.update(link);
@@ -207,21 +207,24 @@ exports.handler = async function(event) {
 		}
 
 		const linkset = tools.getLinksFromEmailHTML(emailHtml)
+		handleLinks = null
 		const resolvedLinkSet = await tools.resolveLinks(linkset, handleLinks)
 		const sendHtml = await uploadDatastreamToS3(receiptBucket, 'emails-html/'+dtKey+'/'+emailName+'.html', Buffer.from(emailHtml))
 		console.log('Push email HTML to ', receiptBucket, 'emails-html/'+dtKey+'/'+emailName+'.html')
 		const sendLinks = await uploadDatastreamToS3(receiptBucket, 'emails-links/'+dtKey+'/'+emailName+'.json', Buffer.from(JSON.stringify(resolvedLinkSet)))
 		console.log('Push email links to ', receiptBucket, 'emails-links/'+dtKey+'/'+emailName+'.json')
-		const topicMsg = {
+		// https://aws.amazon.com/blogs/compute/building-event-driven-architectures-with-amazon-sns-fifo/ 
+		var publishTextPromise = await SNS.publish({
 			Message: JSON.stringify({
 				uploadBucket: receiptBucket,
 				uploadKey: 'emails-links/'+dtKey+'/'+emailName+'.json'
 			}),
-			TopicArn: linksProcessingTopicArn
-		}
-		var publishTextPromise = await SNS.publish(topicMsg).promise();
+			TopicArn: linksProcessingTopicArn,
+			MessageGroupId: 'JOB' + dtKey + emailName,
+			MessageDeduplicationId: dtKey + emailName 
+		}).promise();
 		console.log('Topic publish complete:', publishTextPromise)
-		console.log('Complete')
+		console.log('Completed links out of ', linkset.length, ' a total of links processed were ', resolvedLinkSet.length)
 		/**
 
 

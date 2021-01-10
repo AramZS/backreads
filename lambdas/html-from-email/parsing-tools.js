@@ -63,7 +63,10 @@ exports.collectableLink = function(link) {
 		'cmail19.com',
 		'/legal/',
 		'click.revue.email',
-		'hubspot.fedscoop.com'
+		'hubspot.fedscoop.com',
+		'/feedback/',
+		'/tos',
+		'/email_ad'
 	];
 	for (let aRegExString of regexs) {
 		const aRegex = RegExp(aRegExString)
@@ -129,15 +132,27 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 	const substackMGRx = RegExp('mg2.substack')
 	const washPostRx = RegExp('s2.washingtonpost')
 	const linksResolve = linkSet.links.filter((link) => link && link.length).map(async (link, index) => {
-		await timeout(index*1000)
+		await timeout(index*1500)
 		user_agent_desktop = ua ? ua : uas[Math.floor(Math.random() * uas.length)];
+		let linkObj = {
+			source: "",
+			title: "",
+			description: "",
+			tags: [],
+			date: (new Date()).toISOString(),
+			platform: "email"
+		}
 		try {
 
 			if (washPostRx.test(link) || substackMGRx.test(link) || substackERx.test(link)){
 				user_agent_desktop = baidu_ua
 			}
 			const controller = new AbortController();
-			const timeout = setTimeout(() => {
+			const fetchTimeout = setTimeout(() => {
+				console.log('Request timed out for', link)
+				if (linkObj.source.length < 3){
+					linkObj.source = link
+				}
 				controller.abort();
 			}, 5000);
 			var r = await fetch(link, {
@@ -151,18 +166,11 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 			})
 			let url = r.url
 			let text = await r.text();
+			clearTimeout(fetchTimeout)
 			const virtualConsole = new jsdom.VirtualConsole();
 			// virtualConsole.on("error", () => { console.log(error) });
 			// virtualConsole.sendTo(c, { omitJSDOMErrors: true });
 			var dom = new JSDOM(text, { pretendToBeVisual: false, virtualConsole })
-			let linkObj = {
-				source: "",
-				title: "",
-				description: "",
-				tags: [],
-				date: (new Date()).toISOString(),
-				platform: "email"
-			}
 			try {
 				try {
 					url = dom.window.document.querySelector('link[rel=canonical]').href
@@ -203,7 +211,7 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 					if (aCallback){
 						let check = await aCallback(url, { title, description })
 					}
-					linkObj.url = url
+					linkObj.source = url
 				} else {
 					return null
 				}
@@ -213,7 +221,7 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 					if (aCallback){
 						let check = await aCallback( r.url, { title: "", description: "" })
 					}
-					linkObj.url = r.url
+					linkObj.source = r.url
 				} else {
 					return null
 				}
@@ -221,9 +229,12 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 			return linkObj
 		} catch (e) {
 			console.log('Attempt to resolve link failed for ', link, "with ua", user_agent_desktop, "With error: ", e)
-			linkObj.url = link
+			linkObj.source = link
 			// return { title: '', url: link }
 			// return null
+		}
+		if (linkObj.source.length < 3){
+			return null
 		}
 		return linkObj
 			/** try {

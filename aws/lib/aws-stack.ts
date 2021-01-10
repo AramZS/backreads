@@ -26,6 +26,21 @@ import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions';
 import * as sqs from '@aws-cdk/aws-sqs';
 import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
 
+
+// https://github.com/aws/aws-cdk/issues/11127
+const createFifoTopic = (stack: cdk.Stack, name: string) => {
+  if (!name.endsWith('.fifo')) name = name + '.fifo';
+  const topic = new sns.Topic(stack, name, {
+    topicName: name,
+    displayName: name
+  });
+  
+  const cfnTopic = topic.node.defaultChild as sns.CfnTopic
+  cfnTopic.addPropertyOverride("FifoTopic", true);
+  cfnTopic.addPropertyOverride("ContentBasedDeduplication", false);
+  return topic;
+}
+
 export class AwsStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -35,16 +50,21 @@ export class AwsStack extends cdk.Stack {
 
     const emailNewslettersTopic = new sns.Topic(this, 'emailNewslettersTopic');
     // https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/sns-examples-publishing-messages.html 
-    const linksTopic = new sns.Topic(this, 'linksForProcessing',{
-      displayName: 'linksForProcessing',
-      topicName: 'linksForProcessing'
+    /**
+    const linksTopicOld = new sns.Topic(this, 'linksetForProcessing',{
+      displayName: 'linksetForProcessing',
+      topicName: 'linksetForProcessing.fifo',
     });
+     */
+    const linksTopic = createFifoTopic(this, 'linksetForProcessing')
+
     const linkProcessingQueue = new sqs.Queue(this, 'linkProcessingQueue', {
       queueName: 'linkProcessingQueue.fifo',
       fifo: true,
       visibilityTimeout: cdk.Duration.seconds(6*30)
       // deadLetterQueue: // define this with a new queue to deliver to S3
     })
+
     linksTopic.addSubscription(new subscriptions.SqsSubscription(linkProcessingQueue))
 
     const hostedZone = route53.HostedZone.fromLookup(this, "HostedZone", {
@@ -112,6 +132,21 @@ export class AwsStack extends cdk.Stack {
     storyBucket.grantReadWrite(accrueEmailData)
     textsBucket.grantReadWrite(accrueEmailData)
 
+    const accrueLinksData = new lambda.Function(this, 'accrueDailyLinksData', {
+      runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
+      code: lambda.Code.fromAsset('../lambdas/accrue-daily-links'),  // code loaded from "lambda" directory
+      handler: 'accrue-daily-links.handler',
+      timeout: cdk.Duration.seconds(240),
+      functionName: 'accrue-daily-links',
+      environment: {
+        DEPOSIT_BUCKET: backreadsSiteBucket.bucketName,
+        PICKUP_BUCKET: storyBucket.bucketName
+      }
+    });
+    backreadsSiteBucket.grantReadWrite(accrueLinksData)
+    storyBucket.grantReadWrite(accrueLinksData)
+    textsBucket.grantReadWrite(accrueLinksData)
+
     const emailToHtml = new lambda.Function(this, 'emailToHtml', {
       runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/html-from-email'),  // code loaded from "lambda" directory
@@ -126,6 +161,7 @@ export class AwsStack extends cdk.Stack {
         responseOnly: true // auto-extract
       }) */
     });
+    linksTopic.grantPublish(emailToHtml)
     storyBucket.grantReadWrite(emailToHtml)
     textsBucket.grantReadWrite(emailToHtml)
     emailToHtml.addEventSource(new SnsEventSource(emailNewslettersTopic))
@@ -309,6 +345,7 @@ export class AwsStack extends cdk.Stack {
     sourceLinkBucket.grantReadWrite(pinboardPull)
     sourceLinkBucket.grantReadWrite(createLinkObjs)
     storyBucket.grantReadWrite(createLinkObjs)
+    textsBucket.grantReadWrite(createLinkObjs)
 
     const pullPinboardTask = new tasks.LambdaInvoke(this, 'Get Pinboard Feed', {
       lambdaFunction: pinboardPull,
@@ -326,11 +363,23 @@ export class AwsStack extends cdk.Stack {
       outputPath: '$'
     })
 
+    const processReadupTask = new tasks.LambdaInvoke(this, 'Process Readup Feed', {
+      lambdaFunction: createLinkObjs,
+      inputPath: '$',
+      outputPath: '$'
+    })
+
     const collectEmailLinksTask = new tasks.LambdaInvoke(this, 'Process Email links into daily summary', {
       lambdaFunction: accrueEmailData,
       inputPath: '$',
       outputPath: '$'
     })
+    const collectDailyLinksTask = new tasks.LambdaInvoke(this, 'Process daily links into daily summary', {
+      lambdaFunction: accrueLinksData,
+      inputPath: '$',
+      outputPath: '$'
+    })
+    
 
     const jobFailed = new sfn.Fail(this, 'Job Failed', {
       cause: 'AWS Batch Job Failed',
@@ -342,6 +391,8 @@ export class AwsStack extends cdk.Stack {
     const definition = pullPinboardTask
       .next(processLinksTask)
       .next(pullReadupTask)
+      .next(processReadupTask)
+      .next(collectDailyLinksTask)
       .next(collectEmailLinksTask)
       .next(new sfn.Choice(this, 'Job Complete?')
           // Look at the "status" field

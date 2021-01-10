@@ -84,8 +84,7 @@ exports.handler = async function(event) {
 				let linkFile = JSON.parse(data)
 				if (linkFile) {
 					const finalLinkObj = { 
-						...linkFile,
-						count: 1 
+						...linkFile
 					}
 					resolve(finalLinkObj)
 				} else {

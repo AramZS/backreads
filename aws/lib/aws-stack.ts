@@ -61,7 +61,7 @@ export class AwsStack extends cdk.Stack {
     const linkProcessingQueue = new sqs.Queue(this, 'linkProcessingQueue', {
       queueName: 'linkProcessingQueue.fifo',
       fifo: true,
-      visibilityTimeout: cdk.Duration.seconds(6*30)
+      visibilityTimeout: cdk.Duration.seconds(6*60)
       // deadLetterQueue: // define this with a new queue to deliver to S3
     })
 
@@ -322,7 +322,7 @@ export class AwsStack extends cdk.Stack {
       runtime: lambda.Runtime.PYTHON_3_7,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/items-to-link-obj'),  // code loaded from "lambda" directory
       handler: 'items-to-link-obj.handler', // file is "hello", function is "handler"
-      timeout: cdk.Duration.seconds(30),
+      timeout: cdk.Duration.seconds(60),
       environment: {
         PICKUP_BUCKET: sourceLinkBucket.bucketName,
         FEED_NAME: 'pinboard/feed.json',

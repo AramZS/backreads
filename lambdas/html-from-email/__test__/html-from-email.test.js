@@ -151,7 +151,7 @@ describe('feed tools', () => {
 
 			var resolvedLinkSet = await tools.resolveLinks(linkset)
 			expect(resolvedLinkSet.links.length).toBeGreaterThan(0)
-			expect(resolvedLinkSet.links[0].url).toEqual('https://www.avclub.com/')
+			expect(resolvedLinkSet.links[0].source).toEqual('https://www.avclub.com/')
 			expect(resolvedLinkSet.links[0].title).toEqual('The A.V. Club | Pop culture obsessives writing for the pop culture obsessed.')
 			done()
 		});
@@ -164,7 +164,8 @@ describe('feed tools', () => {
 		// https://s2.washingtonpost.com/2a970c9/5ff4606e9d2fda0efba0716e/596a51ce9bbc0f0e09ea0fc6/6/53/5ff4606e9d2fda0efba0716e
 		// https://email.mg2.substack.com/c/eJxFkMuOhCAQRb-m2Y3hpd29YNGb-Q1DQ6lkBAwUOvbXD-piksotUrn14BiNMMa0qyVmJIf0uC-gAmx5BkRIpGRIvbNKio6Rmix7tA_icj8kAK_drDAVIEt5z85odDEc7sed3zmZlB1Ag2atACoGCZJ1XcfZwLTtrDHWXDt1sQ6CAQUrpD0GILOaEJd8E68b_66xbVsTdnQecmOirxVOOauJniKrlFxlibNDZ87nMfGrHueXZkI_E6eOHspoy2TLW9awZl0-Uf6uzw-Ym6R-5E0u74za_BxbSFKjW8HDHkv6R1KdOmn_yY0__91Xqy_B4d5D0O8Z7IUEL6onpH6EAKnStr1GxTr6rBTFnXFBLwSVmWBUCkE5qTfYWLuC8jEFF8Y8Rcx_KZ6TBg 
 		// http://email.substack2.sinocism.com/c/eJxFkU0O3CAMhU8z2SUCQv4WLLrpNZADJkFNIAVnovT0JTOqKlm2kJ_N02cDhEtMtzpipupJmu4DVcArb0iEqTozJu2tkm3PK6vM3LaTrXzWLiHu4DdF6cTqOOfNGyAfw6MW1aosw8FNTDIzmMGJ1vXS9cil6MZWtNZ8_4PTegwGFb4x3TFgtamV6Miv9sdL_CxxXVdzQV59WCiGZ6gxcX8aMW22VMge9AHGO2_K0xQl1IRmrS0CrfXhgz1jidIUTPBS2Cd1j7ofZ2uHvpboXM05zjVw19XOghOjcQYmpjMVSM1K-1Z59axgnHVCsL6bGt7AuxO_ablkjC_J8jlnAvNLNNmHaHzeH7tVUot_4453PNN_vEUPCfY_udk_DHWR7mfwdGsMMG9ov3jpe6EPcL1gwFQuZzWQ4j2bxlFKPknGv0gL_7b4G3i5WHFjY5kK6p-bv2PXq0I
-		expect.assertions(7)
+		// https://e.newsletters.cnn.com/click/EZ2l2ZW1leW91cm5ld3NsZXR0ZXJAYXJhbXpzLm1l/CeyJtaWQiOiIxNjEwNDA3ODk5NDk3MDhlNTdmZmRiYzE3IiwiY3QiOiJjbm4tNjFkNmUwMDA1MTA1YmE3NmM3NGViYzBlOGJhZmIzY2MtMSIsInJkIjoiYXJhbXpzLm1lIn0/HWkhfQ05OX2lfTmV3c19OREJBTjAxMTEyMDIxMjczNDU0MSxjbjEsaHR0cHM6Ly93d3cuY25uLmNvbS9wb2xpdGljcy9saXZlLW5ld3MvdHJ1bXAtaW1wZWFjaG1lbnQtbmV3cy0wMS0xMS0yMS9oXzhjNTNiZjMxYzVhZWM0OGZlNjg0NjAxYWRiZTI4M2Vk/qP3V0bV90ZXJtPTE2MTA0MDc4OTk0OTcwOGU1N2ZmZGJjMTcmdXRtX3NvdXJjZT1jbm5fVGhlK1BvaW50KyVFMiU4MCU5MytNb25kYXklMkMrSmFudWFyeSsxMSUyQysyMDIxJnV0bV9tZWRpdW09ZW1haWwmdXRtX2NhbXBhaWduPTE2MTA0MDc4OTk0OTkmYnRfZWU9Zlp6ekklMkJVJTJCV2lEU3JSdm54JTJGSlQyY3Z6VzY1QkFmeWp0N014JTJCZUg2cml4MGFmVEY5eHg5biUyQnZFelJmd2pCeHkmYnRfdHM9MTYxMDQwNzg5OTQ5OQ/s3de00a1c53
+		expect.assertions(8)
 		const result = await tools.resolveLinks(
 			{
 				links: ['https://s2.washingtonpost.com/2a970c9/5ff4606e9d2fda0efba0716e/596a51ce9bbc0f0e09ea0fc6/6/53/5ff4606e9d2fda0efba0716e']
@@ -172,9 +173,9 @@ describe('feed tools', () => {
 			null,
 			'Baiduspider+(+http://www.baidu.com/search/spider.htm)'
 		)
-		expect(result.links[0].url).not.toEqual('https://s2.washingtonpost.com/2a970c9/5ff4606e9d2fda0efba0716e/596a51ce9bbc0f0e09ea0fc6/6/53/5ff4606e9d2fda0efba0716e')
-		expect(result.links[0].url).not.toEqual('https://www.washingtonpost.com/politics/powerpost/the-health-202/?utm_campaign=wp_the_health_202&utm_medium=email&utm_source=newsletter&wpisrc=nl_health202')
-		expect(result.links[0].url).toEqual('https://www.washingtonpost.com/politics/powerpost/the-health-202/')
+		expect(result.links[0].source).not.toEqual('https://s2.washingtonpost.com/2a970c9/5ff4606e9d2fda0efba0716e/596a51ce9bbc0f0e09ea0fc6/6/53/5ff4606e9d2fda0efba0716e')
+		expect(result.links[0].source).not.toEqual('https://www.washingtonpost.com/politics/powerpost/the-health-202/?utm_campaign=wp_the_health_202&utm_medium=email&utm_source=newsletter&wpisrc=nl_health202')
+		expect(result.links[0].source).toEqual('https://www.washingtonpost.com/politics/powerpost/the-health-202/')
 		const result2 = await tools.resolveLinks(
 			{
 				links: ['http://email.substack2.sinocism.com/c/eJxFkU0O3CAMhU8z2SUCQv4WLLrpNZADJkFNIAVnovT0JTOqKlm2kJ_N02cDhEtMtzpipupJmu4DVcArb0iEqTozJu2tkm3PK6vM3LaTrXzWLiHu4DdF6cTqOOfNGyAfw6MW1aosw8FNTDIzmMGJ1vXS9cil6MZWtNZ8_4PTegwGFb4x3TFgtamV6Miv9sdL_CxxXVdzQV59WCiGZ6gxcX8aMW22VMge9AHGO2_K0xQl1IRmrS0CrfXhgz1jidIUTPBS2Cd1j7ofZ2uHvpboXM05zjVw19XOghOjcQYmpjMVSM1K-1Z59axgnHVCsL6bGt7AuxO_ablkjC_J8jlnAvNLNNmHaHzeH7tVUot_4453PNN_vEUPCfY_udk_DHWR7mfwdGsMMG9ov3jpe6EPcL1gwFQuZzWQ4j2bxlFKPknGv0gL_7b4G3i5WHFjY5kK6p-bv2PXq0I']
@@ -182,8 +183,8 @@ describe('feed tools', () => {
 			null,
 			'Baiduspider+(+http://www.baidu.com/search/spider.htm)'
 		)
-		expect(result2.links[0].url).not.toEqual('http://email.substack2.sinocism.com/c/eJxFkU0O3CAMhU8z2SUCQv4WLLrpNZADJkFNIAVnovT0JTOqKlm2kJ_N02cDhEtMtzpipupJmu4DVcArb0iEqTozJu2tkm3PK6vM3LaTrXzWLiHu4DdF6cTqOOfNGyAfw6MW1aosw8FNTDIzmMGJ1vXS9cil6MZWtNZ8_4PTegwGFb4x3TFgtamV6Miv9sdL_CxxXVdzQV59WCiGZ6gxcX8aMW22VMge9AHGO2_K0xQl1IRmrS0CrfXhgz1jidIUTPBS2Cd1j7ofZ2uHvpboXM05zjVw19XOghOjcQYmpjMVSM1K-1Z59axgnHVCsL6bGt7AuxO_ablkjC_J8jlnAvNLNNmHaHzeH7tVUot_4453PNN_vEUPCfY_udk_DHWR7mfwdGsMMG9ov3jpe6EPcL1gwFQuZzWQ4j2bxlFKPknGv0gL_7b4G3i5WHFjY5kK6p-bv2PXq0I')
-		expect(result2.links[0].url).toEqual('https://www.washingtonpost.com/world/asia_pacific/china-tech-death-pinduoduo/2021/01/05/c68bdd76-4eff-11eb-a1f5-fdaf28cfca90_story.html')
+		expect(result2.links[0].source).not.toEqual('http://email.substack2.sinocism.com/c/eJxFkU0O3CAMhU8z2SUCQv4WLLrpNZADJkFNIAVnovT0JTOqKlm2kJ_N02cDhEtMtzpipupJmu4DVcArb0iEqTozJu2tkm3PK6vM3LaTrXzWLiHu4DdF6cTqOOfNGyAfw6MW1aosw8FNTDIzmMGJ1vXS9cil6MZWtNZ8_4PTegwGFb4x3TFgtamV6Miv9sdL_CxxXVdzQV59WCiGZ6gxcX8aMW22VMge9AHGO2_K0xQl1IRmrS0CrfXhgz1jidIUTPBS2Cd1j7ofZ2uHvpboXM05zjVw19XOghOjcQYmpjMVSM1K-1Z59axgnHVCsL6bGt7AuxO_ablkjC_J8jlnAvNLNNmHaHzeH7tVUot_4453PNN_vEUPCfY_udk_DHWR7mfwdGsMMG9ov3jpe6EPcL1gwFQuZzWQ4j2bxlFKPknGv0gL_7b4G3i5WHFjY5kK6p-bv2PXq0I')
+		expect(result2.links[0].source).toEqual('https://www.washingtonpost.com/world/asia_pacific/china-tech-death-pinduoduo/2021/01/05/c68bdd76-4eff-11eb-a1f5-fdaf28cfca90_story.html')
 		const result3 = await tools.resolveLinks(
 			{
 				links: ['https://email.mg2.substack.com/c/eJxFkMuOhCAQRb-m2Y3hpd29YNGb-Q1DQ6lkBAwUOvbXD-piksotUrn14BiNMMa0qyVmJIf0uC-gAmx5BkRIpGRIvbNKio6Rmix7tA_icj8kAK_drDAVIEt5z85odDEc7sed3zmZlB1Ag2atACoGCZJ1XcfZwLTtrDHWXDt1sQ6CAQUrpD0GILOaEJd8E68b_66xbVsTdnQecmOirxVOOauJniKrlFxlibNDZ87nMfGrHueXZkI_E6eOHspoy2TLW9awZl0-Uf6uzw-Ym6R-5E0u74za_BxbSFKjW8HDHkv6R1KdOmn_yY0__91Xqy_B4d5D0O8Z7IUEL6onpH6EAKnStr1GxTr6rBTFnXFBLwSVmWBUCkE5qTfYWLuC8jEFF8Y8Rcx_KZ6TBg']
@@ -191,8 +192,16 @@ describe('feed tools', () => {
 			null,
 			'Baiduspider+(+http://www.baidu.com/search/spider.htm)'
 		)
-		expect(result3.links[0].url).not.toEqual('https://email.mg2.substack.com/c/eJxFkMuOhCAQRb-m2Y3hpd29YNGb-Q1DQ6lkBAwUOvbXD-piksotUrn14BiNMMa0qyVmJIf0uC-gAmx5BkRIpGRIvbNKio6Rmix7tA_icj8kAK_drDAVIEt5z85odDEc7sed3zmZlB1Ag2atACoGCZJ1XcfZwLTtrDHWXDt1sQ6CAQUrpD0GILOaEJd8E68b_66xbVsTdnQecmOirxVOOauJniKrlFxlibNDZ87nMfGrHueXZkI_E6eOHspoy2TLW9awZl0-Uf6uzw-Ym6R-5E0u74za_BxbSFKjW8HDHkv6R1KdOmn_yY0__91Xqy_B4d5D0O8Z7IUEL6onpH6EAKnStr1GxTr6rBTFnXFBLwSVmWBUCkE5qTfYWLuC8jEFF8Y8Rcx_KZ6TBg')
-		expect(result3.links[0].url).toEqual('https://www.nytimes.com/2021/01/04/us/politics/pence-trump.html')
+		expect(result3.links[0].source).not.toEqual('https://email.mg2.substack.com/c/eJxFkMuOhCAQRb-m2Y3hpd29YNGb-Q1DQ6lkBAwUOvbXD-piksotUrn14BiNMMa0qyVmJIf0uC-gAmx5BkRIpGRIvbNKio6Rmix7tA_icj8kAK_drDAVIEt5z85odDEc7sed3zmZlB1Ag2atACoGCZJ1XcfZwLTtrDHWXDt1sQ6CAQUrpD0GILOaEJd8E68b_66xbVsTdnQecmOirxVOOauJniKrlFxlibNDZ87nMfGrHueXZkI_E6eOHspoy2TLW9awZl0-Uf6uzw-Ym6R-5E0u74za_BxbSFKjW8HDHkv6R1KdOmn_yY0__91Xqy_B4d5D0O8Z7IUEL6onpH6EAKnStr1GxTr6rBTFnXFBLwSVmWBUCkE5qTfYWLuC8jEFF8Y8Rcx_KZ6TBg')
+		expect(result3.links[0].source).toEqual('https://www.nytimes.com/2021/01/04/us/politics/pence-trump.html')
+		const result4 = await tools.resolveLinks(
+			{
+				links: ['https://e.newsletters.cnn.com/click/EZ2l2ZW1leW91cm5ld3NsZXR0ZXJAYXJhbXpzLm1l/CeyJtaWQiOiIxNjEwNDA3ODk5NDk3MDhlNTdmZmRiYzE3IiwiY3QiOiJjbm4tNjFkNmUwMDA1MTA1YmE3NmM3NGViYzBlOGJhZmIzY2MtMSIsInJkIjoiYXJhbXpzLm1lIn0/HWkhfQ05OX2lfTmV3c19OREJBTjAxMTEyMDIxMjczNDU0MSxjbjEsaHR0cHM6Ly93d3cuY25uLmNvbS9wb2xpdGljcy9saXZlLW5ld3MvdHJ1bXAtaW1wZWFjaG1lbnQtbmV3cy0wMS0xMS0yMS9oXzhjNTNiZjMxYzVhZWM0OGZlNjg0NjAxYWRiZTI4M2Vk/qP3V0bV90ZXJtPTE2MTA0MDc4OTk0OTcwOGU1N2ZmZGJjMTcmdXRtX3NvdXJjZT1jbm5fVGhlK1BvaW50KyVFMiU4MCU5MytNb25kYXklMkMrSmFudWFyeSsxMSUyQysyMDIxJnV0bV9tZWRpdW09ZW1haWwmdXRtX2NhbXBhaWduPTE2MTA0MDc4OTk0OTkmYnRfZWU9Zlp6ekklMkJVJTJCV2lEU3JSdm54JTJGSlQyY3Z6VzY1QkFmeWp0N014JTJCZUg2cml4MGFmVEY5eHg5biUyQnZFelJmd2pCeHkmYnRfdHM9MTYxMDQwNzg5OTQ5OQ/s3de00a1c53']
+			},
+			false,
+			false
+		)
+		expect(result4.links[0].source).toEqual('https://www.cnn.com/politics/live-news/trump-impeachment-news-01-11-21/index.html')
 		done()
 	}, 8000)
 });

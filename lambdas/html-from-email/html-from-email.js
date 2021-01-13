@@ -208,7 +208,7 @@ exports.handler = async function(event) {
 
 		const linkset = tools.getLinksFromEmailHTML(emailHtml)
 		handleLinks = null
-		const resolvedLinkSet = await tools.resolveLinks(linkset, handleLinks)
+		const resolvedLinkSet = await tools.resolveLinks(linkset, false, false)
 		const sendHtml = await uploadDatastreamToS3(receiptBucket, 'emails-html/'+dtKey+'/'+emailName+'.html', Buffer.from(emailHtml))
 		console.log('Push email HTML to ', receiptBucket, 'emails-html/'+dtKey+'/'+emailName+'.html')
 		const sendLinks = await uploadDatastreamToS3(receiptBucket, 'emails-links/'+dtKey+'/'+emailName+'.json', Buffer.from(JSON.stringify(resolvedLinkSet)))
@@ -224,7 +224,7 @@ exports.handler = async function(event) {
 			MessageDeduplicationId: dtKey + emailName 
 		}).promise();
 		console.log('Topic publish complete:', publishTextPromise)
-		console.log('Completed links out of ', linkset.length, ' a total of links processed were ', resolvedLinkSet.length)
+		console.log('Completed links out of ', linkset.links.length, ': a total of links processed were ', resolvedLinkSet.links.length)
 		/**
 
 

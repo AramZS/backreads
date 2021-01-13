@@ -82,15 +82,15 @@ exports.handler = async function(event) {
 			getText(process.env.PICKUP_BUCKET, s3Object.Key).then(data => {
 				let emailLinks = JSON.parse(data)
 				emailLinks.links.forEach((linkObj) => {
-					if (dailyData.links.hasOwnProperty(linkObj.url)){
-						dailyData.links[linkObj.url].count += 1
-						if (dailyData.links[linkObj.url].title.length < 5){
-							dailyData.links[linkObj.url].title = linkObj.title
+					if (dailyData.links.hasOwnProperty(linkObj.source)){
+						dailyData.links[linkObj.source].count += 1
+						if (dailyData.links[linkObj.source].title.length < 5){
+							dailyData.links[linkObj.source].title = linkObj.title
 						}
 					} else {
-						dailyData.links[linkObj.url] = { 
+						dailyData.links[linkObj.source] = { 
 							title: linkObj.title, 
-							url: linkObj.url,
+							url: linkObj.source,
 							count: 1 
 						}
 					}
@@ -101,7 +101,7 @@ exports.handler = async function(event) {
 	})
 	var resolvedSet = await Promise.all(promiseSet)
 	var updateDailyEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/'+lastDateString+'/links.json', Buffer.from(JSON.stringify(dailyData)))
-	console.log('resolved', resolvedSet)
+	console.log('final', dailyData)
 	return {
 		resolved: {
 			bucket: process.env.DEPOSIT_BUCKET,

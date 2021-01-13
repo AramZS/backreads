@@ -126,7 +126,9 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 	let user_agent_firefox = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:83.0) Gecko/20100101 Firefox/83.0'
 	let user_agent_safari = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'
 	let baidu_ua = 'Baiduspider+(+http://www.baidu.com/search/spider.htm)'
-	const uas = [user_agent_windows, user_agent_macbook, user_agent_firefox, user_agent_safari, 'Googlebot/2.1 (+http://www.google.com/bot.html)', baidu_ua]
+	let googleBot =  'Googlebot/2.1 (+http://www.google.com/bot.html)'
+	let newGoogleBot = 'UCWEB/2.0 (compatible; Googlebot/2.1; +google.com/bot.html)'
+	const uas = [user_agent_windows, user_agent_macbook, user_agent_firefox, user_agent_safari]
 	let user_agent_desktop = uas[0]
 	const substackERx = RegExp('email.substack')
 	const substackMGRx = RegExp('mg2.substack')
@@ -158,8 +160,6 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 			var r = await fetch(link, {
 				redirect: 'follow',
 				headers: {
-					'Upgrade-Insecure-Requests': '1',
-					'Accept-Language': 'en-US,en;q=0.8',
 					'User-Agent': user_agent_desktop
 				},
 				signal: controller.signal

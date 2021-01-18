@@ -163,48 +163,6 @@ exports.handler = async function(event) {
 
 		const emailName = (receiptKey.split('/'))[1]
 		const dtKey = ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
-		
-		let handleLinks = async (link, pageObj) => {
-			var date = ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
-			var md5sum = crypto.createHash('md5');
-			md5sum.update(link);
-			var linkhash = md5sum.digest('hex');
-			var linkObj = {
-				date: date,
-				description: pageObj.description,
-				hash: linkhash,
-				platform: "email",
-				source: link,
-				tags: [],
-				title: pageObj.title,
-				weight: 1
-			}
-			var exists = await existsOnS3(process.env.DEPOSIT_BUCKET, 'item/' + linkObj.hash + ".json")
-			let uploadResult = {}
-			let uploadResultDate = {}
-			let finalLinkObj = {}
-			if (!exists){
-				finalLinkObj = linkObj
-				uploadResult = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'item/' + linkObj.hash + ".json",  Buffer.from(JSON.stringify(linkObj)))
-				
-			} else {
-				var fileText = await getText(process.env.DEPOSIT_BUCKET, 'item/' + linkObj.hash + ".json")
-				var oldLinkObj = JSON.parse(fileText)
-				if (oldLinkObj.hasOwnProperty('weight')){
-					oldLinkObj.weight = oldLinkObj.weight + 1
-				} else {
-					// Base email weight is 1
-					oldLinkObj.weight = 1
-				}
-				if (linkObj.description.length > oldLinkObj.description.length) {
-					oldLinkObj = linkObj.description
-				}
-				finalLinkObj = oldLinkObj
-				uploadResult = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'item/' + linkObj.hash + ".json",  Buffer.from(JSON.stringify(oldLinkObj)))
-			}
-			uploadResultDate = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'dailyLinks/' + date + '/' + linkObj.hash + ".json",  Buffer.from(JSON.stringify(finalLinkObj)))
-			return {uploadResult, uploadResultDate}
-		}
 
 		const linkset = tools.getLinksFromEmailHTML(emailHtml)
 		handleLinks = null

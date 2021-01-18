@@ -1,5 +1,6 @@
 var AWS = require('aws-sdk');
 const S3 = new AWS.S3();
+
 const getText = (bucket, key) => {
 	return new Promise((resolve, reject) => {
 		const response = S3.getObject(

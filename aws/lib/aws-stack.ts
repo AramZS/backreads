@@ -61,7 +61,7 @@ export class AwsStack extends cdk.Stack {
     const linkProcessingQueue = new sqs.Queue(this, 'linkProcessingQueue', {
       queueName: 'linkProcessingQueue.fifo',
       fifo: true,
-      visibilityTimeout: cdk.Duration.seconds(6*60)
+      visibilityTimeout: cdk.Duration.seconds(6*90)
       // deadLetterQueue: // define this with a new queue to deliver to S3
     })
 
@@ -252,7 +252,12 @@ export class AwsStack extends cdk.Stack {
           sources: [s3Deployment.Source.asset('../static')],
           destinationBucket: backreadsSiteBucket,
           distribution: deployment.distribution,
-          distributionPaths: ['/index.html', '/error.html']
+          distributionPaths: [
+            '/index.html', 
+            '/error.html', 
+            '/emails/style.css',
+            '/turret.min.css'
+          ]
       }
     );
 
@@ -322,7 +327,7 @@ export class AwsStack extends cdk.Stack {
       runtime: lambda.Runtime.PYTHON_3_7,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/items-to-link-obj'),  // code loaded from "lambda" directory
       handler: 'items-to-link-obj.handler', // file is "hello", function is "handler"
-      timeout: cdk.Duration.seconds(60),
+      timeout: cdk.Duration.seconds(90),
       environment: {
         PICKUP_BUCKET: sourceLinkBucket.bucketName,
         FEED_NAME: 'pinboard/feed.json',
@@ -374,6 +379,7 @@ export class AwsStack extends cdk.Stack {
       inputPath: '$',
       outputPath: '$'
     })
+    // .Payload.resolved
     const collectDailyLinksTask = new tasks.LambdaInvoke(this, 'Process daily links into daily summary', {
       lambdaFunction: accrueLinksData,
       inputPath: '$',

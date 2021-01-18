@@ -66,7 +66,15 @@ exports.collectableLink = function(link) {
 		'hubspot.fedscoop.com',
 		'/feedback/',
 		'/tos',
-		'/email_ad'
+		'/email_ad',
+		'helpcenter',
+		'/privacy-policy/',
+		'/newsletters/',
+		'/about/',
+		'/terms-of-service/',
+		'/deals/',
+		'disable_email',
+
 	];
 	for (let aRegExString of regexs) {
 		const aRegex = RegExp(aRegExString)
@@ -128,11 +136,15 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 	let baidu_ua = 'Baiduspider+(+http://www.baidu.com/search/spider.htm)'
 	let googleBot =  'Googlebot/2.1 (+http://www.google.com/bot.html)'
 	let newGoogleBot = 'UCWEB/2.0 (compatible; Googlebot/2.1; +google.com/bot.html)'
-	const uas = [user_agent_windows, user_agent_macbook, user_agent_firefox, user_agent_safari]
+	let pythonRequests = 'python-requests/2.23.0';
+	let facebookRq = 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)';
+	let lighthouse = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko; Google Page Speed Insights) Chrome/41.0.2272.118 Safari/537.36'
+	const uas = [user_agent_windows, user_agent_macbook, user_agent_firefox, user_agent_safari, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:77.0) Gecko/20100101 Firefox/77.0', 'Mozilla/5.0 (X11; Linux x86_64)']
 	let user_agent_desktop = uas[0]
 	const substackERx = RegExp('email.substack')
 	const substackMGRx = RegExp('mg2.substack')
-	const washPostRx = RegExp('s2.washingtonpost')
+	const washPostRx = RegExp('s2.washingtonpost.com')
+	const washPostStandardRx = RegExp('washingtonpost.com')
 	const linksResolve = linkSet.links.filter((link) => link && link.length).map(async (link, index) => {
 		await timeout(index*1500)
 		user_agent_desktop = ua ? ua : uas[Math.floor(Math.random() * uas.length)];
@@ -148,6 +160,8 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 
 			if (washPostRx.test(link) || substackMGRx.test(link) || substackERx.test(link)){
 				user_agent_desktop = baidu_ua
+			} else if (washPostStandardRx.test(link)) {
+				user_agent_desktop = lighthouse
 			}
 			const controller = new AbortController();
 			const fetchTimeout = setTimeout(() => {
@@ -156,11 +170,17 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 					linkObj.source = link
 				}
 				controller.abort();
-			}, 5000);
+			}, 5500);
 			var r = await fetch(link, {
 				redirect: 'follow',
 				headers: {
-					'User-Agent': user_agent_desktop
+					"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+					'User-Agent': user_agent_desktop,
+					"Accept-Encoding": "gzip, deflate", // 'Accept-Encoding': 'gzip, deflate, br',
+					"Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8", // 'Accept-Language': 'en-US,en;q=0.9',
+					"Dnt": "1",
+					"Upgrade-Insecure-Requests": "1",
+					"Referer": "https://www.gmail.com/",
 				},
 				signal: controller.signal
 			})
@@ -251,5 +271,6 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 	});
 	var linksResolved = await Promise.all(linksResolve)
 	var cleanLinksResolved = linksResolved.filter((link) => link)
+	var finalCleanLinksResolved = linksResolved.filter((link) => link)
 	return { links: cleanLinksResolved }
 }

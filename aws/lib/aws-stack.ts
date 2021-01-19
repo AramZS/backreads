@@ -25,6 +25,7 @@ import * as codepipeline from '@aws-cdk/aws-codepipeline';
 import * as codepipeline_actions from '@aws-cdk/aws-codepipeline-actions';
 import * as sqs from '@aws-cdk/aws-sqs';
 import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
+import { PolicyStatement } from '@aws-cdk/aws-iam';
 
 
 // https://github.com/aws/aws-cdk/issues/11127
@@ -88,12 +89,18 @@ export class AwsStack extends cdk.Stack {
     });    
 
     const backreadsSiteBucket = new s3.Bucket(this, 'BackreadsSite', {
-      bucketName: domain,
+      bucketName: 'backreads',
       publicReadAccess: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'error.html'
     })
+
+    const bucketPolicy = new PolicyStatement();
+    bucketPolicy.addAnyPrincipal();
+    bucketPolicy.addActions('s3:GetObject');
+    bucketPolicy.addResources(`${backreadsSiteBucket.bucketArn}/*`);
+    backreadsSiteBucket.addToResourcePolicy(bucketPolicy);
 
     new cdk.CfnOutput(this, 'Bucket', { value: backreadsSiteBucket.bucketName })
     // Needed to set up the domain in SES Identity Management dashboard
@@ -166,6 +173,7 @@ export class AwsStack extends cdk.Stack {
     textsBucket.grantReadWrite(emailToHtml)
     emailToHtml.addEventSource(new SnsEventSource(emailNewslettersTopic))
     
+
     /**
     const activateSESRuleSet = new cr.AwsCustomResource(this, 'ActivateSESRuleSet', {
       onUpdate: {
@@ -235,42 +243,121 @@ export class AwsStack extends cdk.Stack {
     })
      */
 
+    const getCFConfig = function(websiteBucket:s3.Bucket, config:any, accessIdentity: cloudfront.OriginAccessIdentity, cert?:DnsValidatedCertificate) {
+      const cfConfig:any = {
+        originConfigs: [
+          {
+            s3OriginSource: {
+              s3BucketSource: websiteBucket,
+              originAccessIdentity: accessIdentity,
+            },
+            behaviors: config.cfBehaviors ? config.cfBehaviors : [{ isDefaultBehavior: true }],
+          },
+        ],
+        // We need to redirect all unknown routes back to index.html for angular routing to work
+        errorConfigurations: [{
+          errorCode: 403,
+          responsePagePath: (config.errorDoc ? `/${config.errorDoc}` : `/${config.indexDoc}`),
+          responseCode: 200,
+        },
+        {
+          errorCode: 404,
+          responsePagePath: (config.errorDoc ? `/${config.errorDoc}` : `/${config.indexDoc}`),
+          responseCode: 200,
+        }],
+      };
+
+      if (typeof config.certificateARN !== 'undefined' && typeof config.cfAliases !== 'undefined') {
+        cfConfig.aliasConfiguration = {
+          acmCertRef: config.certificateARN,
+          names: config.cfAliases,
+        };
+      }
+      if (typeof config.sslMethod !== 'undefined') {
+        cfConfig.aliasConfiguration.sslMethod = config.sslMethod;
+      }
+
+      if (typeof config.securityPolicy !== 'undefined') {
+        cfConfig.aliasConfiguration.securityPolicy = config.securityPolicy;
+      }
+
+      if (typeof config.zoneName !== 'undefined' && typeof cert !== 'undefined') {
+        cfConfig.viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate(cert, {
+          aliases: [config.zoneName],
+        });
+      }
+
+      return cfConfig;
+    }
+
+    /**
     const deployment = new SPADeploy(this, 'spaDeployment').createSiteWithCloudfront({
       indexDoc: 'index.html',
+      errorDoc: 'error.html',
       websiteFolder: '../static',
       certificateARN: certificate.certificateArn,
       cfAliases: [domain, `*.${domain}`]
 
     })
+     */
+    const accessIdentity = new cloudfront.OriginAccessIdentity(this, 'OriginAccessIdentity', { comment: `${backreadsSiteBucket.bucketName}-access-identity` });
+    const distribution = new cloudfront.CloudFrontWebDistribution(this, 'cloudfrontDistribution', getCFConfig(backreadsSiteBucket, {
+      indexDoc: 'index.html',
+      errorDoc: 'error.html',
+      websiteFolder: '../static',
+      certificateARN: certificate.certificateArn,
+      cfAliases: [domain, `*.${domain}`]   
+    }, accessIdentity, certificate));
+
     const cloudfrontTarget = route53.RecordTarget
-        .fromAlias(new targets.CloudFrontTarget(deployment.distribution));
+        .fromAlias(new targets.CloudFrontTarget(distribution));
     
-    const siteDeployment = new s3Deployment.BucketDeployment(
+    const siteHTMLDeployment = new s3Deployment.BucketDeployment(
       this,
       'deployStaticWebsite',
       {
-          sources: [s3Deployment.Source.asset('../static')],
+          sources: [s3Deployment.Source.asset('../static', {exclude: ['*.css', '*.js']})],
           destinationBucket: backreadsSiteBucket,
-          distribution: deployment.distribution,
+          distribution: distribution,
           distributionPaths: [
+            '/',
+            '/about.html',
             '/index.html', 
-            '/error.html', 
+            '/error.html',
+          ],
+          prune: false,
+          contentType: "text/html",
+          contentLanguage: "en",
+          cacheControl: [s3Deployment.CacheControl.setPublic()],
+      }
+    );
+    const siteCSSDeployment = new s3Deployment.BucketDeployment(
+      this,
+      'deployStaticWebsiteCSS',
+      {
+          sources: [s3Deployment.Source.asset('../static', {exclude: ['*.html', '*.js']}), s3Deployment.Source.asset('../static/emails', {exclude: ['*.html', '*.js']})],
+          destinationBucket: backreadsSiteBucket,
+          distribution: distribution,
+          distributionPaths: [
             '/emails/style.css',
-            '/turret.min.css'
-          ]
+            '/base.css'
+          ],
+          prune: false,
+          contentType: 'text/css',
+          cacheControl: [s3Deployment.CacheControl.setPublic()],
       }
     );
 
     // Route53 alias record for the CloudFront distribution
     new route53.ARecord(this, 'ARecord', {
       recordName: domain,
-      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(deployment.distribution)),
+      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
       zone: hostedZone
     });
 
     new route53.ARecord(this, 'WildCardARecord', {
       recordName: `*.${domain}`,
-      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(deployment.distribution)),
+      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
       zone: hostedZone
     });
 
@@ -279,6 +366,36 @@ export class AwsStack extends cdk.Stack {
       recordNames: [`www.${domain}`],
       targetDomain: domain
     })
+
+    const assembleEmailWebpage = new lambda.Function(this, 'assemble-email-page', {
+      runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
+      code: lambda.Code.fromAsset('../lambdas/assemble-email-page'),  // code loaded from "lambda" directory
+      handler: 'assemble-email-page.handler', 
+      functionName: 'assemble-email-info-page',
+      environment: {
+        PICKUP_BUCKET: backreadsSiteBucket.bucketName,
+        DEPOSIT_BUCKET: backreadsSiteBucket.bucketName,
+        DISTRIBUTION_ID: distribution.distributionId
+      }
+      /** onSuccess: new lambdaDestinations.LambdaDestination(accrueEmailData, {
+        responseOnly: true // auto-extract
+      }) */
+    });
+    // Adapted from https://github.com/aws/aws-cdk/pull/12238/files 
+    const distributionArn = `arn:aws:cloudfront::${this.account}:distribution/${distribution.distributionId}`;
+    assembleEmailWebpage.addToRolePolicy(
+      new PolicyStatement({
+        resources: [distributionArn],
+        actions: [
+          'cloudfront:CreateInvalidation',
+          'cloudfront:GetDistribution*',
+          'cloudfront:GetInvalidation',
+          'cloudfront:ListInvalidations',
+          'cloudfront:ListDistributions',
+        ],
+      })
+    )
+    backreadsSiteBucket.grantReadWrite(assembleEmailWebpage)
     
     /**
     // defines an AWS Lambda resource
@@ -379,6 +496,12 @@ export class AwsStack extends cdk.Stack {
       inputPath: '$',
       outputPath: '$'
     })
+
+    const buildEmailPagesTask = new tasks.LambdaInvoke(this, 'Take email summary and build webpage', {
+      lambdaFunction: assembleEmailWebpage,
+      inputPath: '$',
+      outputPath: '$'
+    })
     // .Payload.resolved
     const collectDailyLinksTask = new tasks.LambdaInvoke(this, 'Process daily links into daily summary', {
       lambdaFunction: accrueLinksData,
@@ -398,8 +521,9 @@ export class AwsStack extends cdk.Stack {
       .next(processLinksTask)
       .next(pullReadupTask)
       .next(processReadupTask)
-      .next(collectDailyLinksTask)
       .next(collectEmailLinksTask)
+      .next(buildEmailPagesTask)
+      .next(collectDailyLinksTask)
       .next(new sfn.Choice(this, 'Job Complete?')
           // Look at the "status" field
           .when(sfn.Condition.numberGreaterThanEquals('$.StatusCode', 400), jobFailed)

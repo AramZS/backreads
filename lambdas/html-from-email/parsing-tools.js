@@ -74,6 +74,16 @@ exports.collectableLink = function(link) {
 		'/terms-of-service/',
 		'/deals/',
 		'disable_email',
+		/\/subscribe$/,
+		'givemeyournewsletter',
+		/\/subscriptions$/,
+		'substack.com/for-writers',
+		'/terms-of-service/',
+		'/newsletters/',
+		'/helpcenter.',
+		/\.com\/$/,
+		/\.com$/,
+		'about:blank'
 
 	];
 	for (let aRegExString of regexs) {
@@ -158,9 +168,9 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 		}
 		try {
 
-			if (washPostRx.test(link) || substackMGRx.test(link) || substackERx.test(link)){
+			if (substackMGRx.test(link) || substackERx.test(link)){
 				user_agent_desktop = baidu_ua
-			} else if (washPostStandardRx.test(link)) {
+			} else if (washPostRx.test(link) || washPostStandardRx.test(link)) {
 				user_agent_desktop = lighthouse
 			}
 			const controller = new AbortController();

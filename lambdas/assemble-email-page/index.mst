@@ -4,83 +4,90 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href='{{fileDepth}}../turret.min.css' />
-	<link rel="stylesheet" href='{{fileDepth}}style.css' />
+	<link rel="stylesheet" href='https://backreads.com/base.css' />
+	<link rel="stylesheet" href='https://backreads.com/emails/style.css' />
 	<title>Backreads: Aram's Emails for {{date}}</title>
   </head>
-  <body>
-	<aside>
-		<nav>
-			<ul>
-				<li>
-					<a href="https://backreads.com">Back Reads Links</a>
-				</li>
-				<li class="active">
-					<a href="https://backreads.com/email/index.html">Email Links</a>
-				</li>
-				<li>
-					<a href="https://backreads.com/about.html">What is This?</a>
-				</li>
-			</ul>
-		</nav>
-	</aside>
-	<main class="main">
-
-		<header class="header background-primary color-white">
-			<button id="toggle" class="position-top-right button button-l button-primary button-square">Menu</button>
-			<h1 class="no-margin flex-none all-caps">Aram's Email Links for {{date}}</h1>
-		</header>
-
-		<section class="padding-top-xxl">
-			<div class="container">
-
-				
-				<h1 class="display-title display-title-xxl">Email Links</h1>
-				<hr class="divider background-primary">
-				
-
-				
-				<p class="lead max-width-m">All the links I recieved via email yesterday.</p>
-				
-
-				
-
-			</div>
-		</section>
-
-		<section class="padding-vertical-xxl">
-			<div class="container">
-				<h2 id="colors"> Totals </h2>
-			</div>
-		</section>
-		<section class="padding-vertical-xxl">
-			<div class="container">
-				<h2 id="colors"> Links </h2>
-				<ul>
-					{{#links}}
-						<li>
-							<a href="{{url}}">{{title}}</a>. Count: <strong>{{count}}</strong>
-						</li>
-					{{/links}}
+  <body class="">
+  	<div id="layout">
+	  <a href="#menu" id="menuLink" class="menu-link">
+        <!-- Hamburger icon -->
+        <span></span>
+    </a>
+		<aside id="menu">
+			<nav class="pure-menu">
+				<a class="pure-menu-heading" href="#">Backreads</a>
+				<ul class="pure-menu-list">
+					<li class="pure-menu-item">
+						<a href="https://backreads.com">Back Reads Links</a>
+					</li>
+					<li class="pure-menu-item menu-item-divided pure-menu-selected">
+						<a href="https://backreads.com/email/index.html">Email Links</a>
+					</li>
+					<li class="pure-menu-item">
+						<a href="https://backreads.com/about.html">What is This?</a>
+					</li>
 				</ul>
-				{{linksString}}
-			</div>
-		</section>
-	</main>
-	<footer class="footer padding-vertical-xl border-top ">
-		<div class="container">
-			<p>
-			Designed and built by <strong><a class="text-decoration-none" href="https://twitter.com/chronotope">Aram Zucker-Scharff (@chronotope)</a> on {{date}}</strong>.
-			<br>
-			Code licensed under <strong>MIT</strong>, documentation under <strong><a class="text-decoration-none" href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></strong>.
-			</p>
-			<nav class="font-size-s">
-			v{{version}} ·
-			<a href="https://twitter.com/chronotope" target="_blank" rel="noopener noreferrer">Twitter</a> · 
-			<a href="https://github.com/AramZS/backreads.com" target="_blank" rel="noopener noreferrer">GitHub</a> · 
-			<a href="https://github.com/AramZS/backreads.com/issues" target="_blank" rel="noopener noreferrer">Issues</a> · 
 			</nav>
-		</div>
-	</footer>
+		</aside>
+		<main id="main">
+
+			<header class="header background-primary color-white">
+				<h1 class="header no-margin flex-none all-caps">Aram's Email Links for {{date}}</h1>
+			</header>
+
+			<section class="padding-top-xxl">
+				<div class="container">
+
+					
+					<h2 class="display-title display-title-xxl">Email Links</h2>
+					<hr class="divider background-primary">
+					
+
+					
+					<p class="lead max-width-m">All the links I recieved via email yesterday.</p>
+					
+
+					
+
+				</div>
+			</section>
+
+			<section class="padding-vertical-xxl">
+				<div class="container">
+					<h3 id="totals-header"> Totals: </h3>
+					<p>Emails: {{emailCount}}</p>
+					<p>Links: {{linkCount}}</p>
+				</div>
+			</section>
+			<section class="padding-vertical-xxl">
+				<div class="container">
+					<h3 id="links-header content-subhead"> Links </h3>
+					<ul>
+						{{#links}}
+							<li>
+								<a href="{{url}}">{{title}}</a>. Count: <strong>{{count}}</strong>
+							</li>
+						{{/links}}
+					</ul>
+				</div>
+			</section>
+		</main>
+		<footer class="footer padding-vertical-xl border-top ">
+			<div class="container">
+				<p>
+				Designed and built by <strong><a class="text-decoration-none" href="https://twitter.com/chronotope">Aram Zucker-Scharff (@chronotope)</a> on {{date}}</strong>.
+				<br>
+				Code licensed under <strong>MIT</strong>, documentation under <strong><a class="text-decoration-none" href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></strong>.
+				</p>
+				<nav class="font-size-s">
+				v{{version}} ·
+				<a href="https://twitter.com/chronotope" target="_blank" rel="noopener noreferrer">Twitter</a> · 
+				<a href="https://github.com/AramZS/backreads.com" target="_blank" rel="noopener noreferrer">GitHub</a> · 
+				<a href="https://github.com/AramZS/backreads.com/issues" target="_blank" rel="noopener noreferrer">Issues</a> · 
+				</nav>
+			</div>
+		</footer>
+	</div>
   </body>
 </html>

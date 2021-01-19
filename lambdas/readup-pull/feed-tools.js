@@ -68,8 +68,10 @@ exports.getFeed = async (cookieString, page) => {
 }
 
 exports.feedJStoJSONString = (rss) => {
-	// console.log('output js', rss)
-	// console.log('output js item', rss['rdf:RDF'].item)
+	const finishedState = false;
+	var lastDate = new Date()
+	lastDate.setDate(lastDate.getDate() - 1)
+	var dateString = (lastDate.toISOString("en-US", {timezone: "America/New_York"})).split("T")[0]
 	var items = rss.items.map((item) => {
 		/** 
 		 *     {

@@ -95,6 +95,9 @@ exports.handler = async function(event) {
 							count: 1 
 						}
 					}
+					if (!dailyData.links[linkObj.source].title || dailyData.links[linkObj.source].title.includes("Access Denied") || dailyData.links[linkObj.source].title.includes("Access denied")){
+						dailyData.links[linkObj.source].title = "Link: " + linkObj.source
+					}
 				})
 				resolve(dailyData)
 			})

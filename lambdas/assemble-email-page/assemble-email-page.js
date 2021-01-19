@@ -32,14 +32,16 @@ const getText = (bucket, key) => {
 const uploadDatastreamToS3 = (
 	Bucket,
 	Key,
-	dataStream
+	dataStream,
+	metaData
 ) => {
 	return new Promise((resolve, reject) => {
 		S3.upload(
 			{
 				Bucket,
 				Key,
-				Body: dataStream
+				Body: dataStream,
+				...metaData
 			},
 			(error, data) => {
 				if (error) {
@@ -61,9 +63,9 @@ exports.generateHTML = (linkset, date) => {
 		links: [],
 		linksString: '',
 		fileDepth: "../",
-		version: "0.0.1"
+		version: "0.1.1"
 	}
-	templateStrings.emailCount = templateStrings.emailCount
+	templateStrings.emailCount = linkset.emailCount
 	const linksArray = Object.keys(linkset.links)
 	templateStrings.linkCount = linksArray.length
 
@@ -97,7 +99,7 @@ exports.generatePreviousDate = function( daysBefore, pathMode ){
 
 
 exports.handler = async function(event) {
-	console.log("accrue email request:", JSON.stringify(event, undefined, 2));
+	console.log("assemble email page request:", JSON.stringify(event, undefined, 2));
 	var dates = {
 		0: exports.generatePreviousDate(1, false),
 		1: exports.generatePreviousDate(2, false),
@@ -113,12 +115,36 @@ exports.handler = async function(event) {
 	const linksetString = await getText(process.env.PICKUP_BUCKET, 'emails/' + dates[0] + '/links.json')
 	const linkset = JSON.parse(linksetString)
 	const html = exports.generateHTML(linkset, dates[0])
-	var updateDailyEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/'+lastDateString+'/index.html', Buffer.from(html))
-	var updateTodayEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/index.html', Buffer.from(html))
-	console.log('final', dailyData)
+	var updateDailyEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/'+dates[0]+'/index.html', Buffer.from(html), 		{
+			ContentType: "text/html",
+			ACL:'public-read'
+		}
+	)
+	var updateTodayEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/index.html', Buffer.from(html), 
+		{
+			ContentType: "text/html",
+			ACL:'public-read'
+		}
+	)
+
+	const cloudfront = new AWS.CloudFront();
+	const invalidateEvent = await cloudfront.createInvalidation({
+        DistributionId: process.env.DISTRIBUTION_ID,
+        InvalidationBatch: {
+            CallerReference: `backreads-email-${new Date().getTime()}`,
+            Paths: {
+                Quantity: 2,
+				Items: [
+					'/emails/'+dates[0]+'/index.html',
+					'/emails/index.html'
+				],
+            },
+        },
+    }).promise();
 	return {
 		emailDateLevel: updateDailyEmailLinks,
-		emailMainLevel: updateTodayEmailLinks
+		emailMainLevel: updateTodayEmailLinks,
+		invalidation: invalidateEvent
 	}
 	
 }

@@ -89,9 +89,16 @@ exports.collectableLink = function(link) {
 	for (let aRegExString of regexs) {
 		const aRegex = RegExp(aRegExString)
 		if (aRegex.test(link)){
-			linkValid = false;
-			break;
+			return false;
 		}
+	}
+	try {
+		if (link.length < 3) {
+			return false;
+		}
+	} catch (e) {
+		console.log('Link with no length let through somehow', e, link)
+		return false;
 	}
 	return linkValid
 	if (

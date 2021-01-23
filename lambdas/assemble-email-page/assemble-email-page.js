@@ -86,10 +86,18 @@ exports.generateHTML = (linkset, date) => {
 	return html;
 }
 
+exports.convertDateToLocalString = function(dateObj){
+	var dateSet = (dateObj.toLocaleString("en-US", {timezoneName: "ET"}).split(",")[0]).split('/'); 
+	var month = dateSet[0].length < 2 ? `0${dateSet[0]}` : dateSet[0]
+	var day = dateSet[1].length < 2 ? `0${dateSet[1]}` : dateSet[1]
+	var dateIs = `${dateSet[2]}-${month}-${day}`;
+	return dateIs;
+}
+
 exports.generatePreviousDate = function( daysBefore, pathMode ){
 	var lastDate = new Date()
 	lastDate.setDate(lastDate.getDate() - daysBefore)
-	var string = (lastDate.toISOString("en-US", {timezone: "America/New_York"})).split("T")[0];
+	var string = exports.convertDateToLocalString(lastDate);
 	if (pathMode){
 		const splitDate = string.split('-')
 		return splitDate[0]+"/"+splitDate[1]+"/"+splitDate[2]

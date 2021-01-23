@@ -142,6 +142,7 @@ describe('feed tools', () => {
 		expect(tools.collectableLink('http://whatever.com/')).toBe(false)
 		expect(tools.collectableLink('https://substack.com/for-writers')).toBe(false)
 		expect(tools.collectableLink('https://www.avclub.com/')).toBe(false)
+		expect(tools.collectableLink('http://click1.newsletters.rollcall.com/ljzcmnyhflwrdhpsrdfgprshqgrwfpsqgfcwwnmmdhmdk_hfbcwmmbzvwvvbwvhfc.html?a=&b=01%2F22%2F2021')).toBe(true)
 	})
 	it('should resolve links', async (done) => {
 		expect.assertions(9)
@@ -159,8 +160,8 @@ describe('feed tools', () => {
 
 			var resolvedLinkSet = await tools.resolveLinks(linkset)
 			expect(resolvedLinkSet.links.length).toBeGreaterThan(0)
-			expect(resolvedLinkSet.links[0].source).toEqual('https://www.avclub.com/')
-			expect(resolvedLinkSet.links[0].title).toEqual('The A.V. Club | Pop culture obsessives writing for the pop culture obsessed.')
+			expect(resolvedLinkSet.links[0].source).toEqual('https://tv.avclub.com/a-teacher-departs-1845935733')
+			expect(resolvedLinkSet.links[0].title).toEqual('What\'s On Tonight: December 29, 2020: A Teacher finale')
 			done()
 		});
 		mailparser.write(fileTwo);
@@ -227,4 +228,13 @@ describe('feed tools', () => {
 
 		done()
 	}, 20000)
+	it('should resolve a link set cleanly', () => {
+		const linkSet = [
+			{ source: 'http://example.com/blah' },
+			{ source: 'http://example.com/' },
+			{ source: 'http://example.com/blah' },
+			null
+		]
+		expect(tools.cleanLinkSet(linkSet).length).toBe(1)
+	})
 });

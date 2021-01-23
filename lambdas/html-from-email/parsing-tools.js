@@ -89,9 +89,9 @@ exports.collectableLink = function(link) {
 		/\.net$/,
 		'about:blank',
 		'404',
-		'camp-rw',
-		'newsletters.',
+		/\/camp-rw\/$/,
 		/\/ad$/,
+		/\/rss$/,
 		'/privacy/',
 		'/subscriptions/'
 	];
@@ -151,8 +151,35 @@ function timeout(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+exports.convertDateToLocalString = function(dateObj){
+	var dateSet = (dateObj.toLocaleString("en-US", {timezoneName: "ET"}).split(",")[0]).split('/'); 
+	var month = dateSet[0].length < 2 ? `0${dateSet[0]}` : dateSet[0]
+	var day = dateSet[1].length < 2 ? `0${dateSet[1]}` : dateSet[1]
+	var dateIs = `${dateSet[2]}-${month}-${day}`;
+	return dateIs;
+}
+
+exports.cleanLinkSet = function(linkSet) {
+	var cleanLinksResolved = linkSet.filter((link) => link)
+	const justUrls = [];
+	var finalCleanLinksResolved = cleanLinksResolved.filter((link) => {
+		if (!exports.collectableLink(link.source)){
+			return false;
+		}
+		if (justUrls.includes(link.source)){
+			return false;
+		} else {
+			justUrls.push(link.source)
+			return true;
+		}
+	})
+	return finalCleanLinksResolved;
+}
+
+
 exports.resolveLinks = async function(linkSet, aCallback, ua) {
 	// https://developers.whatismybrowser.com/useragents/explore/software_type_specific/?utm_source=whatismybrowsercom&utm_medium=internal&utm_campaign=breadcrumbs
+	// https://user-agents.net/lookup
 	let user_agent_windows = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
 		'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 ' +
 		'Safari/537.36'
@@ -181,6 +208,7 @@ exports.resolveLinks = async function(linkSet, aCallback, ua) {
 			description: "",
 			tags: [],
 			date: (new Date()).toISOString(),
+			localDate: exports.convertDateToLocalString(new Date()),
 			platform: "email"
 		}
 		try {
@@ -297,18 +325,5 @@ exports.resolveLinks = async function(linkSet, aCallback, ua) {
 		} */
 	});
 	var linksResolved = await Promise.all(linksResolve)
-	var cleanLinksResolved = linksResolved.filter((link) => link)
-	const justUrls = [];
-	var finalCleanLinksResolved = cleanLinksResolved.filter((link) => {
-		if (!exports.collectableLink(link.source)){
-			return false;
-		}
-		if (justUrls.includes(link.source)){
-			return false;
-		} else {
-			justUrls.push(link.source)
-			return true;
-		}
-	})
-	return { links: finalCleanLinksResolved }
+	return { links: exports.cleanLinkSet(linksResolved) }
 }

@@ -148,6 +148,7 @@ const existsOnS3 = (bucket, key) => {
  * 
  */
 
+
 exports.handler = async function(event) {
 	console.log("html-from-email request:", JSON.stringify(event, undefined, 2));
 	const depositBucket = process.env.DEPOSIT_BUCKET
@@ -162,7 +163,8 @@ exports.handler = async function(event) {
 		const emailHtml = await getEmailHtml(email)
 
 		const emailName = (receiptKey.split('/'))[1]
-		const dtKey = ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
+		const dtKey = tools.convertDateToLocalString(new Date())
+		// ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0])
 
 		const linkset = tools.getLinksFromEmailHTML(emailHtml)
 		handleLinks = null

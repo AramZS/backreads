@@ -65,12 +65,19 @@ const getEmailLinksets = async function(bucket, path){
 	})
 }
 
+exports.convertDateToLocalString = function(dateObj){
+	var dateSet = (dateObj.toLocaleString("en-US", {timezoneName: "ET"}).split(",")[0]).split('/'); 
+	var month = dateSet[0].length < 2 ? `0${dateSet[0]}` : dateSet[0]
+	var day = dateSet[1].length < 2 ? `0${dateSet[1]}` : dateSet[1]
+	var dateIs = `${dateSet[2]}-${month}-${day}`;
+	return dateIs;
+}
+
 exports.handler = async function(event) {
 	console.log("accrue email request:", JSON.stringify(event, undefined, 2));
-	var dtString = ((new Date().toISOString("en-US", {timezone: "America/New_York"})).split("T")[0]);
 	var lastDate = new Date()
 	lastDate.setDate(lastDate.getDate() - 1)
-	var lastDateString = (lastDate.toISOString("en-US", {timezone: "America/New_York"})).split("T")[0]
+	var lastDateString = exports.convertDateToLocalString(lastDate)
 	let dailyData = {
 		emailCount: 0,
 		links: {}

@@ -372,6 +372,7 @@ export class AwsStack extends cdk.Stack {
       code: lambda.Code.fromAsset('../lambdas/assemble-email-page'),  // code loaded from "lambda" directory
       handler: 'assemble-email-page.handler', 
       functionName: 'assemble-email-info-page',
+      timeout: cdk.Duration.seconds(300),
       environment: {
         PICKUP_BUCKET: backreadsSiteBucket.bucketName,
         DEPOSIT_BUCKET: backreadsSiteBucket.bucketName,
@@ -508,7 +509,6 @@ export class AwsStack extends cdk.Stack {
       inputPath: '$',
       outputPath: '$'
     })
-    
 
     const jobFailed = new sfn.Fail(this, 'Job Failed', {
       cause: 'AWS Batch Job Failed',
@@ -517,17 +517,44 @@ export class AwsStack extends cdk.Stack {
 
     const jobResolution = new sfn.Succeed(this, 'Job Succeeded', {});
 
-    const definition = pullPinboardTask
-      .next(processLinksTask)
-      .next(pullReadupTask)
-      .next(processReadupTask)
-      .next(collectEmailLinksTask)
-      .next(buildEmailPagesTask)
-      .next(collectDailyLinksTask)
+    const start = new sfn.Pass(this, 'Start state', {
+      result: sfn.Result.fromObject({ lastUpdatedDate: new Date(), version: 1 }),
+      resultPath: '$.subObject',
+    });
+
+
+    const parallelSourceSitesCollection = new sfn.Parallel(this, 'CollectSourcesFromSites')
+    const parallelSiteBuild = new sfn.Parallel(this, 'DailySiteBuild')
+
+    const buildEmailSite = collectEmailLinksTask.next(buildEmailPagesTask)
+    const buildIndexSite = collectDailyLinksTask
+    const buildPinboardSource = pullPinboardTask
+    const buildReadupSource = pullReadupTask
+
+    const processSiteSources = new sfn.Map(this, 'ProcessSiteSources', {
+      inputPath: '$',
+      outputPath: '$',
+    })
+
+    processSiteSources.iterator(processLinksTask)
+
+    const definition = start
+      .next(parallelSourceSitesCollection
+        .branch(buildPinboardSource) 
+        .branch(buildReadupSource) 
+      )
+      .next(processSiteSources)
+      .next(parallelSiteBuild
+        .branch(buildEmailSite)
+        .branch(buildIndexSite)
+      )
       .next(new sfn.Choice(this, 'Job Complete?')
           // Look at the "status" field
-          .when(sfn.Condition.numberGreaterThanEquals('$.StatusCode', 400), jobFailed)
-          .when(sfn.Condition.numberEquals('$.StatusCode', 200), jobResolution));
+          .when(sfn.Condition.numberGreaterThanEquals('$[0].StatusCode', 400), jobFailed)
+          .when(sfn.Condition.numberGreaterThanEquals('$[1].StatusCode', 400), jobFailed)
+          .when(sfn.Condition.numberEquals('$[0].StatusCode', 200), jobResolution)
+          .when(sfn.Condition.numberEquals('$[1].StatusCode', 200), jobResolution)
+      );
           // .otherwise(waitX));
 
     const linkBuilderStateMachine = new sfn.StateMachine(this, 'StateMachine', {

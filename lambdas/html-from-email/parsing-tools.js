@@ -6,7 +6,7 @@ const AbortController = require('abort-controller');
 	require('metascraper-url')(),
 	require('metascraper-title')(),
   ]) */
-exports.parseDataFromRecord = function (event) {
+exports.parseDataFromRecord = function(event) {
 	return JSON.parse(event.Records[0].Sns.Message)
 }
 
@@ -38,8 +38,8 @@ exports.collectableLink = function(link) {
 	const hubspotRx = RegExp('hubspot.fedscoop.com')
 	let linkValid = true;
 	const regexs = [
-		'mailto:', 
-		'list-manage', 
+		'mailto:',
+		'list-manage',
 		'facebook.com/',
 		'twitter.com/',
 		'updatemyprofile',
@@ -83,17 +83,26 @@ exports.collectableLink = function(link) {
 		'/helpcenter.',
 		/\.com\/$/,
 		/\.com$/,
-		'about:blank'
-
+		/\.io$/,
+		/\.space$/,
+		/\.org$/,
+		/\.net$/,
+		'about:blank',
+		'404',
+		'camp-rw',
+		'newsletters.',
+		/\/ad$/,
+		'/privacy/',
+		'/subscriptions/'
 	];
 	for (let aRegExString of regexs) {
 		const aRegex = RegExp(aRegExString)
-		if (aRegex.test(link)){
+		if (aRegex.test(link)) {
 			return false;
 		}
 	}
 	try {
-		if (link.length < 3) {
+		if (!link || link.length < 3) {
 			return false;
 		}
 	} catch (e) {
@@ -109,7 +118,7 @@ exports.collectableLink = function(link) {
 		!twitterLinks.test(link) &&
 		!profileLinks.test(link) &&
 		!privacyNoticeLinks.test(link) &&
-		!forwardLink.test(link) && 
+		!forwardLink.test(link) &&
 		!kMail.test(link)
 	) {
 		return true
@@ -118,7 +127,7 @@ exports.collectableLink = function(link) {
 	}
 }
 
-exports.getLinksFromEmailHTML = function(html){
+exports.getLinksFromEmailHTML = function(html) {
 	const virtualConsole = new jsdom.VirtualConsole();
 	// virtualConsole.on("error", () => { console.log(error) });
 	// virtualConsole.sendTo(c, { omitJSDOMErrors: true });
@@ -127,11 +136,11 @@ exports.getLinksFromEmailHTML = function(html){
 	var links = dom.window.document.querySelectorAll('a')
 	const testRegex = RegExp('unsubscribe')
 	links.forEach(link => {
-		if ( 
-			(link.innerText || link.innerHTML) && 
-			( !link.innerText || !testRegex.test(link.innerText) ) && 
+		if (
+			(link.innerText || link.innerHTML) &&
+			(!link.innerText || !testRegex.test(link.innerText)) &&
 			exports.collectableLink(link.href)
-		){
+		) {
 			linksJson.links.push(link.href)
 		}
 	});
@@ -139,19 +148,19 @@ exports.getLinksFromEmailHTML = function(html){
 }
 
 function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-exports.resolveLinks = async function(linkSet, aCallback, ua){
+exports.resolveLinks = async function(linkSet, aCallback, ua) {
 	// https://developers.whatismybrowser.com/useragents/explore/software_type_specific/?utm_source=whatismybrowsercom&utm_medium=internal&utm_campaign=breadcrumbs
-	let user_agent_windows = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' + 
-			'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 ' +
-			'Safari/537.36'
+	let user_agent_windows = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
+		'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 ' +
+		'Safari/537.36'
 	let user_agent_macbook = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36 OPR/72.0.3815.400'
 	let user_agent_firefox = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:83.0) Gecko/20100101 Firefox/83.0'
 	let user_agent_safari = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'
 	let baidu_ua = 'Baiduspider+(+http://www.baidu.com/search/spider.htm)'
-	let googleBot =  'Googlebot/2.1 (+http://www.google.com/bot.html)'
+	let googleBot = 'Googlebot/2.1 (+http://www.google.com/bot.html)'
 	let newGoogleBot = 'UCWEB/2.0 (compatible; Googlebot/2.1; +google.com/bot.html)'
 	let pythonRequests = 'python-requests/2.23.0';
 	let facebookRq = 'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)';
@@ -162,8 +171,9 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 	const substackMGRx = RegExp('mg2.substack')
 	const washPostRx = RegExp('s2.washingtonpost.com')
 	const washPostStandardRx = RegExp('washingtonpost.com')
+
 	const linksResolve = linkSet.links.filter((link) => link && link.length).map(async (link, index) => {
-		await timeout(index*1500)
+		await timeout(index * 1500)
 		user_agent_desktop = ua ? ua : uas[Math.floor(Math.random() * uas.length)];
 		let linkObj = {
 			source: "",
@@ -175,7 +185,7 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 		}
 		try {
 
-			if (substackMGRx.test(link) || substackERx.test(link)){
+			if (substackMGRx.test(link) || substackERx.test(link)) {
 				user_agent_desktop = baidu_ua
 			} else if (washPostRx.test(link) || washPostStandardRx.test(link)) {
 				user_agent_desktop = lighthouse
@@ -183,7 +193,7 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 			const controller = new AbortController();
 			const fetchTimeout = setTimeout(() => {
 				console.log('Request timed out for', link)
-				if (linkObj.source.length < 3){
+				if (linkObj.source.length < 3) {
 					linkObj.source = link
 				}
 				controller.abort();
@@ -211,7 +221,7 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 			try {
 				try {
 					url = dom.window.document.querySelector('link[rel=canonical]').href
-				} catch (e){
+				} catch (e) {
 					console.log('no canonical', r.url)
 					try {
 						url = dom.window.document.querySelector('meta[property="og:url"]').content
@@ -227,7 +237,7 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 					console.log('Could not find title', r.url, e)
 					try {
 						title = dom.window.document.querySelector('meta[property="og:title"]').content
-					} catch(e){
+					} catch (e) {
 						title = ""
 					}
 				}
@@ -238,25 +248,25 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 					console.log('Could not find description', r.url, e)
 					try {
 						description = dom.window.document.querySelector('meta[property="og:description"]').content
-					} catch(e){
+					} catch (e) {
 						description = ""
 					}
 				}
 				linkObj.title = title
 				linkObj.description = description
-				if (exports.collectableLink(url)){
-					if (aCallback){
+				if (exports.collectableLink(url)) {
+					if (aCallback) {
 						let check = await aCallback(url, { title, description })
 					}
 					linkObj.source = url
 				} else {
 					return null
 				}
-			} catch (e){
+			} catch (e) {
 				console.log('Error in links resolution', r.url, e)
-				if (exports.collectableLink(url)){
-					if (aCallback){
-						let check = await aCallback( r.url, { title: "", description: "" })
+				if (exports.collectableLink(url)) {
+					if (aCallback) {
+						let check = await aCallback(r.url, { title: "", description: "" })
 					}
 					linkObj.source = r.url
 				} else {
@@ -270,24 +280,35 @@ exports.resolveLinks = async function(linkSet, aCallback, ua){
 			// return { title: '', url: link }
 			// return null
 		}
-		if (linkObj.source.length < 3){
+		if (linkObj.source.length < 3) {
 			return null
 		}
 		return linkObj
-			/** try {
+		/** try {
 
-				const metadata = await metascraper({ html: text, url })
-				// console.log('metadata retrieved', metadata)
-				if (metadata.url){
-					url = metadata.url
-				}
-				return {title: metadata.hasOwnProperty('title') ? metadata.title : '', url}
-			} catch (e){
-				return {title: '', url}
-			} */
+			const metadata = await metascraper({ html: text, url })
+			// console.log('metadata retrieved', metadata)
+			if (metadata.url){
+				url = metadata.url
+			}
+			return {title: metadata.hasOwnProperty('title') ? metadata.title : '', url}
+		} catch (e){
+			return {title: '', url}
+		} */
 	});
 	var linksResolved = await Promise.all(linksResolve)
 	var cleanLinksResolved = linksResolved.filter((link) => link)
-	var finalCleanLinksResolved = linksResolved.filter((link) => link)
-	return { links: cleanLinksResolved }
+	const justUrls = [];
+	var finalCleanLinksResolved = cleanLinksResolved.filter((link) => {
+		if (!exports.collectableLink(link.source)){
+			return false;
+		}
+		if (justUrls.includes(link.source)){
+			return false;
+		} else {
+			justUrls.push(link.source)
+			return true;
+		}
+	})
+	return { links: finalCleanLinksResolved }
 }

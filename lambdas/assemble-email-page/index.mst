@@ -31,11 +31,11 @@
 			</nav>
 		</aside>
 		<main id="main">
-
+<!--
 			<header class="header background-primary color-white">
 				<h1 class="header no-margin flex-none all-caps">Aram's Email Links for {{date}}</h1>
 			</header>
-
+-->
 			<section class="padding-top-xxl">
 				<div class="container">
 

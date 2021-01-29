@@ -143,6 +143,7 @@ describe('feed tools', () => {
 		expect(tools.collectableLink('https://substack.com/for-writers')).toBe(false)
 		expect(tools.collectableLink('https://www.avclub.com/')).toBe(false)
 		expect(tools.collectableLink('http://click1.newsletters.rollcall.com/ljzcmnyhflwrdhpsrdfgprshqgrwfpsqgfcwwnmmdhmdk_hfbcwmmbzvwvvbwvhfc.html?a=&b=01%2F22%2F2021')).toBe(true)
+		expect(tools.collectableLink('https://nyc.us20.list-manage.com/track/click?u=73d98c6dfc90032198ec7bdee&id=07bc331363&e=e3dbec9412')).toBe(true)
 	})
 	it('should resolve links', async (done) => {
 		expect.assertions(9)
@@ -174,17 +175,15 @@ describe('feed tools', () => {
 		// https://email.mg2.substack.com/c/eJxFkMuOhCAQRb-m2Y3hpd29YNGb-Q1DQ6lkBAwUOvbXD-piksotUrn14BiNMMa0qyVmJIf0uC-gAmx5BkRIpGRIvbNKio6Rmix7tA_icj8kAK_drDAVIEt5z85odDEc7sed3zmZlB1Ag2atACoGCZJ1XcfZwLTtrDHWXDt1sQ6CAQUrpD0GILOaEJd8E68b_66xbVsTdnQecmOirxVOOauJniKrlFxlibNDZ87nMfGrHueXZkI_E6eOHspoy2TLW9awZl0-Uf6uzw-Ym6R-5E0u74za_BxbSFKjW8HDHkv6R1KdOmn_yY0__91Xqy_B4d5D0O8Z7IUEL6onpH6EAKnStr1GxTr6rBTFnXFBLwSVmWBUCkE5qTfYWLuC8jEFF8Y8Rcx_KZ6TBg 
 		// http://email.substack2.sinocism.com/c/eJxFkU0O3CAMhU8z2SUCQv4WLLrpNZADJkFNIAVnovT0JTOqKlm2kJ_N02cDhEtMtzpipupJmu4DVcArb0iEqTozJu2tkm3PK6vM3LaTrXzWLiHu4DdF6cTqOOfNGyAfw6MW1aosw8FNTDIzmMGJ1vXS9cil6MZWtNZ8_4PTegwGFb4x3TFgtamV6Miv9sdL_CxxXVdzQV59WCiGZ6gxcX8aMW22VMge9AHGO2_K0xQl1IRmrS0CrfXhgz1jidIUTPBS2Cd1j7ofZ2uHvpboXM05zjVw19XOghOjcQYmpjMVSM1K-1Z59axgnHVCsL6bGt7AuxO_ablkjC_J8jlnAvNLNNmHaHzeH7tVUot_4453PNN_vEUPCfY_udk_DHWR7mfwdGsMMG9ov3jpe6EPcL1gwFQuZzWQ4j2bxlFKPknGv0gL_7b4G3i5WHFjY5kK6p-bv2PXq0I
 		// https://e.newsletters.cnn.com/click/EZ2l2ZW1leW91cm5ld3NsZXR0ZXJAYXJhbXpzLm1l/CeyJtaWQiOiIxNjEwNDA3ODk5NDk3MDhlNTdmZmRiYzE3IiwiY3QiOiJjbm4tNjFkNmUwMDA1MTA1YmE3NmM3NGViYzBlOGJhZmIzY2MtMSIsInJkIjoiYXJhbXpzLm1lIn0/HWkhfQ05OX2lfTmV3c19OREJBTjAxMTEyMDIxMjczNDU0MSxjbjEsaHR0cHM6Ly93d3cuY25uLmNvbS9wb2xpdGljcy9saXZlLW5ld3MvdHJ1bXAtaW1wZWFjaG1lbnQtbmV3cy0wMS0xMS0yMS9oXzhjNTNiZjMxYzVhZWM0OGZlNjg0NjAxYWRiZTI4M2Vk/qP3V0bV90ZXJtPTE2MTA0MDc4OTk0OTcwOGU1N2ZmZGJjMTcmdXRtX3NvdXJjZT1jbm5fVGhlK1BvaW50KyVFMiU4MCU5MytNb25kYXklMkMrSmFudWFyeSsxMSUyQysyMDIxJnV0bV9tZWRpdW09ZW1haWwmdXRtX2NhbXBhaWduPTE2MTA0MDc4OTk0OTkmYnRfZWU9Zlp6ekklMkJVJTJCV2lEU3JSdm54JTJGSlQyY3Z6VzY1QkFmeWp0N014JTJCZUg2cml4MGFmVEY5eHg5biUyQnZFelJmd2pCeHkmYnRfdHM9MTYxMDQwNzg5OTQ5OQ/s3de00a1c53
-		expect.assertions(10)
-		const result = await tools.resolveLinks(
+		expect.assertions(8)
+		/** const result = await tools.resolveLinks(
 			{
 				links: ['https://s2.washingtonpost.com/2a970c9/5ff4606e9d2fda0efba0716e/596a51ce9bbc0f0e09ea0fc6/6/53/5ff4606e9d2fda0efba0716e']
-			},
-			null,
-			'Baiduspider+(+http://www.baidu.com/search/spider.htm)'
+			}
 		)
 		expect(result.links[0].source).not.toEqual('https://s2.washingtonpost.com/2a970c9/5ff4606e9d2fda0efba0716e/596a51ce9bbc0f0e09ea0fc6/6/53/5ff4606e9d2fda0efba0716e')
 		expect(result.links[0].source).not.toEqual('https://www.washingtonpost.com/politics/powerpost/the-health-202/?utm_campaign=wp_the_health_202&utm_medium=email&utm_source=newsletter&wpisrc=nl_health202')
-		expect(result.links[0].source).toEqual('https://www.washingtonpost.com/politics/powerpost/the-health-202/')
+		expect(result.links[0].source).toEqual('https://www.washingtonpost.com/politics/powerpost/the-health-202/') **/
 		const result2 = await tools.resolveLinks(
 			{
 				links: ['http://email.substack2.sinocism.com/c/eJxFkU0O3CAMhU8z2SUCQv4WLLrpNZADJkFNIAVnovT0JTOqKlm2kJ_N02cDhEtMtzpipupJmu4DVcArb0iEqTozJu2tkm3PK6vM3LaTrXzWLiHu4DdF6cTqOOfNGyAfw6MW1aosw8FNTDIzmMGJ1vXS9cil6MZWtNZ8_4PTegwGFb4x3TFgtamV6Miv9sdL_CxxXVdzQV59WCiGZ6gxcX8aMW22VMge9AHGO2_K0xQl1IRmrS0CrfXhgz1jidIUTPBS2Cd1j7ofZ2uHvpboXM05zjVw19XOghOjcQYmpjMVSM1K-1Z59axgnHVCsL6bGt7AuxO_ablkjC_J8jlnAvNLNNmHaHzeH7tVUot_4453PNN_vEUPCfY_udk_DHWR7mfwdGsMMG9ov3jpe6EPcL1gwFQuZzWQ4j2bxlFKPknGv0gL_7b4G3i5WHFjY5kK6p-bv2PXq0I']
@@ -211,21 +210,26 @@ describe('feed tools', () => {
 			false
 		)
 		expect(result4.links[0].source).toEqual('https://www.cnn.com/politics/live-news/trump-impeachment-news-01-11-21/index.html')
-		const result6 = await tools.resolveLinks(
+		const result5 = await tools.resolveLinks(
 			{
 				links: ['https://email.mg2.substack.com/c/eJxFkcuOgzAMRb-m2YHyIEAXWcxmfgMZYiBqHp08ytCvn7RdjGTZlnUtXx0vkHEL8VT3kDJ5pSmfd1Qej2QxZ4ykJIyT0aoTPSO1aDbKkZg0rRHRgbEqx4LkXmZrFsgm-JeadbIXZFerFFTPK1ylpDgDnWFEMWiur7V2tP_chKIN-gUVPjCewSOxas_5ni7i68K_axzH0R6_xjDeLsHVAcRsFou18yHmvVkgBms8NFtEDxobyGuTEOKyNymHiM0aitfNzViLumG8bgrJ6cjlcOGCGMUpZ5SxnopukF3L2oA_jhZ4PIO-dNRtvE1lThmW28sDiWozD3R4hhL_eVUlRHDP1Lo3lKlKXfEmn1P1NdfbH175g_xNcNrQY6yv0BNkxXpGh34cB0mZ_PCpQAWTdGCyI9WDDnXLq925A_Fmzz8EX5vt']
 			}
 		)
-		expect(result6.links[0].source).toEqual('https://www.wxii12.com/article/north-carolina-grenade-atf-search-store-found-killed-12/35208257')
-		const result5 = await tools.resolveLinks(
+		expect(result5.links[0].source).toEqual('https://www.wxii12.com/article/north-carolina-grenade-atf-search-store-found-killed-12/35208257')
+		const result6 = await tools.resolveLinks(
 			{
 				links: ['https://www.washingtonpost.com/opinions/2021/01/15/vaccines-america-must-balance-speed-equity/']
 			},
 			false,
 			'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko; Google Page Speed Insights) Chrome/41.0.2272.118 Safari/537.36'
 		)
-		expect(result5.links[0].title).toEqual('Opinion | On vaccines, America must balance speed and equity - The Washington Post')
-
+		expect(result6.links[0].title).toEqual('Opinion | On vaccines, America must balance speed and equity - The Washington Post')
+		const result7 = await tools.resolveLinks(
+			{
+				links: ['https://nyc.us20.list-manage.com/track/click?u=73d98c6dfc90032198ec7bdee&id=07bc331363&e=e3dbec9412']
+			}
+		)
+		expect(result7.links[0].title).toEqual('Why is De Blasio’s $1 Million Climate Plan Hidden from East Harlem? - THE CITY')
 		done()
 	}, 20000)
 	it('should resolve a link set cleanly', () => {

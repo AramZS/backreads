@@ -39,10 +39,10 @@ exports.collectableLink = function(link) {
 	let linkValid = true;
 	const regexs = [
 		'mailto:',
-		'list-manage',
 		'facebook.com/',
 		'twitter.com/',
 		'updatemyprofile',
+		/\/profile$/,
 		'privacy-notice',
 		'unsubscribe',
 		'forward-to-friend',
@@ -62,7 +62,6 @@ exports.collectableLink = function(link) {
 		'constantcontact.com',
 		'cmail19.com',
 		'/legal/',
-		'click.revue.email',
 		'hubspot.fedscoop.com',
 		'/feedback/',
 		'/tos',
@@ -70,15 +69,15 @@ exports.collectableLink = function(link) {
 		'helpcenter',
 		'/privacy-policy/',
 		'/newsletters/',
-		'/about/',
 		'/terms-of-service/',
 		'/deals/',
 		'disable_email',
 		/\/subscribe$/,
 		'givemeyournewsletter',
 		/\/subscriptions$/,
-		'substack.com/for-writers',
+		/substack.com\/for-writers$/,
 		'/terms-of-service/',
+		/\/terms-of-service$/,
 		'/newsletters/',
 		'/helpcenter.',
 		/\.com\/$/,
@@ -93,11 +92,51 @@ exports.collectableLink = function(link) {
 		/\/ad$/,
 		/\/rss$/,
 		'/privacy/',
-		'/subscriptions/'
+		/\/privacy$/,
+		'/subscriptions/',
+		'/membership/',
+		'reddit.com/',
+		'signin.html',
+		'newegg.com/',
+		/\/contact-us$/,
+		/\/contact-us\/$/,
+		/\/privacy-policy$/,
+		'linkedin.com/company/',
+		/\/areyouahuman$/,
+		/\/c\//,
+		'/account/',
+		/\/uu\//,
+		'/thank-you-for-signing-up-for-the-newsletter/',
+		'forwardtomyfriend',
+		'user#',
+		'/advertise/',
+		/\/comments$/,
+		/\/sign-in$/,
+		/\/settings$/,
+		/\/newsletters$/,
+		/\/safe_senders$/,
+		'/channel/',
+		'/membership/',
+		'/professional/solution/bloomberg-terminal/',
+		/\/products$/,
+		'myaccount.economist.com/s/',
+		/\|ARCHIVE\|/,
+		'pinterest.com/',
+		'flipboard.com/',
+		'/firms/',
+		/\/articles$/,
+		/\/about-us\/$/,
+		/\/about\/$/,
+		/zendesk\.com/,
+		/\/jobs\//,
+		/zoom\.us\//,
+		/\/category\//
+		
 	];
 	for (let aRegExString of regexs) {
 		const aRegex = RegExp(aRegExString)
 		if (aRegex.test(link)) {
+			// console.log(aRegExString)
 			return false;
 		}
 	}
@@ -139,6 +178,7 @@ exports.getLinksFromEmailHTML = function(html) {
 		if (
 			(link.innerText || link.innerHTML) &&
 			(!link.innerText || !testRegex.test(link.innerText)) &&
+			!linksJson.links.includes(link.href) &&
 			exports.collectableLink(link.href)
 		) {
 			linksJson.links.push(link.href)
@@ -199,6 +239,11 @@ exports.resolveLinks = async function(linkSet, aCallback, ua) {
 	const washPostRx = RegExp('s2.washingtonpost.com')
 	const washPostStandardRx = RegExp('washingtonpost.com')
 
+	// Bot detected titles
+	const cloudflareBlock = RegExp('Attention Required')
+	const fourOhThreeBlock = RegExp('403')
+	const humanCheckBlock = RegExp('Are you a human')
+
 	const linksResolve = linkSet.links.filter((link) => link && link.length).map(async (link, index) => {
 		await timeout(index * 1500)
 		user_agent_desktop = ua ? ua : uas[Math.floor(Math.random() * uas.length)];
@@ -212,10 +257,11 @@ exports.resolveLinks = async function(linkSet, aCallback, ua) {
 			platform: "email"
 		}
 		try {
-
 			if (substackMGRx.test(link) || substackERx.test(link)) {
 				user_agent_desktop = baidu_ua
-			} else if (washPostRx.test(link) || washPostStandardRx.test(link)) {
+			} else if (washPostRx.test(link)) {
+				user_agent_desktop = lighthouse // facebookRq
+			} else if ( washPostStandardRx.test(link) ){
 				user_agent_desktop = lighthouse
 			}
 			const controller = new AbortController();
@@ -223,6 +269,7 @@ exports.resolveLinks = async function(linkSet, aCallback, ua) {
 				console.log('Request timed out for', link)
 				if (linkObj.source.length < 3) {
 					linkObj.source = link
+					linkObj.title = "Request Timed Out for: " + link
 				}
 				controller.abort();
 			}, 5500);
@@ -300,6 +347,10 @@ exports.resolveLinks = async function(linkSet, aCallback, ua) {
 				} else {
 					return null
 				}
+			}
+			if (cloudflareBlock.test(linkObj.title) || fourOhThreeBlock.test(linkObj.title) || humanCheckBlock.test(linkObj.title)){
+				linkObj.title = "Title not found for " + linkObj.source
+				linkObj.source = link
 			}
 			return linkObj
 		} catch (e) {

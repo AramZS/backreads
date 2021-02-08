@@ -101,7 +101,9 @@ exports.collectableLink = function(link) {
 		/\/contact-us$/,
 		/\/contact-us\/$/,
 		/\/privacy-policy$/,
+		/\/privacy-settings$/,
 		'linkedin.com/company/',
+		/\/shareArticle/
 		/\/areyouahuman$/,
 		/\/c\//,
 		'/account/',
@@ -130,7 +132,12 @@ exports.collectableLink = function(link) {
 		/zendesk\.com/,
 		/\/jobs\//,
 		/zoom\.us\//,
-		/\/category\//
+		/\/category\//,
+		/\/donate\//,
+		/\/vcard\//,
+		/unsub/,
+		/vcard/,
+		/sendtofriend/
 		
 	];
 	for (let aRegExString of regexs) {
@@ -238,7 +245,9 @@ exports.resolveLinks = async function(linkSet, aCallback, ua) {
 	const substackMGRx = RegExp('mg2.substack')
 	const washPostRx = RegExp('s2.washingtonpost.com')
 	const washPostStandardRx = RegExp('washingtonpost.com')
-
+	const bbergLink = /link\.mail\.bloombergbusiness\.com/
+	const goLink = /r\.g-omedia\.com/
+	const logicLink = /thelogic\.us12\.list-manage\.com/
 	// Bot detected titles
 	const cloudflareBlock = RegExp('Attention Required')
 	const fourOhThreeBlock = RegExp('403')
@@ -263,13 +272,17 @@ exports.resolveLinks = async function(linkSet, aCallback, ua) {
 				user_agent_desktop = lighthouse // facebookRq
 			} else if ( washPostStandardRx.test(link) ){
 				user_agent_desktop = lighthouse
+			} else if (bbergLink.test(link) || goLink.test(link)){
+				user_agent_desktop = user_agent_safari
+			} else if (logicLink.test(link)){
+				user_agent_desktop = user_agent_firefox
 			}
 			const controller = new AbortController();
 			const fetchTimeout = setTimeout(() => {
-				console.log('Request timed out for', link)
+				console.log('Request timed out for', link, user_agent_desktop)
 				if (linkObj.source.length < 3) {
 					linkObj.source = link
-					linkObj.title = "Request Timed Out for: " + link
+					linkObj.title = "Request Timed Out for: " + link + ' with ' + user_agent_desktop
 				}
 				controller.abort();
 			}, 5500);

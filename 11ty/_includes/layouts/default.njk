@@ -1,0 +1,58 @@
+---js
+{
+	currentDate: function() {
+		// You can have a JavaScript function here!
+		return (new Date()).toLocaleString();
+	}
+}
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href='https://backreads.com/material.min.css' />
+	<script src="../material.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href='../style.css' />
+	<title>{{ siteData.name }}: {{title}}</title>
+  </head>
+  	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer has-drawer is-upgraded has-footer">
+		<div class="mdl-layout__drawer">
+
+			<h2 class="mdl-layout-title"><a class="" href="https://backreads.com">{{ siteData.name }}:</a></h2>
+				<nav class="mdl-navigation">
+						<a class="mdl-navigation__link" href="https://backreads.com">Back Reads Links</a>
+						<a class="mdl-navigation__link is-active" href="https://backreads.com/email/index.html">Email Links</a>
+						<a class="mdl-navigation__link" href="https://backreads.com/about.html">What is This?</a>
+				</nav>
+		</div>
+		<main class="mdl-layout__content">
+			<div class="page-content">
+				<section class="">
+					<h1>{{title}}</h1>
+
+					{{ content | safe }}
+
+				</section>
+				<footer class="mdl-mega-footer">
+						<div class="mdl-mega-footer__middle-section">
+							<p>
+							Designed and built by <strong><a class="text-decoration-none" href="https://twitter.com/chronotope">Aram Zucker-Scharff (@chronotope)</a> on {{ currentDate() }}</strong>.
+							<br>
+							Code licensed under <strong>MIT</strong>, documentation under <strong><a class="text-decoration-none" href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></strong>.
+							</p>
+							<nav class="font-size-s">
+							v0.1.1 ·
+							<a href="https://twitter.com/chronotope" target="_blank" rel="noopener noreferrer">Twitter</a> · 
+							<a href="https://github.com/AramZS/backreads.com" target="_blank" rel="noopener noreferrer">GitHub</a> · 
+							<a href="https://github.com/AramZS/backreads.com/issues" target="_blank" rel="noopener noreferrer">Issues</a> · 
+							</nav>
+						</div>
+				</footer>
+			</div>
+		</main>
+	</div>
+  </body>
+</html>

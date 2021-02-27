@@ -174,19 +174,11 @@ export class AwsStack extends cdk.Stack {
     emailToHtml.addEventSource(new SnsEventSource(emailNewslettersTopic))
     
 
-    /**
-    const activateSESRuleSet = new cr.AwsCustomResource(this, 'ActivateSESRuleSet', {
-      onUpdate: {
-        service: 'SES',
-        action: 'SetActiveReceiptRuleSet',
-        parameters: {
-          RuleSetName: emailReceivingRuleset.receiptRuleSetName
-        },
-        physicalResourceId: cr.PhysicalResourceId.of(emailReceivingRuleset.receiptRuleSetName)
-      },
-      policy: cr.AwsCustomResourcePolicy.fromSdkCalls({resources: cr.AwsCustomResourcePolicy.ANY_RESOURCE})
-    });    
-     */
+    const lambdaAtEdgeFunction = new cloudfront.experimental.EdgeFunction(this, 'StaticSiteRouting', {
+      runtime: lambda.Runtime.NODEJS_12_X,
+      handler: 'router.handler',
+      code: lambda.Code.fromAsset('../lambdas/router'),
+    });
 
 
     const certificate = new DnsValidatedCertificate(this, "SiteCertificate", {
@@ -208,50 +200,33 @@ export class AwsStack extends cdk.Stack {
 
 
 
-    /**
-    // CloudFront distribution that provides HTTPS
-    const distribution = new cloudfront.CloudFrontWebDistribution(this, 'SiteDistribution', {
-      aliasConfiguration: {
-          acmCertRef: certificate.certificateArn,
-          names: [ domain ],
-          sslMethod: cloudfront.SSLMethod.SNI,
-          securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_1_2016,
-      },
-      originConfigs: [
-          {
-              customOriginSource: {
-                  domainName: backreadsSiteBucket.bucketWebsiteDomainName,
-                  originProtocolPolicy: cloudfront.OriginProtocolPolicy.HTTP_ONLY,
-              },          
-              behaviors : [ {isDefaultBehavior: true}],
-          }
-      ]
-    });
-    new cdk.CfnOutput(this, 'DistributionId', { value: distribution.distributionId });    
 
-    // Route53 alias record for the CloudFront distribution
-    new route53.ARecord(this, 'SiteAliasRecord', {
-      recordName: domain,
-      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
-      zone: hostedZone
-    });
-
-    new HttpsRedirect(this, 'Redirect', {
-      zone: hostedZone,
-      recordNames: [`www.${domain}`],
-      targetDomain: domain
-    })
-     */
-
-    const getCFConfig = function(websiteBucket:s3.Bucket, config:any, accessIdentity: cloudfront.OriginAccessIdentity, cert?:DnsValidatedCertificate) {
-      const cfConfig:any = {
+    const getCFConfig = function(websiteBucket:s3.Bucket, config: {
+      indexDoc: string,
+      errorDoc: string,
+      websiteFolder: string,
+      certificateARN: string,
+      cfAliases: string[],
+      lambdaAtEdge: cloudfront.experimental.EdgeFunction
+    }, accessIdentity: cloudfront.OriginAccessIdentity, cert?:DnsValidatedCertificate): cloudfront.CloudFrontWebDistributionProps {
+      const cfConfig: cloudfront.CloudFrontWebDistributionProps = {
         originConfigs: [
           {
             s3OriginSource: {
               s3BucketSource: websiteBucket,
               originAccessIdentity: accessIdentity,
             },
-            behaviors: config.cfBehaviors ? config.cfBehaviors : [{ isDefaultBehavior: true }],
+            behaviors: [
+              { 
+                isDefaultBehavior: true,
+                lambdaFunctionAssociations: [
+                  {
+                    lambdaFunction: config.lambdaAtEdge,
+                    eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST 
+                  }
+                ] 
+              }
+            ],
           },
         ],
         // We need to redirect all unknown routes back to index.html for angular routing to work
@@ -265,49 +240,28 @@ export class AwsStack extends cdk.Stack {
           responsePagePath: (config.errorDoc ? `/${config.errorDoc}` : `/${config.indexDoc}`),
           responseCode: 200,
         }],
-      };
-
-      if (typeof config.certificateARN !== 'undefined' && typeof config.cfAliases !== 'undefined') {
-        cfConfig.aliasConfiguration = {
+        // https://github.com/aws/aws-cdk/issues/4724 
+        aliasConfiguration: {
           acmCertRef: config.certificateARN,
           names: config.cfAliases,
-        };
-      }
-      if (typeof config.sslMethod !== 'undefined') {
-        cfConfig.aliasConfiguration.sslMethod = config.sslMethod;
-      }
-
-      if (typeof config.securityPolicy !== 'undefined') {
-        cfConfig.aliasConfiguration.securityPolicy = config.securityPolicy;
-      }
-
-      if (typeof config.zoneName !== 'undefined' && typeof cert !== 'undefined') {
-        cfConfig.viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate(cert, {
-          aliases: [config.zoneName],
-        });
-      }
+        },
+      };
 
       return cfConfig;
     }
 
-    /**
-    const deployment = new SPADeploy(this, 'spaDeployment').createSiteWithCloudfront({
-      indexDoc: 'index.html',
-      errorDoc: 'error.html',
-      websiteFolder: '../static',
-      certificateARN: certificate.certificateArn,
-      cfAliases: [domain, `*.${domain}`]
-
-    })
-     */
     const accessIdentity = new cloudfront.OriginAccessIdentity(this, 'OriginAccessIdentity', { comment: `${backreadsSiteBucket.bucketName}-access-identity` });
-    const distribution = new cloudfront.CloudFrontWebDistribution(this, 'cloudfrontDistribution', getCFConfig(backreadsSiteBucket, {
+
+    const distributionConfiguration = getCFConfig(backreadsSiteBucket, {
       indexDoc: 'index.html',
       errorDoc: 'error.html',
       websiteFolder: '../static',
       certificateARN: certificate.certificateArn,
-      cfAliases: [domain, `*.${domain}`]   
-    }, accessIdentity, certificate));
+      cfAliases: [domain, `*.${domain}`],
+      lambdaAtEdge: lambdaAtEdgeFunction   
+    }, accessIdentity, certificate);
+
+    const distribution = new cloudfront.CloudFrontWebDistribution(this, 'cloudfrontDistribution', distributionConfiguration);
 
     const cloudfrontTarget = route53.RecordTarget
         .fromAlias(new targets.CloudFrontTarget(distribution));
@@ -321,6 +275,7 @@ export class AwsStack extends cdk.Stack {
           distribution: distribution,
           distributionPaths: [
             '/',
+            '/about/index.html',
             '/about.html',
             '/index.html', 
             '/error.html',

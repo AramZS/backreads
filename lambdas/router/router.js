@@ -7,6 +7,7 @@ exports.handler = (event, context, callback) => {
     // Extract the URI from the request
     var olduri = request.uri;
 	var newuri = olduri;
+	// This redirect should prob be handled with a 300 style redirect to a canonical page with a slash at the end? https://aws.amazon.com/blogs/networking-and-content-delivery/handling-redirectsedge-part1/
 	if (!request.uri.match(/\/$/)){
 		var stringSet = request.uri.split('.')
 

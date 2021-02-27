@@ -6,10 +6,18 @@ exports.handler = (event, context, callback) => {
 
     // Extract the URI from the request
     var olduri = request.uri;
+	var newuri = olduri;
+	if (!request.uri.match(/\/$/)){
+		var stringSet = request.uri.split('.')
 
-    // Match any '/' that occurs at the end of a URI. Replace it with a default index
-    var newuri = olduri.replace(/\/$/, '\/index.html');
-	
+		if (!stringSet[stringSet.length - 1].match(/org|com|json|css|html|js|map/)){
+			var newuri = olduri + '\/index.html'
+		}
+	} else {
+		// Match any '/' that occurs at the end of a URI. Replace it with a default index
+		var newuri = olduri.replace(/\/$/, '\/index.html');
+	}
+
     
     // Log the URI as received by CloudFront and the new URI to be used to fetch from origin
     console.log("Old URI: " + olduri);

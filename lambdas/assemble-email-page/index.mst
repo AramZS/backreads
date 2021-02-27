@@ -4,90 +4,78 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href='https://backreads.com/base.css' />
+	<link rel="stylesheet" href='https://backreads.com/material.min.css' />
+	<script src="https://backreads.com/material.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href='../style.css' />
 	<link rel="stylesheet" href='https://backreads.com/emails/style.css' />
 	<title>Backreads: Aram's Emails for {{date}}</title>
   </head>
-  <body class="">
-  	<div id="layout">
-	  <a href="#menu" id="menuLink" class="menu-link">
-        <!-- Hamburger icon -->
-        <span></span>
-    </a>
-		<aside id="menu">
-			<nav class="pure-menu">
-				<a class="pure-menu-heading" href="#">Backreads</a>
-				<ul class="pure-menu-list">
-					<li class="pure-menu-item">
-						<a href="https://backreads.com">Back Reads Links</a>
-					</li>
-					<li class="pure-menu-item menu-item-divided pure-menu-selected">
-						<a href="https://backreads.com/email/index.html">Email Links</a>
-					</li>
-					<li class="pure-menu-item">
-						<a href="https://backreads.com/about.html">What is This?</a>
-					</li>
-				</ul>
-			</nav>
-		</aside>
-		<main id="main">
-<!--
-			<header class="header background-primary color-white">
-				<h1 class="header no-margin flex-none all-caps">Aram's Email Links for {{date}}</h1>
-			</header>
--->
-			<section class="padding-top-xxl">
-				<div class="container">
+  	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer has-drawer is-upgraded has-footer">
+		<div class="mdl-layout__drawer">
 
-					
-					<h2 class="display-title display-title-xxl">Email Links</h2>
-					<hr class="divider background-primary">
-					
+			<h2 class="mdl-layout-title"><a class="" href="https://backreads.com">Backreads</a></h2>
+				<nav class="mdl-navigation">
+						<a class="mdl-navigation__link" href="https://backreads.com">Back Reads Links</a>
+						<a class="mdl-navigation__link is-active" href="https://backreads.com/email/index.html">Email Links</a>
+						<a class="mdl-navigation__link" href="https://backreads.com/about.html">What is This?</a>
+				</nav>
+		</div>
+		<main class="mdl-layout__content">
+			<div class="page-content">
+				<section class="">
+					<div class="">
 
-					
-					<p class="lead max-width-m">All the links I recieved via email yesterday.</p>
-					
+						
+						<h2 class="display-title display-title-xxl">Email Links</h2>
+						<hr class="divider background-primary">
+						
 
-					
+						
+						<p class="lead max-width-m">All the links I recieved via email yesterday.</p>
+						
 
-				</div>
-			</section>
+						
 
-			<section class="padding-vertical-xxl">
-				<div class="container">
+					</div>
+				</section>
+
+				<section class="">
+					<div class="">
 					<h3 id="totals-header"> Totals: </h3>
 					<p>Emails: {{emailCount}}</p>
 					<p>Links: {{linkCount}}</p>
 				</div>
-			</section>
-			<section class="padding-vertical-xxl">
-				<div class="container">
-					<h3 id="links-header content-subhead"> Links </h3>
-					<ul>
-						{{#links}}
-							<li>
-								<a href="{{url}}">{{title}}</a>. Count: <strong>{{count}}</strong>
-							</li>
-						{{/links}}
-					</ul>
-				</div>
-			</section>
-		</main>
-		<footer class="footer padding-vertical-xl border-top ">
-			<div class="container">
-				<p>
-				Designed and built by <strong><a class="text-decoration-none" href="https://twitter.com/chronotope">Aram Zucker-Scharff (@chronotope)</a> on {{date}}</strong>.
-				<br>
-				Code licensed under <strong>MIT</strong>, documentation under <strong><a class="text-decoration-none" href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></strong>.
-				</p>
-				<nav class="font-size-s">
-				v{{version}} ·
-				<a href="https://twitter.com/chronotope" target="_blank" rel="noopener noreferrer">Twitter</a> · 
-				<a href="https://github.com/AramZS/backreads.com" target="_blank" rel="noopener noreferrer">GitHub</a> · 
-				<a href="https://github.com/AramZS/backreads.com/issues" target="_blank" rel="noopener noreferrer">Issues</a> · 
-				</nav>
+				</section>
+				<section class="">
+					<div class="">
+						<h3 id="links-header"> Links </h3>
+						<ul>
+							{{#links}}
+								<li>
+									<a href="{{url}}">{{title}}</a>. Count: <strong>{{count}}</strong>
+								</li>
+							{{/links}}
+						</ul>
+					</div>
+				</section>
+				<footer class="mdl-mega-footer">
+						<div class="mdl-mega-footer__middle-section">
+							<p>
+							Designed and built by <strong><a class="text-decoration-none" href="https://twitter.com/chronotope">Aram Zucker-Scharff (@chronotope)</a> on 2021-02-10</strong>.
+							<br>
+							Code licensed under <strong>MIT</strong>, documentation under <strong><a class="text-decoration-none" href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></strong>.
+							</p>
+							<nav class="font-size-s">
+							v0.1.1 ·
+							<a href="https://twitter.com/chronotope" target="_blank" rel="noopener noreferrer">Twitter</a> · 
+							<a href="https://github.com/AramZS/backreads.com" target="_blank" rel="noopener noreferrer">GitHub</a> · 
+							<a href="https://github.com/AramZS/backreads.com/issues" target="_blank" rel="noopener noreferrer">Issues</a> · 
+							</nav>
+						</div>
+				</footer>
 			</div>
-		</footer>
+		</main>
 	</div>
   </body>
 </html>

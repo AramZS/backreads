@@ -103,7 +103,7 @@ exports.collectableLink = function(link) {
 		/\/privacy-policy$/,
 		/\/privacy-settings$/,
 		'linkedin.com/company/',
-		/\/shareArticle/
+		/\/shareArticle/,
 		/\/areyouahuman$/,
 		/\/c\//,
 		'/account/',
@@ -137,7 +137,8 @@ exports.collectableLink = function(link) {
 		/\/vcard\//,
 		/unsub/,
 		/vcard/,
-		/sendtofriend/
+		/sendtofriend/,
+		/subscribertools/,
 		
 	];
 	for (let aRegExString of regexs) {
@@ -299,73 +300,78 @@ exports.resolveLinks = async function(linkSet, aCallback, ua) {
 				},
 				signal: controller.signal
 			})
-			let url = r.url
-			let text = await r.text();
-			clearTimeout(fetchTimeout)
-			const virtualConsole = new jsdom.VirtualConsole();
-			// virtualConsole.on("error", () => { console.log(error) });
-			// virtualConsole.sendTo(c, { omitJSDOMErrors: true });
-			var dom = new JSDOM(text, { pretendToBeVisual: false, virtualConsole })
-			try {
+			if (r.ok){
+				let url = r.url
+				let text = await r.text();
+				clearTimeout(fetchTimeout)
+				const virtualConsole = new jsdom.VirtualConsole();
+				// virtualConsole.on("error", () => { console.log(error) });
+				// virtualConsole.sendTo(c, { omitJSDOMErrors: true });
+				var dom = new JSDOM(text, { pretendToBeVisual: false, virtualConsole })
 				try {
-					url = dom.window.document.querySelector('link[rel=canonical]').href
-				} catch (e) {
-					console.log('no canonical', r.url)
 					try {
-						url = dom.window.document.querySelector('meta[property="og:url"]').content
+						url = dom.window.document.querySelector('link[rel=canonical]').href
 					} catch (e) {
-						console.log('no og:url', r.url)
-						url = (r.url.split('?'))[0]
+						console.log('no canonical', r.url)
+						try {
+							url = dom.window.document.querySelector('meta[property="og:url"]').content
+						} catch (e) {
+							console.log('no og:url', r.url)
+							url = (r.url.split('?'))[0]
+						}
 					}
-				}
-				let title = ''
-				try {
-					title = dom.window.document.title
-				} catch (e) {
-					console.log('Could not find title', r.url, e)
+					let title = ''
 					try {
-						title = dom.window.document.querySelector('meta[property="og:title"]').content
+						title = dom.window.document.title
 					} catch (e) {
-						title = ""
+						console.log('Could not find title', r.url, e)
+						try {
+							title = dom.window.document.querySelector('meta[property="og:title"]').content
+						} catch (e) {
+							title = ""
+						}
 					}
-				}
-				let description = ''
-				try {
-					description = dom.window.document.querySelector('meta[name="description"]').content
-				} catch (e) {
-					console.log('Could not find description', r.url, e)
+					let description = ''
 					try {
-						description = dom.window.document.querySelector('meta[property="og:description"]').content
+						description = dom.window.document.querySelector('meta[name="description"]').content
 					} catch (e) {
-						description = ""
+						console.log('Could not find description', r.url, e)
+						try {
+							description = dom.window.document.querySelector('meta[property="og:description"]').content
+						} catch (e) {
+							description = ""
+						}
+					}
+					linkObj.title = title
+					linkObj.description = description
+					if (exports.collectableLink(url)) {
+						if (aCallback) {
+							let check = await aCallback(url, { title, description })
+						}
+						linkObj.source = url
+					} else {
+						return null
+					}
+				} catch (e) {
+					console.log('Error in links resolution', r.url, e)
+					if (exports.collectableLink(url)) {
+						if (aCallback) {
+							let check = await aCallback(r.url, { title: "", description: "" })
+						}
+						linkObj.source = r.url
+					} else {
+						return null
 					}
 				}
-				linkObj.title = title
-				linkObj.description = description
-				if (exports.collectableLink(url)) {
-					if (aCallback) {
-						let check = await aCallback(url, { title, description })
-					}
-					linkObj.source = url
-				} else {
-					return null
+				if (cloudflareBlock.test(linkObj.title) || fourOhThreeBlock.test(linkObj.title) || humanCheckBlock.test(linkObj.title)){
+					linkObj.title = "Title not found for " + linkObj.source
+					linkObj.source = link
 				}
-			} catch (e) {
-				console.log('Error in links resolution', r.url, e)
-				if (exports.collectableLink(url)) {
-					if (aCallback) {
-						let check = await aCallback(r.url, { title: "", description: "" })
-					}
-					linkObj.source = r.url
-				} else {
-					return null
-				}
-			}
-			if (cloudflareBlock.test(linkObj.title) || fourOhThreeBlock.test(linkObj.title) || humanCheckBlock.test(linkObj.title)){
-				linkObj.title = "Title not found for " + linkObj.source
+				return linkObj
+			} else {
+				console.log('Attempt to resolve link failed for ', link, "with ua", user_agent_desktop, "With response status: ", r.status)
 				linkObj.source = link
 			}
-			return linkObj
 		} catch (e) {
 			console.log('Attempt to resolve link failed for ', link, "with ua", user_agent_desktop, "With error: ", e)
 			linkObj.source = link

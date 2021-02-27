@@ -340,10 +340,31 @@ export class AwsStack extends cdk.Stack {
           distribution: distribution,
           distributionPaths: [
             '/emails/style.css',
-            '/base.css'
+            '/base.css',
+            '/material.css',
+            '/material.min.css',
+            '/material.min.css.map',
           ],
           prune: false,
           contentType: 'text/css',
+          cacheControl: [s3Deployment.CacheControl.setPublic()],
+      }
+    );
+
+    const siteJSDeployment = new s3Deployment.BucketDeployment(
+      this,
+      'deployStaticWebsiteJS',
+      {
+          sources: [s3Deployment.Source.asset('../static', {exclude: ['*.html', '*.css']}), s3Deployment.Source.asset('../static/emails', {exclude: ['*.html', '*.css']})],
+          destinationBucket: backreadsSiteBucket,
+          distribution: distribution,
+          distributionPaths: [
+            '/material.js',
+            '/material.min.js',
+            '/material.min.js.map',
+          ],
+          prune: false,
+          contentType: 'text/javascript',
           cacheControl: [s3Deployment.CacheControl.setPublic()],
       }
     );

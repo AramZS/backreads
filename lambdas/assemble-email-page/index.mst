@@ -42,10 +42,22 @@
 
 				<section class="">
 					<div class="">
-					<h3 id="totals-header"> Totals: </h3>
-					<p>Emails: {{emailCount}}</p>
-					<p>Links: {{linkCount}}</p>
-				</div>
+						<h3 id="totals-header"> Totals: </h3>
+						<p>Emails: {{emailCount}}</p>
+						<p>Links: {{linkCount}}</p>
+					</div>
+				</section>
+				<section class="chart-wrapper">
+					<div id="over-time-charts">
+						<div id="emails-over-time" class="chart">
+							<h4 id="emails-over-time__title"> Emails per day: </h4>
+							<div id="emails-over-time__chart"></div>
+						</div>
+						<div id="links-over-time" class="chart">
+							<h4 id="links-over-time__title"> Links per day: </h4>
+							<div id="links-over-time__chart"></div>
+						</div>
+					</div>
 				</section>
 				<section class="">
 					<div class="">
@@ -53,7 +65,7 @@
 						<ul>
 							{{#links}}
 								<li>
-									<a href="{{url}}">{{title}}</a>. Count: <strong>{{count}}</strong>
+									<a href="{{url}}" target="_blank">{{title}}</a>. Count: <strong>{{count}}</strong>
 								</li>
 							{{/links}}
 						</ul>

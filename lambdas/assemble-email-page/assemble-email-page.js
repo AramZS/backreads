@@ -2,7 +2,7 @@ var AWS = require('aws-sdk');
 const S3 = new AWS.S3();
 const Mustache = require("mustache");
 const fs = require("fs");
-
+const emailChartBuilder = require('./email-charts.js')
 
 const getText = (bucket, key) => {
 	return new Promise((resolve, reject) => {
@@ -105,9 +105,16 @@ exports.generatePreviousDate = function( daysBefore, pathMode ){
 	return string
 }
 
+const getCount = async function (date, type){
+	const linksetString = await getText(process.env.PICKUP_BUCKET, 'emails/' + date + '/links.json')
+	const linkData = JSON.parse(linksetString)
+	return {
+		date,
+		count: linkData[type+'Count']
+	}
+}
 
-exports.handler = async function(event) {
-	console.log("assemble email page request:", JSON.stringify(event, undefined, 2));
+exports.composeEmail = async function(){
 	var dates = {
 		0: exports.generatePreviousDate(1, false),
 		1: exports.generatePreviousDate(2, false),
@@ -119,11 +126,42 @@ exports.handler = async function(event) {
 		7: exports.generatePreviousDate(8, false)
 
 	}
-
 	const linksetString = await getText(process.env.PICKUP_BUCKET, 'emails/' + dates[0] + '/links.json')
 	const linkset = JSON.parse(linksetString)
-	const html = exports.generateHTML(linkset, dates[0])
-	var updateDailyEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/'+dates[0]+'/index.html', Buffer.from(html), 		{
+	const linkCounts = [{
+		date: dates[0],
+		count: Object.keys(linkset.links).length
+	}]
+	const emailCounts = [{
+		date: dates[0],
+		count: linkset.emailCount
+	}]
+
+	let n = 1
+	while (n < 8) {
+		const linksetString = await getText(process.env.PICKUP_BUCKET, 'emails/' + dates[n] + '/links.json')
+		const linkData = JSON.parse(linksetString)
+		linkCounts.push({ date: dates[n], count: Object.keys(linkData.links).length })
+		emailCounts.push({ date: dates[n], count: linkData.emailCount })
+		n++
+	}
+	// console.log('links', linkCounts, 'emails', emailCounts)
+	// TODO: build link histograph - last 7 days and last 7 of this day of the week - https://www.d3-graph-gallery.com/graph/histogram_basic.html 
+	// https://github.com/d3-node/d3-node 
+	// https://d3node-test-zs.glitch.me/basic-line 
+	let html = exports.generateHTML(linkset, dates[0])
+	html  = emailChartBuilder.generateChartOntoHTML(linkCounts, html, '#emails-over-time__chart')
+	html  = emailChartBuilder.generateChartOntoHTML(emailCounts, html, '#links-over-time__chart')
+	return {
+		html, 
+		date: dates[0]
+	};
+}
+
+exports.handler = async function(event) {
+	console.log("assemble email page request:", JSON.stringify(event, undefined, 2));
+	const { html, date } = await exports.composeEmail()
+	var updateDailyEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/'+date+'/index.html', Buffer.from(html), 		{
 			ContentType: "text/html",
 			ACL:'public-read'
 		}
@@ -143,7 +181,7 @@ exports.handler = async function(event) {
             Paths: {
                 Quantity: 2,
 				Items: [
-					'/emails/'+dates[0]+'/index.html',
+					'/emails/'+date+'/index.html',
 					'/emails/index.html'
 				],
             },

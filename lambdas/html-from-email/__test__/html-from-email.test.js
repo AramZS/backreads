@@ -144,6 +144,10 @@ describe('feed tools', () => {
 		expect(tools.collectableLink('https://www.avclub.com/')).toBe(false)
 		expect(tools.collectableLink('http://click1.newsletters.rollcall.com/ljzcmnyhflwrdhpsrdfgprshqgrwfpsqgfcwwnmmdhmdk_hfbcwmmbzvwvvbwvhfc.html?a=&b=01%2F22%2F2021')).toBe(true)
 		expect(tools.collectableLink('https://nyc.us20.list-manage.com/track/click?u=73d98c6dfc90032198ec7bdee&id=07bc331363&e=e3dbec9412')).toBe(true)
+		expect(tools.collectableLink('https://hbr.org')).toBe(false)
+		expect(tools.collectableLink('https://www.mediapost.com/mediakit/')).toBe(false)
+		expect(tools.collectableLink('https://discourseblog.com/subscribe/')).toBe(false)
+		expect(tools.collectableLink('http://newsletters.wan-ifra.org/')).toBe(false)
 	})
 	it('should resolve links', async (done) => {
 		expect.assertions(9)

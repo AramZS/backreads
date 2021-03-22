@@ -73,8 +73,10 @@ exports.collectableLink = function(link) {
 		'/deals/',
 		'disable_email',
 		/\/subscribe$/,
+		/\/subscribe\/$/,
 		'givemeyournewsletter',
 		/\/subscriptions$/,
+		/\/subscriptions\/$/,
 		/substack.com\/for-writers$/,
 		'/terms-of-service/',
 		/\/terms-of-service$/,
@@ -83,9 +85,13 @@ exports.collectableLink = function(link) {
 		/\.com\/$/,
 		/\.com$/,
 		/\.io$/,
+		/\.io\/$/,
 		/\.space$/,
+		/\.space\/$/,
 		/\.org$/,
+		/\.org\/$/,
 		/\.net$/,
+		/\.net\/$/,
 		'about:blank',
 		'404',
 		/\/camp-rw\/$/,
@@ -101,6 +107,7 @@ exports.collectableLink = function(link) {
 		/\/contact-us$/,
 		/\/contact-us\/$/,
 		/\/privacy-policy$/,
+		/\/privacy_policy$/,
 		/\/privacy-settings$/,
 		'linkedin.com/company/',
 		/\/shareArticle/,
@@ -139,10 +146,16 @@ exports.collectableLink = function(link) {
 		/vcard/,
 		/sendtofriend/,
 		/subscribertools/,
+		/\/mediakit/,
+		/nordvpn\.com\/special/,
+		/adoptuskids\.org/,
+		/updateAccount/,
+		/about$/,
+		/\/newsletters\/$/
 		
 	];
 	for (let aRegExString of regexs) {
-		const aRegex = RegExp(aRegExString)
+		const aRegex = new RegExp(aRegExString)
 		if (aRegex.test(link)) {
 			// console.log(aRegExString)
 			return false;

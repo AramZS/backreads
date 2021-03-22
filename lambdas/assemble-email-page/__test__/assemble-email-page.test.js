@@ -31,5 +31,13 @@ describe('create email page', () => {
 		expect(dateStringFour).toMatch('2020-02-04')
 		done()
 	})
-
+	it('should create a full email report', async (done) => {
+		process.env.PICKUP_BUCKET = 'backreads'
+		process.env.DEPOSIT_BUCKET = 'backreads'
+		process.env.AWS_PROFILE = 'aram'
+		let {html, date} = await handler.composeEmail()
+		expect(html).toBeDefined();
+		fs.writeFileSync(path.join(__dirname, "email-links-full.html"), html);
+		done()
+	})
 })

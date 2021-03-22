@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "d3": "^6.6.0",
+    "d3-node": "^2.2.2",
+    "iconv-lite": "^0.6.2",
     "mustache": "^4.1.0"
   }
 }

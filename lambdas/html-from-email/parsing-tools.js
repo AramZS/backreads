@@ -92,6 +92,8 @@ exports.collectableLink = function(link) {
 		/\.org\/$/,
 		/\.net$/,
 		/\.net\/$/,
+		/\.co$/,
+		/\.co\/$/,
 		'about:blank',
 		'404',
 		/\/camp-rw\/$/,
@@ -108,7 +110,10 @@ exports.collectableLink = function(link) {
 		/\/contact-us\/$/,
 		/\/privacy-policy$/,
 		/\/privacy_policy$/,
+		/\/privacy-policy\/$/,
+		/\/privacy_policy\/$/,
 		/\/privacy-settings$/,
+		/\/privacy-settings\/$/,
 		'linkedin.com/company/',
 		/\/shareArticle/,
 		/\/areyouahuman$/,
@@ -151,7 +156,8 @@ exports.collectableLink = function(link) {
 		/adoptuskids\.org/,
 		/updateAccount/,
 		/about$/,
-		/\/newsletters\/$/
+		/\/newsletters\/$/,
+		/\/manage\//
 		
 	];
 	for (let aRegExString of regexs) {

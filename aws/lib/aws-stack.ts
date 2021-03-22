@@ -295,6 +295,7 @@ export class AwsStack extends cdk.Stack {
           distribution: distribution,
           distributionPaths: [
             '/emails/style.css',
+            '/style.css',
             '/base.css',
             '/material.css',
             '/material.min.css',

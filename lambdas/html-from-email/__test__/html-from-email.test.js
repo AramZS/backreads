@@ -148,6 +148,11 @@ describe('feed tools', () => {
 		expect(tools.collectableLink('https://www.mediapost.com/mediakit/')).toBe(false)
 		expect(tools.collectableLink('https://discourseblog.com/subscribe/')).toBe(false)
 		expect(tools.collectableLink('http://newsletters.wan-ifra.org/')).toBe(false)
+		expect(tools.collectableLink('https://trends.co/')).toBe(false)
+		expect(tools.collectableLink('https://link.thehustle.co/manage/6ks/oc')).toBe(false)
+		expect(tools.collectableLink('https://link.nationalreview.com/manage/4rc/oc')).toBe(false)
+		expect(tools.collectableLink('https://thehustle.co/')).toBe(false)
+		expect(tools.collectableLink('https://www.sfchronicle.com/privacy_policy/')).toBe(false)
 	})
 	it('should resolve links', async (done) => {
 		expect.assertions(9)

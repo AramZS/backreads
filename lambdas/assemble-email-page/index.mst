@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href='https://backreads.com/emails/style.css' />
 	<title>Backreads: Aram's Emails for {{date}}</title>
   </head>
+  <body>
   	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer has-drawer is-upgraded has-footer">
 		<div class="mdl-layout__drawer">
 
@@ -26,16 +27,16 @@
 				<section class="">
 					<div class="">
 
-						
+
 						<h2 class="display-title display-title-xxl">Email Links</h2>
 						<hr class="divider background-primary">
-						
 
-						
+
+
 						<p class="lead max-width-m">All the links I recieved via email yesterday.</p>
-						
 
-						
+
+
 
 					</div>
 				</section>
@@ -79,10 +80,10 @@
 							Code licensed under <strong>MIT</strong>, documentation under <strong><a class="text-decoration-none" href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a></strong>.
 							</p>
 							<nav class="font-size-s">
-							v0.1.1 ·
-							<a href="https://twitter.com/chronotope" target="_blank" rel="noopener noreferrer">Twitter</a> · 
-							<a href="https://github.com/AramZS/backreads.com" target="_blank" rel="noopener noreferrer">GitHub</a> · 
-							<a href="https://github.com/AramZS/backreads.com/issues" target="_blank" rel="noopener noreferrer">Issues</a> · 
+								v0.1.1 ·
+								<a href="https://twitter.com/chronotope" target="_blank" rel="noopener noreferrer">Twitter</a> ·
+								<a href="https://github.com/AramZS/backreads.com" target="_blank" rel="noopener noreferrer">GitHub</a> ·
+								<a href="https://github.com/AramZS/backreads.com/issues" target="_blank" rel="noopener noreferrer">Issues</a> ·
 							</nav>
 						</div>
 				</footer>

@@ -87,7 +87,7 @@ exports.generateHTML = (linkset, date) => {
 }
 
 exports.convertDateToLocalString = function(dateObj){
-	var dateSet = (dateObj.toLocaleString("en-US", {timezoneName: "ET"}).split(",")[0]).split('/'); 
+	var dateSet = (dateObj.toLocaleString("en-US", {timezoneName: "ET"}).split(",")[0]).split('/');
 	var month = dateSet[0].length < 2 ? `0${dateSet[0]}` : dateSet[0]
 	var day = dateSet[1].length < 2 ? `0${dateSet[1]}` : dateSet[1]
 	var dateIs = `${dateSet[2]}-${month}-${day}`;
@@ -136,24 +136,41 @@ exports.composeEmail = async function(){
 		date: dates[0],
 		count: linkset.emailCount
 	}]
-
+	const promiseArray = [];
 	let n = 1
 	while (n < 8) {
-		const linksetString = await getText(process.env.PICKUP_BUCKET, 'emails/' + dates[n] + '/links.json')
-		const linkData = JSON.parse(linksetString)
-		linkCounts.push({ date: dates[n], count: Object.keys(linkData.links).length })
-		emailCounts.push({ date: dates[n], count: linkData.emailCount })
+		promiseArray.push((async (date) => {
+			const linksetString = await getText(process.env.PICKUP_BUCKET, 'emails/' + date + '/links.json')
+			const linkData = JSON.parse(linksetString)
+			return {
+				data: linkData, date: date
+			};
+		})(dates[n]))
 		n++
 	}
-	// console.log('links', linkCounts, 'emails', emailCounts)
-	// TODO: build link histograph - last 7 days and last 7 of this day of the week - https://www.d3-graph-gallery.com/graph/histogram_basic.html 
-	// https://github.com/d3-node/d3-node 
-	// https://d3node-test-zs.glitch.me/basic-line 
+	const linkDatas = await Promise.all(promiseArray);
+	linkDatas.forEach((aLinkset) => {
+		linkCounts.push({ date: aLinkset.date, count: Object.keys(aLinkset.data.links).length })
+		emailCounts.push({ date: aLinkset.date, count: aLinkset.data.emailCount })
+	})
+
+	console.log('counts', 'links', linkCounts, 'emails', emailCounts)
+	// TODO: build link histograph - last 7 days and last 7 of this day of the week - https://www.d3-graph-gallery.com/graph/histogram_basic.html
+	// https://github.com/d3-node/d3-node
+	// https://d3node-test-zs.glitch.me/basic-line
 	let html = exports.generateHTML(linkset, dates[0])
-	html  = emailChartBuilder.generateChartOntoHTML(linkCounts, html, '#emails-over-time__chart')
-	html  = emailChartBuilder.generateChartOntoHTML(emailCounts, html, '#links-over-time__chart')
+	try {
+		html  = emailChartBuilder.generateChartOntoHTML(linkCounts, html, '#emails-over-time__chart')
+	} catch (e) {
+		console.log('First chart generation failed', e)
+	}
+	try {
+		html  = emailChartBuilder.generateChartOntoHTML(emailCounts, html, '#links-over-time__chart')
+	} catch (e) {
+		console.log('Second chart generation failed', e)
+	}
 	return {
-		html, 
+		html,
 		date: dates[0]
 	};
 }
@@ -166,7 +183,7 @@ exports.handler = async function(event) {
 			ACL:'public-read'
 		}
 	)
-	var updateTodayEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/index.html', Buffer.from(html), 
+	var updateTodayEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/index.html', Buffer.from(html),
 		{
 			ContentType: "text/html",
 			ACL:'public-read'
@@ -192,5 +209,5 @@ exports.handler = async function(event) {
 		emailMainLevel: updateTodayEmailLinks,
 		invalidation: invalidateEvent
 	}
-	
+
 }

@@ -37,6 +37,7 @@ describe('create email page', () => {
 		process.env.AWS_PROFILE = 'aram'
 		let {html, date} = await handler.composeEmail()
 		expect(html).toBeDefined();
+		expect(date).toBeDefined();
 		fs.writeFileSync(path.join(__dirname, "email-links-full.html"), html);
 		done()
 	})

@@ -157,8 +157,9 @@ exports.collectableLink = function(link) {
 		/updateAccount/,
 		/about$/,
 		/\/newsletters\/$/,
-		/\/manage\//
-		
+		/\/manage\//,
+		/\/settings\//
+
 	];
 	for (let aRegExString of regexs) {
 		const aRegex = new RegExp(aRegExString)
@@ -219,7 +220,7 @@ function timeout(ms) {
 }
 
 exports.convertDateToLocalString = function(dateObj){
-	var dateSet = (dateObj.toLocaleString("en-US", {timezoneName: "ET"}).split(",")[0]).split('/'); 
+	var dateSet = (dateObj.toLocaleString("en-US", {timezoneName: "ET"}).split(",")[0]).split('/');
 	var month = dateSet[0].length < 2 ? `0${dateSet[0]}` : dateSet[0]
 	var day = dateSet[1].length < 2 ? `0${dateSet[1]}` : dateSet[1]
 	var dateIs = `${dateSet[2]}-${month}-${day}`;

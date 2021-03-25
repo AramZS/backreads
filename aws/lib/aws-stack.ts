@@ -35,7 +35,7 @@ const createFifoTopic = (stack: cdk.Stack, name: string) => {
     topicName: name,
     displayName: name
   });
-  
+
   const cfnTopic = topic.node.defaultChild as sns.CfnTopic
   cfnTopic.addPropertyOverride("FifoTopic", true);
   cfnTopic.addPropertyOverride("ContentBasedDeduplication", false);
@@ -50,7 +50,7 @@ export class AwsStack extends cdk.Stack {
     const domain = 'backreads.com'
 
     const emailNewslettersTopic = new sns.Topic(this, 'emailNewslettersTopic');
-    // https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/sns-examples-publishing-messages.html 
+    // https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/sns-examples-publishing-messages.html
     /**
     const linksTopicOld = new sns.Topic(this, 'linksetForProcessing',{
       displayName: 'linksetForProcessing',
@@ -86,7 +86,7 @@ export class AwsStack extends cdk.Stack {
     // Since this code is open source I don't want to open the ability to be DDOSed by revealing the incoming processor email.
     const secretEmail = ssm.StringParameter.fromStringParameterAttributes(this, 'newsletterEmail', {
       parameterName: '/backreads/newsletteremail'
-    });    
+    });
 
     const backreadsSiteBucket = new s3.Bucket(this, 'BackreadsSite', {
       bucketName: 'backreads',
@@ -104,7 +104,7 @@ export class AwsStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, 'Bucket', { value: backreadsSiteBucket.bucketName })
     // Needed to set up the domain in SES Identity Management dashboard
-    // For a possible CDK way to do it - https://developer.aliyun.com/mirror/npm/package/@aws-cdk/custom-resources 
+    // For a possible CDK way to do it - https://developer.aliyun.com/mirror/npm/package/@aws-cdk/custom-resources
     const emailReceivingRuleset = new ses.ReceiptRuleSet(this, 'RuleSet', {
       rules: [
         {
@@ -157,8 +157,8 @@ export class AwsStack extends cdk.Stack {
     const emailToHtml = new lambda.Function(this, 'emailToHtml', {
       runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/html-from-email'),  // code loaded from "lambda" directory
-      handler: 'html-from-email.handler',                // file is "hello", function is "handler"
-      memorySize: 500,
+      handler: 'html-from-email.handler',
+	  memorySize: 500,
       timeout: cdk.Duration.seconds(600),
       environment: {
         DEPOSIT_BUCKET: storyBucket.bucketName,
@@ -172,7 +172,7 @@ export class AwsStack extends cdk.Stack {
     storyBucket.grantReadWrite(emailToHtml)
     textsBucket.grantReadWrite(emailToHtml)
     emailToHtml.addEventSource(new SnsEventSource(emailNewslettersTopic))
-    
+
 
     const lambdaAtEdgeFunction = new cloudfront.experimental.EdgeFunction(this, 'StaticSiteRouting', {
       runtime: lambda.Runtime.NODEJS_12_X,
@@ -194,7 +194,7 @@ export class AwsStack extends cdk.Stack {
       validationMethod: ValidationMethod.DNS,
     })
 
-    new cdk.CfnOutput(this, 'Certificate', 
+    new cdk.CfnOutput(this, 'Certificate',
       { value: certificate.certificateArn }
     );
 
@@ -217,14 +217,14 @@ export class AwsStack extends cdk.Stack {
               originAccessIdentity: accessIdentity,
             },
             behaviors: [
-              { 
+              {
                 isDefaultBehavior: true,
                 lambdaFunctionAssociations: [
                   {
                     lambdaFunction: config.lambdaAtEdge,
-                    eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST 
+                    eventType: cloudfront.LambdaEdgeEventType.VIEWER_REQUEST
                   }
-                ] 
+                ]
               }
             ],
           },
@@ -240,7 +240,7 @@ export class AwsStack extends cdk.Stack {
           responsePagePath: (config.errorDoc ? `/${config.errorDoc}` : `/${config.indexDoc}`),
           responseCode: 200,
         }],
-        // https://github.com/aws/aws-cdk/issues/4724 
+        // https://github.com/aws/aws-cdk/issues/4724
         aliasConfiguration: {
           acmCertRef: config.certificateARN,
           names: config.cfAliases,
@@ -258,14 +258,14 @@ export class AwsStack extends cdk.Stack {
       websiteFolder: '../static',
       certificateARN: certificate.certificateArn,
       cfAliases: [domain, `*.${domain}`],
-      lambdaAtEdge: lambdaAtEdgeFunction   
+      lambdaAtEdge: lambdaAtEdgeFunction
     }, accessIdentity, certificate);
 
     const distribution = new cloudfront.CloudFrontWebDistribution(this, 'cloudfrontDistribution', distributionConfiguration);
 
     const cloudfrontTarget = route53.RecordTarget
         .fromAlias(new targets.CloudFrontTarget(distribution));
-    
+
     const siteHTMLDeployment = new s3Deployment.BucketDeployment(
       this,
       'deployStaticWebsite',
@@ -277,7 +277,7 @@ export class AwsStack extends cdk.Stack {
             '/',
             '/about/index.html',
             '/about.html',
-            '/index.html', 
+            '/index.html',
             '/error.html',
           ],
           prune: false,
@@ -347,9 +347,10 @@ export class AwsStack extends cdk.Stack {
     const assembleEmailWebpage = new lambda.Function(this, 'assemble-email-page', {
       runtime: lambda.Runtime.NODEJS_12_X,    // execution environment
       code: lambda.Code.fromAsset('../lambdas/assemble-email-page'),  // code loaded from "lambda" directory
-      handler: 'assemble-email-page.handler', 
+      handler: 'assemble-email-page.handler',
       functionName: 'assemble-email-info-page',
-      timeout: cdk.Duration.seconds(300),
+	  memorySize: 256,
+      timeout: cdk.Duration.seconds(350),
       environment: {
         PICKUP_BUCKET: backreadsSiteBucket.bucketName,
         DEPOSIT_BUCKET: backreadsSiteBucket.bucketName,
@@ -359,7 +360,7 @@ export class AwsStack extends cdk.Stack {
         responseOnly: true // auto-extract
       }) */
     });
-    // Adapted from https://github.com/aws/aws-cdk/pull/12238/files 
+    // Adapted from https://github.com/aws/aws-cdk/pull/12238/files
     const distributionArn = `arn:aws:cloudfront::${this.account}:distribution/${distribution.distributionId}`;
     assembleEmailWebpage.addToRolePolicy(
       new PolicyStatement({
@@ -374,7 +375,7 @@ export class AwsStack extends cdk.Stack {
       })
     )
     backreadsSiteBucket.grantReadWrite(assembleEmailWebpage)
-    
+
     /**
     // defines an AWS Lambda resource
     const hello = new lambda.Function(this, 'HelloHandler', {
@@ -386,14 +387,14 @@ export class AwsStack extends cdk.Stack {
     const secretPinboardFeed = ssm.StringParameter.fromStringParameterAttributes(this, 'MySecureValue', {
       parameterName: '/backreads/pinboardkey'
     });
-    
+
     const secretLoginEmail = ssm.StringParameter.fromStringParameterAttributes(this, 'LoginEmail', {
       parameterName: '/backreads/loginemail'
-    });    
-    
+    });
+
     const secretReadupPassword = ssm.StringParameter.fromStringParameterAttributes(this, 'ReadupPassword', {
       parameterName: '/backreads/readuppassword'
-    });        
+    });
 
     const pinboardPull = new lambda.Function(this, 'PinboardPull', {
       runtime: lambda.Runtime.NODEJS_10_X,    // execution environment
@@ -517,8 +518,8 @@ export class AwsStack extends cdk.Stack {
 
     const definition = start
       .next(parallelSourceSitesCollection
-        .branch(buildPinboardSource) 
-        .branch(buildReadupSource) 
+        .branch(buildPinboardSource)
+        .branch(buildReadupSource)
       )
       .next(processSiteSources)
       .next(parallelSiteBuild

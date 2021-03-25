@@ -8,7 +8,7 @@ const d3Actual = Object.assign({},
 	// require('d3')
 );
 
-exports.generateChartOntoHTML = (data, html, selector) => {
+exports.generateChartOntoHTML = (data, jsdomObj, selector) => {
 	const styles = `
 .line {
     fill: none;
@@ -35,7 +35,7 @@ exports.generateChartOntoHTML = (data, html, selector) => {
 	console.log('Generate chart on ', selector)
   const options = {
     selector: selector,
-    container: html,
+    // container: html,
     styles: styles,
     d3Module: d3Actual
   };
@@ -52,7 +52,7 @@ exports.generateChartOntoHTML = (data, html, selector) => {
   // Set the ranges
   var x = d3.scaleTime().range([0, width]);
   var y = d3.scaleLinear().range([height, 0]);
-  const aDom = new JSDOM(html, { pretendToBeVisual: true })
+  const aDom = jsdomObj
   var svg = d3
      .select(aDom.window.document).select(selector)
 	 .append("svg")
@@ -117,5 +117,5 @@ exports.generateChartOntoHTML = (data, html, selector) => {
       .attr('type', 'text/css')
       .text(`<![CDATA[ ${styles} ]]>`)
 
-  return aDom.serialize();
+  return aDom;
 }

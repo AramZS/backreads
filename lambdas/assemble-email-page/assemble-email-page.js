@@ -2,6 +2,8 @@ var AWS = require('aws-sdk');
 const S3 = new AWS.S3();
 const Mustache = require("mustache");
 const fs = require("fs");
+const jsdom = require('jsdom')
+const { JSDOM } = jsdom;
 const emailChartBuilder = require('./email-charts.js')
 
 const getText = (bucket, key) => {
@@ -159,37 +161,44 @@ exports.composeEmail = async function(){
 	// https://github.com/d3-node/d3-node
 	// https://d3node-test-zs.glitch.me/basic-line
 	let html = exports.generateHTML(linkset, dates[0])
+	let jsDomObj = new JSDOM(html)
+	console.log('Start trying to insert charts')
 	try {
-		html  = emailChartBuilder.generateChartOntoHTML(linkCounts, html, '#emails-over-time__chart')
+		jsDomObj  = emailChartBuilder.generateChartOntoHTML(emailCounts, jsDomObj, '#emails-over-time__chart')
 	} catch (e) {
 		console.log('First chart generation failed', e)
 	}
 	try {
-		html  = emailChartBuilder.generateChartOntoHTML(emailCounts, html, '#links-over-time__chart')
+		jsDomObj  = emailChartBuilder.generateChartOntoHTML(linkCounts, jsDomObj, '#links-over-time__chart')
 	} catch (e) {
 		console.log('Second chart generation failed', e)
 	}
+	console.log('HTML with charts ready for upload')
 	return {
-		html,
+		html: jsDomObj.serialize(),
 		date: dates[0]
 	};
 }
 
 exports.handler = async function(event) {
 	console.log("assemble email page request:", JSON.stringify(event, undefined, 2));
-	const { html, date } = await exports.composeEmail()
+	const emailComposition = await exports.composeEmail()
+	const html = emailComposition.html
+	const date = emailComposition.date
+	console.log('Run upload for html for ', date)
 	var updateDailyEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/'+date+'/index.html', Buffer.from(html), 		{
 			ContentType: "text/html",
 			ACL:'public-read'
 		}
 	)
+	console.log('Upload of dated index - ', updateDailyEmailLinks)
 	var updateTodayEmailLinks = await uploadDatastreamToS3(process.env.DEPOSIT_BUCKET, 'emails/index.html', Buffer.from(html),
 		{
 			ContentType: "text/html",
 			ACL:'public-read'
 		}
 	)
-
+	console.log('Upload of nondated index - ', updateTodayEmailLinks)
 	const cloudfront = new AWS.CloudFront();
 	const invalidateEvent = await cloudfront.createInvalidation({
         DistributionId: process.env.DISTRIBUTION_ID,
@@ -204,6 +213,8 @@ exports.handler = async function(event) {
             },
         },
     }).promise();
+	console.log('Invalidation event - ', invalidateEvent)
+	console.log('Email page build complete')
 	return {
 		emailDateLevel: updateDailyEmailLinks,
 		emailMainLevel: updateTodayEmailLinks,

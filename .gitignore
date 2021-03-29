@@ -15,3 +15,5 @@ cdk.context.json
 
 # avoid python local test files that may need to export secrets to local env
 pytest.sh
+
+.env

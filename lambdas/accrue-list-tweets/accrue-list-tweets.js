@@ -1,4 +1,5 @@
 const { TwitterClient } = require('twitter-api-client');
+const { LinkObj } = require('backreads-link-obj')
 require('dotenv').config()
 
 /*
@@ -159,3 +160,29 @@ exports.fullList = async (list_id) => {
 	console.log('Trigger list filtering')
 	return exports.filterTwitterStatusByDate(finalStatusList, targetDate)
 }
+
+exports.feedJStoJSONString = (feed) => {
+	// console.log('output js', rss)
+	// console.log('output js item', rss['rdf:RDF'].item)
+	var items = feed.map((item) => {
+		if (item){
+			if (!item.hasOwnProperty('entities') || !item.entities.hasOwnProperty('urls') || item.entities.urls.length < 1 ){
+				// ignore twitter links
+			} else {
+				let aNewLinkObj = new LinkObj({
+
+				})
+				return aNewLinkObj;
+			}
+
+		}
+	});
+	const filteredItems = items.filter((item) => {
+		if (item){
+			return true
+		} else {
+			return false
+		}
+	})
+	return JSON.stringify({ links: filteredItems }, null, 3);
+};

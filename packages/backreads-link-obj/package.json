@@ -1,0 +1,11 @@
+{
+  "name": "backreads-link-obj",
+  "version": "0.1.0",
+  "description": "model for link obj",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aram Zucker-Scharff",
+  "license": "ISC"
+}

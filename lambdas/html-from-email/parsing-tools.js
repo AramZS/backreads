@@ -158,7 +158,13 @@ exports.collectableLink = function(link) {
 		/about$/,
 		/\/newsletters\/$/,
 		/\/manage\//,
-		/\/settings\//
+		/\/settings\//,
+		/\/app$/,
+		/\/signup$/,
+		/theinventory\.com\/best-deals/,
+		/kinja-deals/,
+		/\/dp\//,
+		/\/grow-with-mailchimp\//
 
 	];
 	for (let aRegExString of regexs) {

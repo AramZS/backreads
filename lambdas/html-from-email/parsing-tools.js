@@ -164,7 +164,8 @@ exports.collectableLink = function(link) {
 		/theinventory\.com\/best-deals/,
 		/kinja-deals/,
 		/\/dp\//,
-		/\/grow-with-mailchimp\//
+		/\/grow-with-mailchimp\//,
+		/delighted\.com\//
 
 	];
 	for (let aRegExString of regexs) {

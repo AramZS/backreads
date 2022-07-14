@@ -165,7 +165,8 @@ exports.collectableLink = function(link) {
 		/kinja-deals/,
 		/\/dp\//,
 		/\/grow-with-mailchimp\//,
-		/delighted\.com\//
+		/delighted\.com\//,
+		/protocol\.com\/st\/account/
 
 	];
 	for (let aRegExString of regexs) {

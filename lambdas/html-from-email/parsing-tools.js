@@ -161,7 +161,7 @@ exports.collectableLink = function(link) {
 		/\/settings\//,
 		/\/app$/,
 		/\/signup$/,
-		/theinventory\.com\/best-deals/,
+		/theinventory\.com\//,
 		/kinja-deals/,
 		/\/dp\//,
 		/\/grow-with-mailchimp\//,
@@ -174,7 +174,8 @@ exports.collectableLink = function(link) {
 		/theinventory\.com/,
 		/signup/,
 		/Preferences/,
-		/thebulwark\.com\/account/
+		/thebulwark\.com\/account/,
+		/\/asm\//
 		
 		
 

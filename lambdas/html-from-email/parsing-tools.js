@@ -175,7 +175,8 @@ exports.collectableLink = function(link) {
 		/signup/,
 		/Preferences/,
 		/thebulwark\.com\/account/,
-		/\/asm\//
+		/\/asm\//,
+		/\/tiktok\.com\/@/
 		
 		
 

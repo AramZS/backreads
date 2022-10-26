@@ -166,7 +166,17 @@ exports.collectableLink = function(link) {
 		/\/dp\//,
 		/\/grow-with-mailchimp\//,
 		/delighted\.com\//,
-		/protocol\.com\/st\/account/
+		/protocol\.com\/st\/account/,
+		/\.tradepub\./,
+		/lendingclub\.com/,
+		/\/help\//,
+		/sfnypr_member/,
+		/theinventory\.com/,
+		/signup/,
+		/Preferences/,
+		/thebulwark\.com\/account/
+		
+		
 
 	];
 	for (let aRegExString of regexs) {

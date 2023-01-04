@@ -17,3 +17,5 @@ cdk.context.json
 pytest.sh
 
 .env
+
+.DS_Store

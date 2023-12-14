@@ -163,6 +163,7 @@ exports.collectableLink = function (link) {
 		/\/error_pages\//,
 		/signup$/,
 		/contact$/,
+		/contact\/$/,
 		/\/privacy-cookies\/$/,
 		/\/kitchen\/$/,
 		/\/app$/,
@@ -184,7 +185,11 @@ exports.collectableLink = function (link) {
 		/\/tiktok\.com\/@/,
 		/unsupported-browser\.html/,
 		/events\.release\.narrativ/,
-		/www\.aarp\.org\/caregiving\//
+		/www\.aarp\.org\/caregiving\//,
+		/substack\.com\/app/,
+		/washingtonpost\.com\/news-quiz\//,
+		/typeform\.com/,
+		/^\//,
 	];
 	for (let aRegExString of regexs) {
 		const aRegex = new RegExp(aRegExString);

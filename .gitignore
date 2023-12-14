@@ -19,3 +19,5 @@ pytest.sh
 .env
 
 .DS_Store
+
+**/.DS_Store

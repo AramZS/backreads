@@ -182,6 +182,9 @@ exports.collectableLink = function (link) {
 		/thebulwark\.com\/account/,
 		/\/asm\//,
 		/\/tiktok\.com\/@/,
+		/unsupported-browser\.html/,
+		/events\.release\.narrativ/,
+		/www\.aarp\.org\/caregiving\//
 	];
 	for (let aRegExString of regexs) {
 		const aRegex = new RegExp(aRegExString);
